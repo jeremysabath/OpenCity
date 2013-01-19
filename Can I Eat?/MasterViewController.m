@@ -197,7 +197,7 @@ EateryDoc *resultEatery;
         return cell;
 }
 
-
+/*********
 // Stackmob
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
