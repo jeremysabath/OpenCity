@@ -7,9 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+// Stackmob
+#import <CoreData/CoreData.h>
+
+// Stackmob
+@class SMClient;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+// Stackmob
+@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) SMClient *client;
+
+@property (strong) NSMutableArray *eateries;
+
+- (void) loadData;
 
 @end

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C3012" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Als" representedClassName="EateryDoc" syncable="YES">
+        <attribute name="address" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="closesAt" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="descript" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="foodType" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="isItOpen" attributeType="Boolean" indexed="YES" syncable="YES"/>
+        <attribute name="number" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="opensAt" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="rating" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="website" attributeType="String" indexed="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Als" positionX="160" positionY="192" width="128" height="195"/>
+    </elements>
+</model>

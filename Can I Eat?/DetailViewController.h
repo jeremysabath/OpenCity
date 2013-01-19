@@ -7,10 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RateView.h"
 
-@interface DetailViewController : UIViewController
+@class EateryDoc;
 
-@property (strong, nonatomic) id detailItem;
+@interface DetailViewController : UIViewController <UITextFieldDelegate, RateViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
+    // declares a ui button
+    UIButton *button;
+}
 
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+// setter and getter methods, declares properties of the detail view
+@property (strong, nonatomic) EateryDoc *detailItem;
+@property (weak, nonatomic) IBOutlet UILabel *titleField;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet RateView *rateView;
+@property (strong, nonatomic) UIImagePickerController * picker;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionView;
+
+// declares methods/connections with the view
+- (IBAction)isItOpenClicked:(id)sender;
+- (IBAction)linkToMaps:(id)sender;
+- (IBAction)callNowClicked:(id)sender;
+- (IBAction)websiteClicked:(id)sender;
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 @end

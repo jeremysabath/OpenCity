@@ -7,15 +7,42 @@
 //
 
 #import "MasterViewController.h"
+#import <MessageUI/MessageUI.h>
 
 #import "DetailViewController.h"
+#import "EateryData.h"
+#import "EateryDoc.h"
+#import "AppDelegate.h"
+
+// Stackmob
+#import "StackMob.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
+    
+    // create array of all eateries, just search results and bool for if search text was entered
+    NSMutableArray *allItems;
+    NSMutableArray *searchResults;
+    BOOL searchTextEntered;
 }
 @end
 
+
 @implementation MasterViewController
+
+// Stackmob
+@synthesize managedObjectContext = _managedObjectContext;
+
+// synthesize properties
+@synthesize eateries = _eateries;
+@synthesize window;
+@synthesize AppDelegate;
+@synthesize tableView;
+
+// Stackmob
+- (AppDelegate *)appDelegate {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)awakeFromNib
 {
@@ -26,18 +53,35 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    
+    // give view title, initialize 
+    self.title = @"WhereTo?";
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.searchBar.delegate = self;
+    
+    // Stackmob
+    self.managedObjectContext = [self.appDelegate managedObjectContext];
+    
+    // fill array with all eateries
+    allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    
+    // wait for 2 seconds to show splash page
+    sleep (2);
 }
 
+#pragma  mark - Search Bar
+
+@synthesize searchBar= searchBar;
+
+// Apple Housekeeping
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+// Apple Housekeeping
 - (void)insertNewObject:(id)sender
 {
     if (!_objects) {
@@ -48,65 +92,313 @@
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+// Search Bar implementation
+EateryDoc *resultEatery;
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    // check if there are contents in the search bar
+    if(searchText.length == 0) {
+        searchTextEntered = NO;
+    }
+    // if user inputs text
+    else {
+        searchTextEntered = YES;
+        searchResults = [[NSMutableArray alloc]init];
+
+        int eateryCount = [allItems count];
+        // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+        for (int i = 0; i < eateryCount; i++) {
+            resultEatery = [allItems objectAtIndex:i];
+            NSString *title = resultEatery.data.title;
+            NSString *foodtype = resultEatery.data.foodType;
+            NSString *description = resultEatery.data.description;
+            NSString *open;
+            
+            if (resultEatery.data.isItOpen == NO){
+                open = @"closed";
+            }
+            else {
+                open = @"open";
+            }
+            NSString *allData = [NSString stringWithFormat:@"%@ %@ %@ %@", title, foodtype, description, open];
+            NSRange stringRange = [allData rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (stringRange.location != NSNotFound){
+                [searchResults addObject:resultEatery];
+            }
+        }
+    }
+    // reloads table with searchResults
+    [self.tableView reloadData];
+}
+
+// hides keyboard when search button clicked
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    // hide keyboard
+    [self.searchBar resignFirstResponder];
+}
+
+// hides keyboard when user scrolls
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.searchBar resignFirstResponder];
+}
+
 #pragma mark - Table View
 
+// Table has one section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+
+
+// table has number of rows equal to number of eateries...
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    // ... in searchResults
+    if (searchTextEntered == YES){
+        return [searchResults count];
+    }
+    // ... in total
+    else {
+        return [allItems count];
+    }
 }
+/**********
+// Stackmob
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
+}
+************/
 
+
+ // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyBasicCell"];
+    }
+    if (searchTextEntered == NO) {
+        EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
+        cell.textLabel.text = eatery.data.title;
+        cell.imageView.image = eatery.thumbImage;
+    }
+    else {
+        EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
+        cell.textLabel.text = eatery.data.title;
+        cell.imageView.image = eatery.thumbImage;
+    }
+    // set's background image of table
+        self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
+        NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
+        return cell;
+}
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+/*********
+// Stackmob
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"MyBasicCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = [object valueForKey:@"title"];
+    
+    self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
+    NSLog(@"fetchedResultsController = %@", _fetchedResultsController);
+
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+// Stackmob
+- (NSFetchedResultsController *)fetchedResultsController
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    // Edit the entity name as appropriate.
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Eatery" inManagedObjectContext:self.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    // NSPredicate *equalPredicate =[NSPredicate predicateWithFormat:@"title == %@", @"Al's Cafe"];
+    // [fetchRequest setPredicate:equalPredicate];
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    aFetchedResultsController.delegate = self;
+    self.fetchedResultsController = aFetchedResultsController;
+    NSLog(@"aFetchedResultsController = %@", aFetchedResultsController);
+    
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        NSLog(@"An error %@, %@", error, [error userInfo]);
+    }
+    
+    return _fetchedResultsController;
+}
+**********************************/
+
+// if contact us is clicked, alert pops us to allow user to email
+- (IBAction)contactUsClicked:(id)sender{
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"Help Improve WhereTo?"
+                          message:@"If you notice a problem with this app, let us know! With your help, WhereTo? can continue to be the number one tool for figuring out what's open, what's good and how to get there!"
+                          delegate:self
+                          cancelButtonTitle:@"Not Now"
+                          otherButtonTitles: @"Contact Us!", nil];
+    [alert show];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+// if user really does want to contact us, fills email with recipient, sample subject and body
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 1) {
+        NSString *emailTitle = @"Ex. Wrong Time!";
+        // Email Content
+        NSString *messageBody = @"Ex. Felipe's is actually open until __ o'clock on Saturdays!";
+        // To address
+        NSArray *toRecipents = [NSArray arrayWithObject:@"wheretodevteam@gmail.com"];
+        
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        [mc setToRecipients:toRecipents];
+        
+        // makes mail viewer pop up
+        [self presentViewController:mc animated:YES completion:NULL];
     }
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+// controls the mail app
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+    {
+        switch (result)
+        {
+            case MFMailComposeResultCancelled:
+                NSLog(@"Mail cancelled");
+                break;
+            case MFMailComposeResultSaved:
+                NSLog(@"Mail saved");
+                break;
+            case MFMailComposeResultSent:
+                NSLog(@"Mail sent");
+                break;
+            case MFMailComposeResultFailed:
+                NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+                break;
+            default:
+                break;
+        }
+        
+        // Close the Mail Interface
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    }
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+// Stackmob
+- (IBAction)createNewObject:(id)sender {
+    
+    int eateryCount = [allItems count];
+    for (int i = 0; i < eateryCount; i++) {
+        EateryDoc *eatery = allItems[i];
+        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Eatery" inManagedObjectContext:self.managedObjectContext];
+    
+        [newManagedObject setValue:eatery.data.title forKey:@"title"];
+        //[newManagedObject setValue:eatery.data.rating forKey:@"rating"];
+        [newManagedObject setValue:eatery.data.foodType forKey:@"foodtype"];
+        [newManagedObject setValue:eatery.data.description forKey:@"descript"];
+        //[newManagedObject setValue:eatery.data.opensAt forKey:@"opensAt"];
+        //[newManagedObject se forKey:@"closesAt"];
+        //[newManagedObject setValue:eatery.data.isItOpen forKey:@"isItOpen"];
+        [newManagedObject setValue:eatery.data.address forKey:@"address"];
+        [newManagedObject setValue:eatery.data.website forKey:@"website"];
 
+        [newManagedObject setValue:[newManagedObject assignObjectId] forKey:[newManagedObject primaryKeyField]];
+    
+        NSError *error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"There was an error! %@", error);
+        }
+        else {
+            NSLog(@"You created a new object!");
+        }
+    }
+}
+
+// When a cell or pickforme is clicked, pushes to the detail view corresponding to the correct eatery
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+    // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
+    if([sender tag] == 1000){
+        EateryDoc *eatery;
+        // declares a detailViewController
+        DetailViewController *detailController;
+        int count = 1;
+        do {
+            int r;
+            // picks random integer <= total number of eateries
+            r = arc4random() % [_eateries count];
+            detailController = segue.destinationViewController;
+            // picks random eatery based on random int
+            eatery = _eateries[r];
+            count++;
+        }
+        // if it's closed pick another, if EVERYTHING is closed alert the user
+        while (eatery.data.isItOpen == NO && count <= [_eateries count]);
+        // Apologize to user if all is closed
+        if (count == [_eateries count]){
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Sorry!"
+                                  message:@"Everything's closed right now! Try again soon!"
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            [alert show];
+        }
+        detailController.detailItem = eatery;
+    }
+    // pick the correct eatery based on the searchResults
+    else if (searchTextEntered == YES) {
+        DetailViewController *detailController = segue.destinationViewController;
+        EateryDoc *eatery = [searchResults objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        detailController.detailItem = eatery;
+        // hides keyboard
+        [self.searchBar resignFirstResponder];
+    }
+    // pick the correct eatery simply based on original order
+    else{
+        
+        // loadData experiment
+        AppDelegate *delegate = [[AppDelegate alloc]init];
+        [delegate loadData];
+        
+        NSLog(@"LOADING EATERY");
+        NSLog(@"SENDER = %@", sender);
+        DetailViewController *detailController = segue.destinationViewController;
+        
+        EateryDoc *eatery = [self.eateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        // EateryDoc *eatery = [_fetchedResultsController.fetchedObjects objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        NSLog(@"eatery = %@", eatery);
+        detailController.detailItem = eatery;
+        
+        // loadData experiment
+        NSLog(@"Al's isItOpen = %i", eatery.data.isItOpen);
+        NSLog(@"Al's closesAt = %f", eatery.data.closesAt);
+        
+        // hides keyboard
+        [self.searchBar resignFirstResponder];
+
     }
 }
 
