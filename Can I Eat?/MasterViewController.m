@@ -30,9 +30,6 @@
 
 
 @implementation MasterViewController{
-    CLLocationManager *locationManager;
-    CLLocation *currentLocation;
-    NSNumber *distanceFromEatery;
 }
 
 // Stackmob
@@ -71,12 +68,6 @@
     // fill array with all eateries
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
     searchResults = allItems;
-    
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    [locationManager startUpdatingLocation];
     
 }
 
@@ -208,21 +199,6 @@ EateryDoc *resultEatery;
     [self.tableView reloadData];
 }
 
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    NSLog(@"didFailWithError: %@", error);
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [errorAlert show];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    NSLog(@"didUpdateToLocation: %@", newLocation);
-    currentLocation = newLocation;
-}
-
  // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -231,41 +207,17 @@ EateryDoc *resultEatery;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyBasicCell"];
     }
     if (searchTextEntered == NO) {
-        currentLocation = [locationManager location];
         EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
-        CLLocationDegrees latitude = eatery.data.latitude;
-        CLLocationDegrees longitude = eatery.data.longitude;
-        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-        if(eateryLocation){
-            CLLocationDistance distance = [currentLocation distanceFromLocation:eateryLocation];
-            double mileConversion = distance * 0.000621371192;
-            
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            formatter.maximumFractionDigits = 1;
-            distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
-            NSLog(@"Current Location = %@", currentLocation);
-        }
-        cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
     
     else {
         EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
-        CLLocationDegrees latitude = eatery.data.latitude;
-        CLLocationDegrees longitude = eatery.data.longitude;
-        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-        if(eateryLocation){
-            CLLocationDistance distance = [currentLocation distanceFromLocation:eateryLocation];
-            double mileConversion = distance * 0.000621371192;
-            
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            formatter.maximumFractionDigits = 1;
-            distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
-        }
-        cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
     // set's background image of table
         self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
