@@ -209,6 +209,7 @@
 		DDA9ACC116734F6200D7A485 /* WhereToLogoBGRetina.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */; };
 		DDA9ACC31673507900D7A485 /* W fo realBG.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC21673507900D7A485 /* W fo realBG.png */; };
 		DDBD706A16AB5C8F00C846C8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */; };
+		DDBD707716AC947800C846C8 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD707616AC947800C846C8 /* MyCLController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -462,6 +463,8 @@
 		DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoBGRetina.png; sourceTree = "<group>"; };
 		DDA9ACC21673507900D7A485 /* W fo realBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "W fo realBG.png"; sourceTree = "<group>"; };
 		DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DDBD707516AC947800C846C8 /* MyCLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCLController.h; sourceTree = "<group>"; };
+		DDBD707616AC947800C846C8 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
 		DDD67F2D1674792400FEEC88 /* WhereTo?-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereTo?-Info.plist"; sourceTree = "<group>"; };
 		DDD67F2F1674793000FEEC88 /* WhereTo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhereTo-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -583,6 +586,8 @@
 				DD38992A166ABABB00231929 /* EateryData.m */,
 				DD38992C166ABAC400231929 /* EateryDoc.h */,
 				DD38992D166ABAC400231929 /* EateryDoc.m */,
+				DDBD707516AC947800C846C8 /* MyCLController.h */,
+				DDBD707616AC947800C846C8 /* MyCLController.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1087,6 +1092,7 @@
 				DD389944166AEC9800231929 /* RateView.m in Sources */,
 				DDA7A060167B97CB00EA3966 /* EateryData.xcdatamodeld in Sources */,
 				DDA146F61694CAC5007E01F6 /* mydatamodel.xcdatamodeld in Sources */,
+				DDBD707716AC947800C846C8 /* MyCLController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,8 @@
         self.address = address;
         self.number = number;
         self.website = website;
+        self.latitude = latitude;
+        self.longitude = longitude;
     }
     return self;
 }

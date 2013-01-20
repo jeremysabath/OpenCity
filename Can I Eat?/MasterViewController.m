@@ -56,6 +56,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    locationController = [[MyCLController alloc] init];
+	locationController.delegate = self;
+	[locationController.locationManager startUpdatingLocation];
+    
     // give view title, initialize 
     self.title = @"WhereTo?";
     self.tableView.delegate = self;
@@ -68,7 +72,16 @@
     // fill array with all eateries
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
     searchResults = allItems;
-    
+}
+
+- (void)locationUpdate:(CLLocation *)location {
+	self.currentLocation = location;
+    NSLog(@"%@", self.currentLocation);
+}
+
+- (void)locationError:(NSError *)error {
+    NSString *errorMessage = [error description];
+	NSLog(@"%@", errorMessage);
 }
 
 #pragma  mark - Search Bar
@@ -203,6 +216,8 @@ EateryDoc *resultEatery;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
         UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica Bold" size:17];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyBasicCell"];
     }
@@ -210,7 +225,18 @@ EateryDoc *resultEatery;
         EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
-        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+        if(eateryLocation){
+            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+            double mileConversion = distance * 0.000621371192;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 1;
+            NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+            cell.detailTextLabel.text = [distanceFromEatery stringValue];
+            
+        }
+        
     }
     
     else {

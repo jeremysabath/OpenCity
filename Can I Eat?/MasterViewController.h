@@ -40,18 +40,23 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <CoreLocation/CoreLocation.h>
+#import "MyCLController.h"
 
 // Stackmob
 #import <CoreData/CoreData.h>
 
 // Stackmob (ONLY "NSFetchedResultsControllerDelegate")
-@interface MasterViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, NSFetchedResultsControllerDelegate, CLLocationManagerDelegate>{
+@interface MasterViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, NSFetchedResultsControllerDelegate, CLLocationManagerDelegate, MyCLControllerDelegate>{
     
     // delcare bar button's pick for me and contact us
     UIBarButtonItem *pickForMeButton;
     UIBarButtonItem *contactUsButton;
     
+    CLLocation *currentLocation;
+    MyCLController *locationController;
 }
+
+@property (strong) CLLocation *currentLocation;
 
 // Stackmob
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -65,6 +70,9 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong) NSMutableArray *eateries;
 @property (nonatomic) Class AppDelegate;
+
+- (void)locationUpdate:(CLLocation *)location;
+- (void)locationError:(NSError *)error;
 
 // Open Now button
 - (IBAction)openNowClicked:(id)sender;
