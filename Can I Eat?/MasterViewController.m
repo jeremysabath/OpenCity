@@ -156,6 +156,31 @@ EateryDoc *resultEatery;
     [self.searchBar resignFirstResponder];
 }
 
+- (IBAction)openNowClicked:(id)sender{
+    int eateryCount = [allItems count];
+    searchResults = [[NSMutableArray alloc]init];
+    // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+    for (int i = 0; i < eateryCount; i++) {
+        searchTextEntered = YES;
+        resultEatery = [allItems objectAtIndex:i];
+        NSString *open;
+        
+        if (resultEatery.data.isItOpen == NO){
+            open = @"closed";
+        }
+        else {
+            open = @"open";
+        }
+        NSString *allData = [NSString stringWithFormat:@"%@", open];
+        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+        if (stringRange.location != NSNotFound){
+            [searchResults addObject:resultEatery];
+        }
+    }
+    // reloads table with searchResults
+    [self.tableView reloadData];
+}
+
 #pragma mark - Table View
 
 // Table has one section
@@ -187,31 +212,6 @@ EateryDoc *resultEatery;
 }
 ************/
 
-- (IBAction)openNowClicked:(id)sender{
-    int eateryCount = [allItems count];
-    searchResults = [[NSMutableArray alloc]init];
-    // checks each eatery, one by one, for search criteria, adds matches to array searchResults
-    for (int i = 0; i < eateryCount; i++) {
-        searchTextEntered = YES;
-        resultEatery = [allItems objectAtIndex:i];
-        NSString *open;
-        
-        if (resultEatery.data.isItOpen == NO){
-            open = @"closed";
-        }
-        else {
-            open = @"open";
-        }
-        NSString *allData = [NSString stringWithFormat:@"%@", open];
-        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
-        if (stringRange.location != NSNotFound){
-            [searchResults addObject:resultEatery];
-        }
-    }
-    // reloads table with searchResults
-    [self.tableView reloadData];
-}
-
  // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -234,11 +234,8 @@ EateryDoc *resultEatery;
             formatter.maximumFractionDigits = 1;
             NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
             cell.detailTextLabel.text = [distanceFromEatery stringValue];
-            
         }
-        
     }
-    
     else {
         EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
@@ -337,6 +334,12 @@ EateryDoc *resultEatery;
 // When a cell or pickforme is clicked, pushes to the detail view corresponding to the correct eatery
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    // loadData experiment
+    AppDelegate *delegate = [[AppDelegate alloc]init];
+    [delegate loadData];
+    
+    allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    searchResults = allItems;
     // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
     if([sender tag] == 1000){
         EateryDoc *eatery;
@@ -349,6 +352,7 @@ EateryDoc *resultEatery;
             r = arc4random() % [searchResults count];
             detailController = segue.destinationViewController;
             // picks random eatery based on random int
+            NSLog(@"LOADING EATERY");
             eatery = [searchResults objectAtIndex:r];
             count++;
         }
@@ -377,11 +381,6 @@ EateryDoc *resultEatery;
     // pick the correct eatery simply based on original order
     else{
         
-        // loadData experiment
-        //AppDelegate *delegate = [[AppDelegate alloc]init];
-        //[delegate loadData];
-        
-        //NSLog(@"LOADING EATERY");
         NSLog(@"SENDER = %@", sender);
         DetailViewController *detailController = segue.destinationViewController;
         
