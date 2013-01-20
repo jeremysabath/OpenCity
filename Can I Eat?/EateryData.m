@@ -16,7 +16,7 @@
 @synthesize description = _description;
 @synthesize isItOpen = _isItOpen;
 
--(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString *)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString *)address number:(NSString*) number website:(NSString*) website {
+-(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString *)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString *)address number:(NSString*) number website:(NSString*) website latitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude {
     if ((self = [super init])) {
         self.title = title;
         self.foodType = footype;

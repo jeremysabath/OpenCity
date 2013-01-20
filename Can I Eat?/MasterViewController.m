@@ -13,6 +13,7 @@
 #import "EateryData.h"
 #import "EateryDoc.h"
 #import "AppDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
 // Stackmob
 #import "StackMob.h"
@@ -28,7 +29,11 @@
 @end
 
 
-@implementation MasterViewController
+@implementation MasterViewController{
+    CLLocationManager *locationManager;
+    CLLocation *currentLocation;
+    NSNumber *distanceFromEatery;
+}
 
 // Stackmob
 @synthesize managedObjectContext = _managedObjectContext;
@@ -65,9 +70,14 @@
     
     // fill array with all eateries
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    searchResults = allItems;
     
-    // wait for 2 seconds to show splash page
-    sleep (2);
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+    
 }
 
 #pragma  mark - Search Bar
@@ -173,6 +183,45 @@ EateryDoc *resultEatery;
 }
 ************/
 
+- (IBAction)openNowClicked:(id)sender{
+    int eateryCount = [allItems count];
+    searchResults = [[NSMutableArray alloc]init];
+    // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+    for (int i = 0; i < eateryCount; i++) {
+        searchTextEntered = YES;
+        resultEatery = [allItems objectAtIndex:i];
+        NSString *open;
+        
+        if (resultEatery.data.isItOpen == NO){
+            open = @"closed";
+        }
+        else {
+            open = @"open";
+        }
+        NSString *allData = [NSString stringWithFormat:@"%@", open];
+        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+        if (stringRange.location != NSNotFound){
+            [searchResults addObject:resultEatery];
+        }
+    }
+    // reloads table with searchResults
+    [self.tableView reloadData];
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    currentLocation = newLocation;
+}
 
  // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -182,14 +231,41 @@ EateryDoc *resultEatery;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyBasicCell"];
     }
     if (searchTextEntered == NO) {
+        currentLocation = [locationManager location];
         EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
+        CLLocationDegrees latitude = eatery.data.latitude;
+        CLLocationDegrees longitude = eatery.data.longitude;
+        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        if(eateryLocation){
+            CLLocationDistance distance = [currentLocation distanceFromLocation:eateryLocation];
+            double mileConversion = distance * 0.000621371192;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 1;
+            distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+            NSLog(@"Current Location = %@", currentLocation);
+        }
+        cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
+    
     else {
         EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
+        CLLocationDegrees latitude = eatery.data.latitude;
+        CLLocationDegrees longitude = eatery.data.longitude;
+        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        if(eateryLocation){
+            CLLocationDistance distance = [currentLocation distanceFromLocation:eateryLocation];
+            double mileConversion = distance * 0.000621371192;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 1;
+            distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+        }
+        cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
     // set's background image of table
         self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
@@ -250,62 +326,6 @@ EateryDoc *resultEatery;
 }
 **********************************/
 
-// if contact us is clicked, alert pops us to allow user to email
-- (IBAction)contactUsClicked:(id)sender{
-    UIAlertView *alert = [[UIAlertView alloc]
-                          initWithTitle:@"Help Improve WhereTo?"
-                          message:@"If you notice a problem with this app, let us know! With your help, WhereTo? can continue to be the number one tool for figuring out what's open, what's good and how to get there!"
-                          delegate:self
-                          cancelButtonTitle:@"Not Now"
-                          otherButtonTitles: @"Contact Us!", nil];
-    [alert show];
-}
-
-// if user really does want to contact us, fills email with recipient, sample subject and body
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 1) {
-        NSString *emailTitle = @"Ex. Wrong Time!";
-        // Email Content
-        NSString *messageBody = @"Ex. Felipe's is actually open until __ o'clock on Saturdays!";
-        // To address
-        NSArray *toRecipents = [NSArray arrayWithObject:@"wheretodevteam@gmail.com"];
-        
-        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-        mc.mailComposeDelegate = self;
-        [mc setSubject:emailTitle];
-        [mc setMessageBody:messageBody isHTML:NO];
-        [mc setToRecipients:toRecipents];
-        
-        // makes mail viewer pop up
-        [self presentViewController:mc animated:YES completion:NULL];
-    }
-}
-
-// controls the mail app
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-    {
-        switch (result)
-        {
-            case MFMailComposeResultCancelled:
-                NSLog(@"Mail cancelled");
-                break;
-            case MFMailComposeResultSaved:
-                NSLog(@"Mail saved");
-                break;
-            case MFMailComposeResultSent:
-                NSLog(@"Mail sent");
-                break;
-            case MFMailComposeResultFailed:
-                NSLog(@"Mail sent failure: %@", [error localizedDescription]);
-                break;
-            default:
-                break;
-        }
-        
-        // Close the Mail Interface
-        [self dismissViewControllerAnimated:YES completion:NULL];
-    }
-
 // Stackmob
 - (IBAction)createNewObject:(id)sender {
     
@@ -348,10 +368,10 @@ EateryDoc *resultEatery;
         do {
             int r;
             // picks random integer <= total number of eateries
-            r = arc4random() % [_eateries count];
+            r = arc4random() % [searchResults count];
             detailController = segue.destinationViewController;
             // picks random eatery based on random int
-            eatery = _eateries[r];
+            eatery = [searchResults objectAtIndex:r];
             count++;
         }
         // if it's closed pick another, if EVERYTHING is closed alert the user
@@ -380,10 +400,10 @@ EateryDoc *resultEatery;
     else{
         
         // loadData experiment
-        AppDelegate *delegate = [[AppDelegate alloc]init];
-        [delegate loadData];
+        //AppDelegate *delegate = [[AppDelegate alloc]init];
+        //[delegate loadData];
         
-        NSLog(@"LOADING EATERY");
+        //NSLog(@"LOADING EATERY");
         NSLog(@"SENDER = %@", sender);
         DetailViewController *detailController = segue.destinationViewController;
         
@@ -401,5 +421,4 @@ EateryDoc *resultEatery;
 
     }
 }
-
 @end

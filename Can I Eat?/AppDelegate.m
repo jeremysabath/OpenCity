@@ -38,8 +38,6 @@ BOOL isit;
     // loadData experiment
     [self loadData];
     
-    sleep(1);
-    
     return YES;
 }
 
@@ -81,11 +79,13 @@ BOOL isit;
                           opensAt:11
                           closesAt:closes
                           isItOpen:isit
-                          address:@"Holyoke Center 1st Floor, 1350 Massachusetts Avenue, Cambridge, MA 02138"
+                          address:@"1350 Massachusetts Avenue, Cambridge, MA 02138"
                           number:@"tel:6174419100"
                           website:@"http://www.alscafes.com/"
                           thumbImage:[UIImage imageNamed:@"AlsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"Als.jpg"]];
+                          fullImage:[UIImage imageNamed:@"Als.jpg"]
+                          latitude:+42.37309260
+                          longitude:-71.11828910];
     NSLog(@"isit = %i", isit);
  
     
@@ -141,7 +141,9 @@ BOOL isit;
                       number:@"NONE"
                       website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
                       thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                      fullImage:[UIImage imageNamed:@"annenberg.jpg"]];
+                      fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                      latitude:42.37622030
+                      longitude:-71.11505030];
     
 #pragma mark - Felipe's
     // if it's before midnight on th, fr, sat
@@ -184,7 +186,9 @@ BOOL isit;
                           number:@"tel:6173549944"
                           website:@"http://www.felipestaqueria.com/"
                           thumbImage:[UIImage imageNamed:@"felipesThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"felipes.jpg"]];
+                          fullImage:[UIImage imageNamed:@"felipes.jpg"]
+                          latitude:42.37251330
+                          longitude:-71.11977260];
     
 #pragma mark - Otto
     
@@ -219,7 +223,9 @@ BOOL isit;
                           number:@"tel:6174993352"
                           website:@"http://ottocambridge.com/"
                           thumbImage:[UIImage imageNamed:@"ottoThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"otto.jpg"]];
+                          fullImage:[UIImage imageNamed:@"otto.jpg"]
+                       latitude:42.37413430
+                       longitude:-71.11899080];
     
 #pragma mark - Pinocchio's
     
@@ -272,7 +278,9 @@ BOOL isit;
                           number:@"tel:6178764897"
                           website:@"http://pinocchiospizza.net/"
                           thumbImage:[UIImage imageNamed:@"pinocchiosThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"pinocchios.jpg"]];
+                          fullImage:[UIImage imageNamed:@"pinocchios.jpg"]
+                             latitude:42.37198330
+                             longitude:-71.12023590];
     
 #pragma mark - Mr. Bartley's
     // if NOT Sunday
@@ -305,7 +313,9 @@ BOOL isit;
                           number:@"tel:6173546559"
                           website:@"http://www.mrbartley.com/"
                           thumbImage:[UIImage imageNamed:@"mrBartleysThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"mrBartleys.jpg"]];
+                          fullImage:[UIImage imageNamed:@"mrBartleys.jpg"]
+                             latitude:42.37247440
+                             longitude:-71.11609380];
     
 #pragma  mark - Au Bon Pain
     
@@ -369,7 +379,9 @@ BOOL isit;
                           number:@"tel:6174979797"
                           website:@"http://www.aubonpain.com/"
                           thumbImage:[UIImage imageNamed:@"abpThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"abp.jpg"]];
+                          fullImage:[UIImage imageNamed:@"abp.jpg"]
+                            latitude:42.3730660
+                            longitude:-71.1184930];
 
 #pragma mark - b.good
     
@@ -400,7 +412,9 @@ BOOL isit;
                             number:@"tel:6173546500"
                             website:@"http://www.bgood.com/"
                             thumbImage:[UIImage imageNamed:@"bGoodThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"bGood.jpg"]];
+                            fullImage:[UIImage imageNamed:@"bGood.jpg"]
+                        latitude:42.3726189
+                        longitude:-71.1191012];
 #pragma  mark - Ben and Jerry's
     
     if (time >= 9 && time <= 22) {
@@ -421,7 +435,9 @@ BOOL isit;
                         number:@"tel:6178642828"
                         website:@"http://www.benjerry.com/"
                         thumbImage:[UIImage imageNamed:@"benAndJerrysThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"benAndJerrys.jpg"]];
+                        fullImage:[UIImage imageNamed:@"benAndJerrys.jpg"]
+                               latitude:42.3726417
+                               longitude:-71.1198562];
     
 #pragma mark = BerryLine
     
@@ -451,7 +467,9 @@ BOOL isit;
                                number:@"tel:6178683500"
                                website:@"http://www.berryline.com/"
                                thumbImage:[UIImage imageNamed:@"berryLineThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"berryLine.jpg"]];
+                               fullImage:[UIImage imageNamed:@"berryLine.jpg"]
+                            latitude:42.3710162
+                            longitude:-71.1141269];
 #pragma mark - Bertucci's
     
     // if Fri-Sat
@@ -476,11 +494,13 @@ BOOL isit;
                             opensAt:11
                             closesAt:closes
                             isItOpen:isit
-                            address:@"21 Brattle Street Cambridge, MA 02138"
+                            address:@"21 Brattle Street, Cambridge, MA 02138"
                             number:@"tel:6178644748"
                             website:@"http://www.bertuccis.com/"
                             thumbImage:[UIImage imageNamed:@"bertuccisThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"bertuccis.jpg"]];
+                            fullImage:[UIImage imageNamed:@"bertuccis.jpg"]
+                            latitude:42.3734069
+                            longitude:-71.1204517];
     
 #pragma  mark - Boloco
     
@@ -502,7 +522,9 @@ BOOL isit;
                             number:@"tel:6173545838"
                             website:@"http://boloco.com/"
                             thumbImage:[UIImage imageNamed:@"bolocoThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"boloco.jpg"]];
+                            fullImage:[UIImage imageNamed:@"boloco.jpg"]
+                         latitude:42.3720326
+                         longitude:-71.1182373];
 #pragma mark - BonChon
     
     if (time >= 11.3 && time <= 23.30) {
@@ -523,7 +545,9 @@ BOOL isit;
                          number:@"tel:6178680981"
                          website:@"http://www.bonchon.com/"
                          thumbImage:[UIImage imageNamed:@"bonChonThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"bonChon.jpg"]];
+                         fullImage:[UIImage imageNamed:@"bonChon.jpg"]
+                          latitude:42.3721459
+                          longitude:-71.1209169];
     
 #pragma mark - Border Cafe
     
@@ -586,7 +610,9 @@ BOOL isit;
                           number:@"tel:6178646100"
                           website:@"http://www.bordercafe.com/"
                           thumbImage:[UIImage imageNamed:@"borderCafeThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"borderCafe.jpg"]];
+                          fullImage:[UIImage imageNamed:@"borderCafe.jpg"]
+                             latitude:42.3743145
+                             longitude:-71.1202433];
     
 #pragma mark - Burdick's Chocolates
     
@@ -615,7 +641,9 @@ BOOL isit;
                              number:@"tel:6174914340"
                              website:@"http://www.burdickchocolate.com/"
                              thumbImage:[UIImage imageNamed:@"burdicksThumb.jpg"]
-                             fullImage:[UIImage imageNamed:@"burdicks.jpg"]];
+                             fullImage:[UIImage imageNamed:@"burdicks.jpg"]
+                           latitude:42.3742859
+                           longitude:-71.1219163];
     
     
 #pragma mark - Cafe Pamplona
@@ -638,7 +666,9 @@ BOOL isit;
                            number:@"tel:6174920352"
                            website:@"http://www.yelp.com/biz/cafe-pamplona-cambridge"
                            thumbImage:[UIImage imageNamed:@"pamplonaThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"pamplona.jpg"]];
+                           fullImage:[UIImage imageNamed:@"pamplona.jpg"]
+                           latitude:42.371751
+                           longitude:-71.115472];
     
 #pragma mark - Cafe Sushi
     
@@ -676,7 +706,9 @@ BOOL isit;
                            number:@"tel:6174920434"
                            website:@"http://cafesushicambridge.com/"
                            thumbImage:[UIImage imageNamed:@"sushiThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"sushi.jpg"]];
+                           fullImage:[UIImage imageNamed:@"sushi.jpg"]
+                        latitude:42.370649
+                        longitude:-71.1136497];
     
 #pragma mark - Cambridge, 1
     
@@ -698,7 +730,9 @@ BOOL isit;
                         number:@"tel:6175761111"
                         website:@"http://www.cambridge1.us/"
                         thumbImage:[UIImage imageNamed:@"cambridgeThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"cambridge.jpg"]];
+                        fullImage:[UIImage imageNamed:@"cambridge.jpg"]
+                            latitude:42.3744747
+                            longitude:-71.1200351];
     
 #pragma mark - Cardullo's
     
@@ -729,7 +763,9 @@ BOOL isit;
                             number:@"tel:6174918888"
                             website:@"http://www.cardullos.com/"
                             thumbImage:[UIImage imageNamed:@"cardullosThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"cardullos.jpg"]];
+                            fullImage:[UIImage imageNamed:@"cardullos.jpg"]
+                            latitude:42.3733883
+                            longitude:-71.1197592];
     
 #pragma mark - Charlie's Kitchen
     
@@ -768,7 +804,9 @@ BOOL isit;
                             number:@"tel:6174929646"
                             website:@"http://www.charlieskitchen.com/"
                             thumbImage:[UIImage imageNamed:@"charliesThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"charlies.jpg"]];
+                            fullImage:[UIImage imageNamed:@"charlies.jpg"]
+                           latitude:42.3724547
+                           longitude:-71.1214953];
     
 #pragma mark - Chipotle Mexican Grill
     
@@ -790,7 +828,9 @@ BOOL isit;
                            number:@"tel:6174910677"
                            website:@"http://www.chipotle.com/en-US/Default.aspx?type=default"
                            thumbImage:[UIImage imageNamed:@"chipotleThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"chipotle.jpg"]];
+                           fullImage:[UIImage imageNamed:@"chipotle.jpg"]
+                           latitude:42.373199
+                           longitude:-71.1211545];
     
 #pragma mark - Chutney's
     
@@ -812,7 +852,9 @@ BOOL isit;
                            number:@"tel:6174912545"
                            website:@"http://chutneysma.com/"
                            thumbImage:[UIImage imageNamed:@"chutneysThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"chutneys.jpg"]];
+                           fullImage:[UIImage imageNamed:@"chutneys.jpg"]
+                           latitude:42.3726417
+                           longitude:-71.1198562];
     
 #pragma mark - Clover
     
@@ -834,7 +876,9 @@ BOOL isit;
                            number:@"NONE"
                            website:@"http://www.cloverfoodlab.com/"
                            thumbImage:[UIImage imageNamed:@"cloverThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"clover.jpg"]];
+                           fullImage:[UIImage imageNamed:@"clover.jpg"]
+                         latitude:42.3725081
+                         longitude:-71.1182788];
     
 #pragma mark - Crazy Dough's Pizza Co.
     
@@ -865,7 +909,9 @@ BOOL isit;
                          number:@"tel:6174924848"
                          website:@"http://www.crazydoughs.com/"
                          thumbImage:[UIImage imageNamed:@"crazyDoughsThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"crazyDoughs.jpg"]];
+                         fullImage:[UIImage imageNamed:@"crazyDoughs.jpg"]
+                              latitude:42.3726417
+                              longitude:-71.1198562];
 
 #pragma mark - Crema Cafe
     
@@ -894,7 +940,9 @@ BOOL isit;
                               number:@"tel:6178762700"
                               website:@"http://cremacambridge.com/"
                               thumbImage:[UIImage imageNamed:@"cremaThumb.jpg"]
-                              fullImage:[UIImage imageNamed:@"crema.jpg"]];
+                              fullImage:[UIImage imageNamed:@"crema.jpg"]
+                        latitude:42.3732534
+                        longitude:-71.1207538];
     
 #pragma mark - Dado Tea
     // Mon-Fri
@@ -932,7 +980,9 @@ BOOL isit;
                         number:@"tel:6175470950"
                         website:@"http://www.dadotea.com"
                         thumbImage:[UIImage imageNamed:@"dadoThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"dado.jpg"]];
+                        fullImage:[UIImage imageNamed:@"dado.jpg"]
+                       latitude:42.3741968
+                       longitude:-71.1206414];
     
 #pragma mark - Darwin's
     
@@ -961,7 +1011,9 @@ BOOL isit;
                        number:@"tel:6173545233"
                        website:@"http://darwinsltd.com/"
                        thumbImage:[UIImage imageNamed:@"darwinsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"darwins.jpg"]];
+                       fullImage:[UIImage imageNamed:@"darwins.jpg"]
+                          latitude:42.3740664
+                          longitude:-71.1251335];
     
 #pragma mark - Dunkin' Donuts
     
@@ -983,7 +1035,9 @@ BOOL isit;
                           number:@"tel:6173545096"
                           website:@"http://www.dunkindonuts.com/dunkindonuts/en.html"
                           thumbImage:[UIImage imageNamed:@"dunkinThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"dunkin.jpg"]];
+                          fullImage:[UIImage imageNamed:@"dunkin.jpg"]
+                         latitude:42.3714451
+                         longitude:-71.1210993];
     
 #pragma mark - Falafel Corner
     
@@ -1023,7 +1077,9 @@ BOOL isit;
                          number:@"tel:6174418888"
                          website:@"http://falafelcorner.eat24hour.com/"
                          thumbImage:[UIImage imageNamed:@"falafelThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"falafel.jpg"]];
+                         fullImage:[UIImage imageNamed:@"falafel.jpg"]
+                          latitude:42.3725867
+                          longitude:-71.1215271];
     
 #pragma mark - Finale
     
@@ -1058,7 +1114,9 @@ BOOL isit;
                           number:@"tel:6174419797"
                           website:@"http://www.finaledesserts.com/"
                           thumbImage:[UIImage imageNamed:@"finaleThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"finale.jpg"]];
+                          fullImage:[UIImage imageNamed:@"finale.jpg"]
+                         latitude:42.3724468
+                         longitude:-71.119202];
 
 #pragma  mark - FiRE + iCE
     
@@ -1097,7 +1155,9 @@ BOOL isit;
                          number:@"tel:6175479007"
                          website:@"http://www.fire-ice.com/"
                          thumbImage:[UIImage imageNamed:@"fireThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"fire.jpg"]];
+                         fullImage:[UIImage imageNamed:@"fire.jpg"]
+                       latitude:42.3741968
+                       longitude:-71.1206414];
     
 #pragma mark - First Printer Restaurant Bar & Grill
     
@@ -1146,7 +1206,9 @@ BOOL isit;
                        number:@"tel:6174970900"
                        website:@"http://thefirstprinter.com/"
                        thumbImage:[UIImage imageNamed:@"firstPrinterThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"firstPrinter.jpg"]];
+                       fullImage:[UIImage imageNamed:@"firstPrinter.jpg"]
+                               latitude:42.3729744
+                               longitude:-71.1189416];
     
 #pragma  mark - Flat Patties
     
@@ -1177,7 +1239,9 @@ BOOL isit;
                                number:@"tel:6178716871"
                                website:@"http://www.flatpatties.com/"
                                thumbImage:[UIImage imageNamed:@"flatPattiesThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"flatPatties.jpg"]];
+                               fullImage:[UIImage imageNamed:@"flatPatties.jpg"]
+                              latitude:42.3735254
+                              longitude:-71.1209047];
     
 #pragma mark - Grafton Street Pub & Grill
     
@@ -1214,7 +1278,9 @@ BOOL isit;
                               number:@"tel:6174970400"
                               website:@"http://www.graftonstreetcambridge.com/"
                               thumbImage:[UIImage imageNamed:@"graftonThumb.jpg"]
-                              fullImage:[UIImage imageNamed:@"grafton.jpg"]];
+                              fullImage:[UIImage imageNamed:@"grafton.jpg"]
+                          latitude:42.3723329
+                          longitude:-71.1158832];
     
 #pragma  mark - Grendel's Den
     
@@ -1237,7 +1303,9 @@ BOOL isit;
                           number:@"tel:6174911160"
                           website:@"http://www.grendelsden.com/"
                           thumbImage:[UIImage imageNamed:@"grendelsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"grendels.jpg"]];
+                          fullImage:[UIImage imageNamed:@"grendels.jpg"]
+                           latitude:42.3723652
+                           longitude:-71.120898];
     
 #pragma mark - Harvest
      
@@ -1286,7 +1354,9 @@ BOOL isit;
                            number:@"tel:6178682255"
                            website:@"http://harvestcambridge.com/"
                            thumbImage:[UIImage imageNamed:@"harvestThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"harvest.jpg"]];
+                           fullImage:[UIImage imageNamed:@"harvest.jpg"]
+                          latitude:42.3739314
+                          longitude:-71.1216376];
 
 #pragma mark - Hong Kong Restaurant
 
@@ -1337,7 +1407,9 @@ BOOL isit;
                           number:@"tel:617864311"
                           website:@"http://www.hongkongharvard.com/"
                           thumbImage:[UIImage imageNamed:@"hongKongThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"hongKong.jpg"]];
+                          fullImage:[UIImage imageNamed:@"hongKong.jpg"]
+                           latitude:42.370562
+                           longitude:-71.114159];
 
 #pragma mark - J.P. Licks
     
@@ -1367,7 +1439,9 @@ BOOL isit;
                            number:@"tel:6174921001"
                            website:@"http://www.jplicks.com/"
                            thumbImage:[UIImage imageNamed:@"jpLicksThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"jpLicks.jpg"]];
+                           fullImage:[UIImage imageNamed:@"jpLicks.jpg"]
+                          latitude:42.3731182
+                          longitude:-71.1179677];
     
 #pragma mark - John Harvard's Brew House
     
@@ -1390,7 +1464,9 @@ BOOL isit;
                           number:@"tel:6178683585"
                           website:@"https://www.johnharvards.com/"
                           thumbImage:[UIImage imageNamed:@"johnHarvardsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"johnHarvards.jpg"]];
+                          fullImage:[UIImage imageNamed:@"johnHarvards.jpg"]
+                               latitude:42.3725237
+                               longitude:-71.1192685];
     
 #pragma mark - Lamole Restaurant
     
@@ -1413,7 +1489,9 @@ BOOL isit;
                                number:@"tel:6179450441"
                                website:@"http://lamolepizza.com/"
                                thumbImage:[UIImage imageNamed:@"lamoleThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"lamole.jpg"]];
+                               fullImage:[UIImage imageNamed:@"lamole.jpg"]
+                         latitude:42.370649
+                         longitude:-71.1136497];
     
 #pragma mark - Legal Sea Foods
     
@@ -1444,7 +1522,9 @@ BOOL isit;
                          number:@"tel:6174919400"
                          website:@"http://www.legalseafoods.com/"
                          thumbImage:[UIImage imageNamed:@"legalThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"legal.jpg"]];
+                         fullImage:[UIImage imageNamed:@"legal.jpg"]
+                        latitude:42.3732935
+                        longitude:-71.122976];
     
 #pragma mark - Lizzy's Ice Cream
     
@@ -1474,7 +1554,9 @@ BOOL isit;
                         number:@"tel:6173542911"
                         website:@"http://www.lizzysicecream.com/"
                         thumbImage:[UIImage imageNamed:@"lizzysThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"lizzys.jpg"]];
+                        fullImage:[UIImage imageNamed:@"lizzys.jpg"]
+                         latitude:42.3745203
+                         longitude:-71.12019];
     
 #pragma mark - Midwest Grill
     
@@ -1497,7 +1579,9 @@ BOOL isit;
                          number:@"tel:6173547536"
                          website:@"http://www.midwestgrillrestaurant.com/"
                          thumbImage:[UIImage imageNamed:@"midwestThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"midwest.jpg"]];
+                         fullImage:[UIImage imageNamed:@"midwest.jpg"]
+                          latitude:42.372855
+                          longitude:-71.09603];
     
 #pragma mark - Noir
     
@@ -1520,7 +1604,9 @@ BOOL isit;
                           number:@"6176618010"
                           website:@"http://www.noir-bar.com/"
                           thumbImage:[UIImage imageNamed:@"noirThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"noir.jpg"]];
+                          fullImage:[UIImage imageNamed:@"noir.jpg"]
+                       latitude:42.372258
+                       longitude:-71.122667];
     
 #pragma mark - Nubar
     
@@ -1590,7 +1676,9 @@ BOOL isit;
                        number:@"tel:6172341365"
                        website:@"http://nubarcambridge.com/"
                        thumbImage:[UIImage imageNamed:@"nubarThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"nubar.jpg"]];
+                       fullImage:[UIImage imageNamed:@"nubar.jpg"]
+                        latitude:42.3773012
+                        longitude:-71.1231757];
     
     
 #pragma mark - Oggi Gourmet
@@ -1625,7 +1713,9 @@ BOOL isit;
                         number:@"tel:6174926444"
                         website:@"http://www.oggigourmet.com/"
                         thumbImage:[UIImage imageNamed:@"oggiThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"oggi.jpg"]];
+                        fullImage:[UIImage imageNamed:@"oggi.jpg"]
+                       latitude:42.3730926
+                       longitude:-71.1182891];
     
 #pragma mark - Orinoco: A Latin Kitchen
     
@@ -1684,7 +1774,9 @@ BOOL isit;
                        number:@"tel:6173546900"
                        website:@"http://www.orinocokitchen.com/"
                        thumbImage:[UIImage imageNamed:@"orinocoThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"orinoco.jpg"]];
+                       fullImage:[UIImage imageNamed:@"orinoco.jpg"]
+                          latitude:42.3718668
+                          longitude:-71.1205965];
     
 #pragma mark - Panera
     
@@ -1718,7 +1810,9 @@ BOOL isit;
                           number:@"tel:6178680651"
                           website:@"http://www.panerabread.com/"
                           thumbImage:[UIImage imageNamed:@"paneraThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"panera.jpg"]];
+                          fullImage:[UIImage imageNamed:@"panera.jpg"]
+                         latitude:42.3727504
+                         longitude:-71.116986];
     
 #pragma mark - Park Restaurant & Bar
     
@@ -1768,7 +1862,9 @@ BOOL isit;
                          number:@"tel:6174919851"
                          website:@"http://www.parkcambridge.com/"
                          thumbImage:[UIImage imageNamed:@"parkThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"park.jpg"]];
+                         fullImage:[UIImage imageNamed:@"park.jpg"]
+                       latitude:42.3715778
+                       longitude:-71.1209947];
     
 #pragma mark - Peet's Coffee and Tea
     
@@ -1804,7 +1900,9 @@ BOOL isit;
                        number:@"tel:6174921844"
                        website:@"http://www.peets.com/fvpage.asp?rdir=1&"
                        thumbImage:[UIImage imageNamed:@"peetsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"peets.jpg"]];
+                       fullImage:[UIImage imageNamed:@"peets.jpg"]
+                        latitude:42.3727334
+                        longitude:-71.120611];
     
 #pragma mark - Pinkberry
     
@@ -1834,7 +1932,9 @@ BOOL isit;
                         number:@"tel:6175470573"
                         website:@"http://www.pinkberry.com/"
                         thumbImage:[UIImage imageNamed:@"pinkberryThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"pinkberry.jpg"]];
+                        fullImage:[UIImage imageNamed:@"pinkberry.jpg"]
+                            latitude:42.3733731
+                            longitude:-71.1191679];
     
 #pragma mark - Qdoba Mexican Grill
     
@@ -1857,7 +1957,9 @@ BOOL isit;
                             number:@"tel:6178711136"
                             website:@"http://www.qdoba.com/"
                             thumbImage:[UIImage imageNamed:@"qdobaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"qdoba.jpg"]];
+                            fullImage:[UIImage imageNamed:@"qdoba.jpg"]
+                        latitude:42.3727837
+                        longitude:-71.1170776];
     
 #pragma mark - Rialto
     
@@ -1887,7 +1989,9 @@ BOOL isit;
                         number:@"tel:6176615050"
                         website:@"http://www.rialto-restaurant.com/"
                         thumbImage:[UIImage imageNamed:@"rialtoThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"rialto.jpg"]];
+                        fullImage:[UIImage imageNamed:@"rialto.jpg"]
+                         latitude:42.372258
+                         longitude:-71.122667];
     
 #pragma mark - Russell House Tavern
     
@@ -1927,7 +2031,9 @@ BOOL isit;
                          number:@"tel:6175003055"
                          website:@"http://www.russellhousecambridge.com/"
                          thumbImage:[UIImage imageNamed:@"russellHouseThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"russellHouse.jpg"]];
+                         fullImage:[UIImage imageNamed:@"russellHouse.jpg"]
+                               latitude:42.3731241
+                               longitude:-71.119659];
     
 #pragma mark - Sabra Grill
     
@@ -1950,7 +2056,9 @@ BOOL isit;
                                number:@"tel:6178685777"
                                website:@"http://www.sabrafoods.com/Sabra_Grill.htm"
                                thumbImage:[UIImage imageNamed:@"sabraThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"sabra.jpg"]];
+                               fullImage:[UIImage imageNamed:@"sabra.jpg"]
+                        latitude:42.3722762
+                        longitude:-71.1217977];
     
 #pragma mark - Sandrine's Bistro
     
@@ -1989,7 +2097,9 @@ BOOL isit;
                         number:@"tel:6174975300"
                         website:@"http://www.sandrines.com/"
                         thumbImage:[UIImage imageNamed:@"sandrinesThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"sandrines.jpg"]];
+                        fullImage:[UIImage imageNamed:@"sandrines.jpg"]
+                            latitude:42.372694
+                            longitude:-71.117968];
     
 #pragma mark - Shabu Ya
     
@@ -2029,7 +2139,9 @@ BOOL isit;
                             number:@"tel:6178646868"
                             website:@"http://www.shabuyarestaurant.com"
                             thumbImage:[UIImage imageNamed:@"shabuyaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"shabuya.jpg"]];
+                            fullImage:[UIImage imageNamed:@"shabuya.jpg"]
+                          latitude:42.3721459
+                          longitude:-71.1209169];
     
 #pragma mark - Shays Pub & Wine Bar
     
@@ -2059,7 +2171,9 @@ BOOL isit;
                           number:@"tel:6178649161"
                           website:@"http://www.shayspubandwinebar.com/"
                           thumbImage:[UIImage imageNamed:@"shaysThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"shays.jpg"]];
+                          fullImage:[UIImage imageNamed:@"shays.jpg"]
+                        latitude:42.3717688
+                        longitude:-71.1207992];
     
 #pragma mark - Spice Thai Cuisine
     
@@ -2100,7 +2214,9 @@ BOOL isit;
                         number:@"tel:6178689560"
                         website:@"http://www.spicethaicuisine.com/"
                         thumbImage:[UIImage imageNamed:@"spiceThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"spice.jpg"]];
+                        fullImage:[UIImage imageNamed:@"spice.jpg"]
+                        latitude:42.3721411
+                        longitude:-71.1184277];
     
 #pragma mark - Starbuck's (Church St)
     
@@ -2130,7 +2246,9 @@ BOOL isit;
                         number:@"tel:6174927870"
                         website:@"http://www.starbucks.com/"
                         thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"Starbucks.jpg"]];
+                        fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
+                                  latitude:42.3745203
+                                  longitude:-71.12019];
     
 #pragma mark - Starbucks (Garage)
     
@@ -2158,11 +2276,13 @@ BOOL isit;
                                   opensAt:opens
                                   closesAt:22.3
                                   isItOpen:isit
-                                  address:@"36 JFK Street Cambridge, MA  02138"
+                                  address:@"36 JFK Street, Cambridge, MA  02138"
                                   number:@"tel:6174924881"
                                   website:@"http://www.starbucks.com/"
                                   thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
-                                  fullImage:[UIImage imageNamed:@"Starbucks.jpg"]];
+                                  fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
+                                  latitude:42.3726417
+                                  longitude:-71.1198562];
     
 #pragma mark - Starbucks (Square)
     
@@ -2180,11 +2300,13 @@ BOOL isit;
                                   opensAt:5
                                   closesAt:1
                                   isItOpen:isit
-                                  address:@"1380 Massachusetts Ave, MA  02138"
+                                  address:@"1380 Massachusetts Ave, Cambridge, MA  02138"
                                   number:@"tel6173543726"
                                   website:@"http://www.starbucks.com"
                                   thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
-                                  fullImage:[UIImage imageNamed:@"Starbucks.jpg"]];
+                                  fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
+                                  latitude:42.3733731
+                                  longitude:-71.1191679];
     
 #pragma mark - Subway
     
@@ -2203,11 +2325,13 @@ BOOL isit;
                                   opensAt:8
                                   closesAt:22
                                   isItOpen:isit
-                                  address:@"36 JFK Street Cambridge, MA  02138"
+                                  address:@"36 JFK Street, Cambridge, MA  02138"
                                   number:@"tel:6174410011"
                                   website:@"http://www.subway.com/subwayroot/default.aspx"
                                   thumbImage:[UIImage imageNamed:@"subwayThumb.jpg"]
-                                  fullImage:[UIImage imageNamed:@"subway.jpg"]];
+                                  fullImage:[UIImage imageNamed:@"subway.jpg"]
+                         latitude:42.3726417
+                         longitude:-71.1198562];
     
 #pragma mark - Sweet
     
@@ -2239,7 +2363,9 @@ BOOL isit;
                          number:@"tel:6175472253"
                          website:@"http://www.sweetcupcakes.com/"
                          thumbImage:[UIImage imageNamed:@"sweetThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"sweet.jpg"]];
+                         fullImage:[UIImage imageNamed:@"sweet.jpg"]
+                        latitude:42.3732905
+                        longitude:-71.1200106];
 
     
 #pragma mark - Takemura Japanese Restaurant
@@ -2279,7 +2405,9 @@ BOOL isit;
                         number:@"tel:(617)-492-6700"
                         website:@"http://www.yelp.com/biz/takemura-japanese-restaurant-cambridge"
                         thumbImage:[UIImage imageNamed:@"takemuraThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"takemura.jpg"]];
+                        fullImage:[UIImage imageNamed:@"takemura.jpg"]
+                           latitude:42.372091
+                           longitude:-71.121394];
     
 #pragma mark - Tamarind Bay
     
@@ -2319,7 +2447,9 @@ BOOL isit;
                            number:@"tel:617-491-4552"
                            website:@"http://www.tamarind-bay.com/"
                            thumbImage:[UIImage imageNamed:@"tamarindThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"tamarind.jpg"]];
+                           fullImage:[UIImage imageNamed:@"tamarind.jpg"]
+                           latitude:42.3723438
+                           longitude:-71.1201938];
     
 #pragma mark - Tanjore
     
@@ -2363,7 +2493,9 @@ BOOL isit;
                            number:@"tel:(617) 868-1900"
                            website:@"http://www.tanjoreharvardsq.com/"
                            thumbImage:[UIImage imageNamed:@"tanjoreThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"tanjore.jpg"]];
+                           fullImage:[UIImage imageNamed:@"tanjore.jpg"]
+                          latitude:42.372091
+                          longitude:-71.121394];
     
 #pragma mark - Temple Bar
     
@@ -2394,7 +2526,9 @@ BOOL isit;
                           number:@"tel:617.547.5055"
                           website:@"http://www.templebarcambridge.com/"
                           thumbImage:[UIImage imageNamed:@"templeThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"temple.jpg"]];
+                          fullImage:[UIImage imageNamed:@"temple.jpg"]
+                         latitude:42.382751
+                         longitude:-71.1198133];
     
 #pragma mark - Ten Tables Cambridge
 
@@ -2430,7 +2564,9 @@ BOOL isit;
                          number:@"tel:617-388-8324"
                          website:@"http://www.tentables.net/"
                          thumbImage:[UIImage imageNamed:@"tenTablesThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"tenTables.jpg"]];
+                         fullImage:[UIImage imageNamed:@"tenTables.jpg"]
+                            latitude:42.3736158
+                            longitude:-71.1097335];
     
 #pragma mark - The Maharaja
     
@@ -2470,7 +2606,9 @@ BOOL isit;
                             number:@"tel:617-547-2757"
                             website:@"http://www.maharajaboston.com/"
                             thumbImage:[UIImage imageNamed:@"maharajaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"maharaja.jpg"]];
+                            fullImage:[UIImage imageNamed:@"maharaja.jpg"]
+                           latitude:42.3721459
+                           longitude:-71.1209169];
     
 #pragma mark - the red house
     
@@ -2519,7 +2657,9 @@ BOOL isit;
                            number:@"tel:617-576-0605"
                            website:@"http://www.theredhouse.com/"
                            thumbImage:[UIImage imageNamed:@"redHouseThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"redHouse.jpg"]];
+                           fullImage:[UIImage imageNamed:@"redHouse.jpg"]
+                           latitude:42.372386
+                           longitude:-71.1211576];
     
 #pragma mark - The Regattabar
     
@@ -2561,7 +2701,9 @@ BOOL isit;
                            number:@"tel:617.395.7757 "
                            website:@"http://www.regattabarjazz.com/"
                            thumbImage:[UIImage imageNamed:@"regattabarThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"regattabar.jpg"]];
+                           fullImage:[UIImage imageNamed:@"regattabar.jpg"]
+                             latitude:42.372258
+                             longitude:-71.122667];
     
 #pragma mark - Insomnia Cookies
     
@@ -2584,7 +2726,9 @@ BOOL isit;
                              number:@"tel:8776326654"
                              website:@"https://insomniacookies.com/"
                              thumbImage:[UIImage imageNamed:@"insomniaThumb.jpg"]
-                             fullImage:[UIImage imageNamed:@"insomnia.jpg"]];
+                             fullImage:[UIImage imageNamed:@"insomnia.jpg"]
+                           latitude:42.3719479
+                           longitude:-71.1181612];
     
 #pragma mark - Tory Row
     
@@ -2607,7 +2751,9 @@ BOOL isit;
                            number:@"tel:6178768769"
                            website:@"http://www.toryrow.us/"
                            thumbImage:[UIImage imageNamed:@"toryThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"tory.jpg"]];
+                           fullImage:[UIImage imageNamed:@"tory.jpg"]
+                       latitude:42.3735449
+                       longitude:-71.1195765];
     
 #pragma mark - Trattoria Pulcinella
     
@@ -2630,7 +2776,9 @@ BOOL isit;
                        number:@"tel:617-491-6336"
                        website:@"http://www.trattoriapulcinella.net/"
                        thumbImage:[UIImage imageNamed:@"trattoriaThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"trattoria.jpg"]];
+                       fullImage:[UIImage imageNamed:@"trattoria.jpg"]
+                            latitude:42.38256
+                            longitude:-71.1308553];
     
 #pragma mark - Uno Chicago Grill
     
@@ -2680,7 +2828,9 @@ BOOL isit;
                             number:@"tel:6174971530"
                             website:@"http://www.unos.com/"
                             thumbImage:[UIImage imageNamed:@"unosThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"unos.jpg"]];
+                            fullImage:[UIImage imageNamed:@"unos.jpg"]
+                       latitude:42.3729782
+                       longitude:-71.1196811];
     
 #pragma mark - UpStairs on the Square
     
@@ -2703,7 +2853,9 @@ BOOL isit;
                        number:@"tel:617-864-1933"
                        website:@"http://www.upstairsonthesquare.com/"
                        thumbImage:[UIImage imageNamed:@"upstairsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"upstairs.jpg"]];
+                       fullImage:[UIImage imageNamed:@"upstairs.jpg"]
+                           latitude:42.3724175
+                           longitude:-71.1209446];
     
 #pragma mark - Veggie Planet
     
@@ -2726,7 +2878,9 @@ BOOL isit;
                            number:@"tel:617-661-1513"
                            website:@"http://www.veggieplanet.net/"
                            thumbImage:[UIImage imageNamed:@"veggieThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"veggie.jpg"]];
+                           fullImage:[UIImage imageNamed:@"veggie.jpg"]
+                         latitude:42.3738466
+                         longitude:-71.1199904];
     
 #pragma mark - Wagamama
     
@@ -2764,7 +2918,9 @@ BOOL isit;
                          number:@"tel:617-499-0930"
                          website:@"http://www.wagamama.us/"
                          thumbImage:[UIImage imageNamed:@"wagamamaThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"wagamama.jpg"]];
+                         fullImage:[UIImage imageNamed:@"wagamama.jpg"]
+                           latitude:42.3721459
+                           longitude:-71.1209169];
     
 #pragma mark - Zinneken's 
     
@@ -2797,7 +2953,9 @@ BOOL isit;
                            number:@"tel:6176063295"
                            website:@"http://www.yelp.com/biz/zinnekens-cambridge"
                            thumbImage:[UIImage imageNamed:@"zinnekensThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"zinnekens.jpg"]];
+                           fullImage:[UIImage imageNamed:@"zinnekens.jpg"]
+                            latitude:42.371471
+                            longitude:-71.1147083];
     
 #pragma mark - Zoe's
     
@@ -2833,7 +2991,9 @@ BOOL isit;
                             number:@"tel:617-495-0055"
                             website:@"http://www.yelp.com/biz/zoes-cambridge"
                             thumbImage:[UIImage imageNamed:@"zoesThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"zoes.jpg"]];
+                            fullImage:[UIImage imageNamed:@"zoes.jpg"]
+                       latitude:42.370649
+                       longitude:-71.1136497];
     
 #pragma mark - IHOP
     
@@ -2856,7 +3016,9 @@ BOOL isit;
                        number:@"tel:(617) 354-0999"
                        website:@"http://www.ihop.com/"
                        thumbImage:[UIImage imageNamed:@"ihopThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"ihop.jpg"]];
+                       fullImage:[UIImage imageNamed:@"ihop.jpg"]
+                       latitude:42.3720291
+                       longitude:-71.1215069];
     
 #pragma mark - Quincy Grille
     
@@ -2904,7 +3066,9 @@ BOOL isit;
                        number:@"NONE"
                        website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"annenberg.jpg"]];
+                       fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                         latitude:42.3713751
+                         longitude:-71.117056];
     
 #pragma mark - Eliot Grille
     
@@ -2945,7 +3109,9 @@ BOOL isit;
                          number:@"NONE"
                          website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
                          thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]];
+                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                        latitude:42.3716096
+                        longitude:-71.1196882];
     
 #pragma mark - Quad Grille
     
@@ -2986,54 +3152,13 @@ BOOL isit;
                         number:@"NONE"
                         website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
                         thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]];
+                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                       latitude:42.3818309
+                       longitude:-71.1245817];
     
-#pragma mark - Dunster Grille
-    
-    // Sun-Thurs before midnight
-    if ((time >= 5 && time <= 24) && (weekday >= 1 && weekday <= 5)) {
-        opens = 22;
-        closes = 1;
-    }
-    // Sun-Thurs after midnight
-    else if (time < 5 && (weekday >= 2 && weekday <= 6)) {
-        opens = 22;
-        closes = 1;
-    }
-    // Fri-Sat before midnight
-    else if ((time >= 5 && time <= 24) && (weekday == 6 || weekday == 7)) {
-        opens = 24;
-        closes = 2;
-    }
-    // Fri-Sat after midnight
-    else if (time < 5 && (weekday == 7 || weekday == 1)) {
-        opens = 24;
-        closes = 2;
-    }
-    
-    if (time >= opens || time <= closes) {
-        isit = YES;
-    }
-    else {
-        isit = NO;
-    }
-    
-    EateryDoc *dunster = [[EateryDoc alloc]
-                       initWithTitle:@"Dunster Grille"
-                       foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
-                       rating:4
-                       description:@"For Harvard students, the grille's provide a great place to get a snack and meet up with friends when just about everything else is closed! Head to Dunster Grille to get your hands on a 'Fat Spencer!' Don't ask, just order it."
-                       opensAt:opens
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"15 Cowperthwaite Street, Cambridge, MA 02138"
-                       number:@"NONE"
-                       website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
-                       thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"annenberg.jpg"]];
     
     // add to mutable array
-    eateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, dunster, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
+    eateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
     
     // set them to master view controller
     UINavigationController *navController = (UINavigationController *) self.window.rootViewController;

@@ -13,7 +13,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "22"
          endingLineNumber = "22"
-         landmarkName = "-initWithTitle:foodtype:rating:description:opensAt:closesAt:isItOpen:address:number:website:"
+         landmarkName = "-initWithTitle:foodtype:rating:description:opensAt:closesAt:isItOpen:address:number:website:latitude:longitude:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Can I Eat?/EateryData.m"
+         timestampString = "380336224.359544"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "27"
+         endingLineNumber = "27"
+         landmarkName = "-initWithTitle:foodtype:rating:description:opensAt:closesAt:isItOpen:address:number:website:latitude:longitude:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

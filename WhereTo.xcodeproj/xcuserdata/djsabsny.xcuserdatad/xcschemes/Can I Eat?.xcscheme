@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DD67B21C16731720001A7ACE"
-               BuildableName = "WhereTo5.app"
-               BlueprintName = "WhereTo5"
-               ReferencedContainer = "container:WhereTo?.xcodeproj">
+               BlueprintIdentifier = "DD3898FC166ABA8A00231929"
+               BuildableName = "WhereTo?.app"
+               BlueprintName = "WhereTo"
+               ReferencedContainer = "container:WhereTo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DD67B21C16731720001A7ACE"
-            BuildableName = "WhereTo5.app"
-            BlueprintName = "WhereTo5"
-            ReferencedContainer = "container:WhereTo?.xcodeproj">
+            BlueprintIdentifier = "DD3898FC166ABA8A00231929"
+            BuildableName = "WhereTo?.app"
+            BlueprintName = "WhereTo"
+            ReferencedContainer = "container:WhereTo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DD67B21C16731720001A7ACE"
-            BuildableName = "WhereTo5.app"
-            BlueprintName = "WhereTo5"
-            ReferencedContainer = "container:WhereTo?.xcodeproj">
+            BlueprintIdentifier = "DD3898FC166ABA8A00231929"
+            BuildableName = "WhereTo?.app"
+            BlueprintName = "WhereTo"
+            ReferencedContainer = "container:WhereTo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DD67B21C16731720001A7ACE"
-            BuildableName = "WhereTo5.app"
-            BlueprintName = "WhereTo5"
-            ReferencedContainer = "container:WhereTo?.xcodeproj">
+            BlueprintIdentifier = "DD3898FC166ABA8A00231929"
+            BuildableName = "WhereTo?.app"
+            BlueprintName = "WhereTo"
+            ReferencedContainer = "container:WhereTo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

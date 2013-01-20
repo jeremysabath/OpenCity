@@ -39,12 +39,13 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <CoreLocation/CoreLocation.h>
 
 // Stackmob
 #import <CoreData/CoreData.h>
 
 // Stackmob (ONLY "NSFetchedResultsControllerDelegate")
-@interface MasterViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, NSFetchedResultsControllerDelegate>{
+@interface MasterViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, NSFetchedResultsControllerDelegate, CLLocationManagerDelegate>{
     
     // delcare bar button's pick for me and contact us
     UIBarButtonItem *pickForMeButton;
@@ -64,6 +65,10 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong) NSMutableArray *eateries;
 @property (nonatomic) Class AppDelegate;
+
+// Open Now button
+- (IBAction)openNowClicked:(id)sender;
+
 
 // methods for user clicking buttons
 - (IBAction)pickForMeClicked:(id)sender;

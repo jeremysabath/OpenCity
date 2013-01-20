@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface EateryData : NSObject
 
@@ -19,7 +20,9 @@
 @property (strong) NSString *address;
 @property (strong) NSString *number;
 @property (strong) NSString *website;
-@property (assign) BOOL *isItOpen;
+@property (assign) BOOL isItOpen;
+@property CLLocationDegrees latitude;
+@property CLLocationDegrees longitude;
 
--(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString*)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString*) address number:(NSString*) number website:(NSString*) website;
+-(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString*)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString*) address number:(NSString*) number website:(NSString*) website latitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
 @end

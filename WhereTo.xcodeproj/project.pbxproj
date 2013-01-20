@@ -208,6 +208,7 @@
 		DDA9ACBF16734F5F00D7A485 /* WhereToLogoBG.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACBE16734F5F00D7A485 /* WhereToLogoBG.png */; };
 		DDA9ACC116734F6200D7A485 /* WhereToLogoBGRetina.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */; };
 		DDA9ACC31673507900D7A485 /* W fo realBG.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC21673507900D7A485 /* W fo realBG.png */; };
+		DDBD706A16AB5C8F00C846C8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -309,7 +310,7 @@
 		DD35793316731224009C02CD /* subway.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = subway.jpg; path = ../../../../EateryPics/subway.jpg; sourceTree = "<group>"; };
 		DD35793516731386009C02CD /* WhereToLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogo.png; sourceTree = "<group>"; };
 		DD357937167313A6009C02CD /* WhereToLogoRetina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoRetina.png; sourceTree = "<group>"; };
-		DD3898FD166ABA8A00231929 /* WhereTo?.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WhereTo?.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3898FD166ABA8A00231929 /* WhereTo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhereTo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD389901166ABA8A00231929 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DD389903166ABA8A00231929 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DD389905166ABA8A00231929 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -460,8 +461,9 @@
 		DDA9ACBE16734F5F00D7A485 /* WhereToLogoBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoBG.png; sourceTree = "<group>"; };
 		DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoBGRetina.png; sourceTree = "<group>"; };
 		DDA9ACC21673507900D7A485 /* W fo realBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "W fo realBG.png"; sourceTree = "<group>"; };
+		DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DDD67F2D1674792400FEEC88 /* WhereTo?-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereTo?-Info.plist"; sourceTree = "<group>"; };
-		DDD67F2F1674793000FEEC88 /* WhereTo?-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhereTo?-Prefix.pch"; sourceTree = "<group>"; };
+		DDD67F2F1674793000FEEC88 /* WhereTo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhereTo-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -469,6 +471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDBD706A16AB5C8F00C846C8 /* CoreLocation.framework in Frameworks */,
 				DDA146F31694C9B9007E01F6 /* MobileCoreServices.framework in Frameworks */,
 				DDA146F11694C9B0007E01F6 /* SystemConfiguration.framework in Frameworks */,
 				DDA146EF1694C9A9007E01F6 /* Security.framework in Frameworks */,
@@ -488,6 +491,7 @@
 		DD3898F2166ABA8A00231929 = {
 			isa = PBXGroup;
 			children = (
+				DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */,
 				DDA146F21694C9B9007E01F6 /* MobileCoreServices.framework */,
 				DDA146F01694C9B0007E01F6 /* SystemConfiguration.framework */,
 				DDA146EE1694C9A9007E01F6 /* Security.framework */,
@@ -518,7 +522,7 @@
 		DD3898FE166ABA8A00231929 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DD3898FD166ABA8A00231929 /* WhereTo?.app */,
+				DD3898FD166ABA8A00231929 /* WhereTo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -552,7 +556,7 @@
 			children = (
 				DD38990A166ABA8A00231929 /* InfoPlist.strings */,
 				DD38990D166ABA8A00231929 /* main.m */,
-				DDD67F2F1674793000FEEC88 /* WhereTo?-Prefix.pch */,
+				DDD67F2F1674793000FEEC88 /* WhereTo-Prefix.pch */,
 				DDD67F2D1674792400FEEC88 /* WhereTo?-Info.plist */,
 			);
 			name = "Supporting Files";
@@ -834,9 +838,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DD3898FC166ABA8A00231929 /* WhereTo? */ = {
+		DD3898FC166ABA8A00231929 /* WhereTo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD389924166ABA8A00231929 /* Build configuration list for PBXNativeTarget "WhereTo?" */;
+			buildConfigurationList = DD389924166ABA8A00231929 /* Build configuration list for PBXNativeTarget "WhereTo" */;
 			buildPhases = (
 				DD3898F9166ABA8A00231929 /* Sources */,
 				DD3898FA166ABA8A00231929 /* Frameworks */,
@@ -846,9 +850,9 @@
 			);
 			dependencies = (
 			);
-			name = "WhereTo?";
+			name = WhereTo;
 			productName = "Can I Eat?";
-			productReference = DD3898FD166ABA8A00231929 /* WhereTo?.app */;
+			productReference = DD3898FD166ABA8A00231929 /* WhereTo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -860,7 +864,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Jeremy Sabath";
 			};
-			buildConfigurationList = DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo?" */;
+			buildConfigurationList = DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -872,7 +876,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DD3898FC166ABA8A00231929 /* WhereTo? */,
+				DD3898FC166ABA8A00231929 /* WhereTo */,
 			);
 		};
 /* End PBXProject section */
@@ -1164,13 +1168,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Can I Eat?/WhereTo?-Prefix.pch";
+				GCC_PREFIX_HEADER = "Can I Eat?/WhereTo-Prefix.pch";
 				INFOPLIST_FILE = "Can I Eat?/WhereTo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/StackMob-v1.1.3\"",
 				);
-				PRODUCT_NAME = "WhereTo?";
+				PRODUCT_NAME = WhereTo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1179,13 +1183,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Can I Eat?/WhereTo?-Prefix.pch";
+				GCC_PREFIX_HEADER = "Can I Eat?/WhereTo-Prefix.pch";
 				INFOPLIST_FILE = "Can I Eat?/WhereTo-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/StackMob-v1.1.3\"",
 				);
-				PRODUCT_NAME = "WhereTo?";
+				PRODUCT_NAME = WhereTo;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1193,7 +1197,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo?" */ = {
+		DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD389922166ABA8A00231929 /* Debug */,
@@ -1202,7 +1206,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DD389924166ABA8A00231929 /* Build configuration list for PBXNativeTarget "WhereTo?" */ = {
+		DD389924166ABA8A00231929 /* Build configuration list for PBXNativeTarget "WhereTo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD389925166ABA8A00231929 /* Debug */,

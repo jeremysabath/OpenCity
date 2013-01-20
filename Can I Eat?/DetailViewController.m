@@ -12,6 +12,9 @@
 #import "AppDelegate.h"
 #import "MasterViewController.h"
 
+#define IS_IT_OPEN 1
+#define CONTACT_US 2
+
 @interface DetailViewController ()
 - (void)configureView;
 @end
@@ -31,9 +34,87 @@
  rest too closely. As such, my specific comments are in the first few. 
  ***************/
 
+// if contact us is clicked, alert pops us to allow user to email
+- (IBAction)contactUsClicked:(id)sender{
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"Help Improve WhereTo?"
+                          message:@"If you notice a problem with this app, let us know! With your help, WhereTo? can continue to be the number one tool for figuring out what's open, what's good and how to get there!"
+                          delegate:self
+                          cancelButtonTitle:@"Not Now"
+                          otherButtonTitles: @"Contact Us!", nil];
+    alert.tag = CONTACT_US;
+    [alert show];
+}
+
+// if user really does want to contact us, fills email with recipient, sample subject and body
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(alertView.tag == CONTACT_US){
+    if(buttonIndex == 1) {
+        NSString *emailTitle = @"Ex. Wrong Time!";
+        // Email Content
+        NSString *messageBody = @"Ex. Felipe's is actually open until __ o'clock on Saturdays!";
+        // To address
+        NSArray *toRecipents = [NSArray arrayWithObject:@"wheretodevteam@gmail.com"];
+        
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        [mc setToRecipients:toRecipents];
+        
+        // makes mail viewer pop up
+        [self presentViewController:mc animated:YES completion:NULL];
+    }
+    }
+    else{
+        if(buttonIndex == 1){
+            // obtain eatery address
+            NSString *address = self.detailItem.data.address;
+            address = [address stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]] == 1){
+                NSString *urlText = [NSString stringWithFormat:@"comgooglemaps://?q=%@", address];
+                NSLog(@"%@", urlText);
+                // open maps
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+            }
+            else {
+                NSString *urlText = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
+                NSLog(@"%@", urlText);
+                // open maps
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+            }
+        }
+    }
+}
+
+// controls the mail app
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 // if the is it open button is clicked....
 - (IBAction)isItOpenClicked:(id)sender {
-    
+        
     // loadData experiment
     NSLog(@"isItOpen = %i", self.detailItem.data.isItOpen);
     
@@ -60,6 +141,7 @@
                               cancelButtonTitle:@"Done"
                               otherButtonTitles: nil];
         // show the alert
+        alert.tag = IS_IT_OPEN;
         [alert show];
 
     }
@@ -72,6 +154,8 @@
                               delegate:self
                               cancelButtonTitle:@"Done"
                               otherButtonTitles: @"Take Me There!", nil];
+        alert.tag = IS_IT_OPEN;
+        [alert show];
     }
     // if it opens at midnight...
     else if (self.detailItem.data.opensAt == 24) {
@@ -89,6 +173,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and will be open
@@ -101,6 +186,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and is already closed
@@ -112,7 +198,8 @@
                               delegate:self
                               cancelButtonTitle:@"Done"
                               otherButtonTitles: nil];
-        [alert show];
+            alert.tag = IS_IT_OPEN;
+            [alert show];
         }
     }
         // if it closes after midnight...
@@ -128,6 +215,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }        
         // ... and will open before noon
@@ -140,6 +228,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and will open after noon
@@ -153,6 +242,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ...and is already closed
@@ -164,6 +254,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
             }
     }
@@ -181,6 +272,7 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
             
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and will open before noon
@@ -192,8 +284,22 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
+        // ... and will open at noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt == 12) {
+            NSString *opensMessage = [NSString stringWithFormat: @"Sorry! Opens at %@pm!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            [alert show];
+        }
+
         // ... and wil open after noon
         else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt >= 12) {
             opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt-12];
@@ -204,6 +310,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ...and is already closed
@@ -215,6 +322,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
 
@@ -232,6 +340,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and will open before noon
@@ -243,6 +352,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and wil open after noon
@@ -255,6 +365,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
         }
         // ... and is closed
@@ -266,13 +377,14 @@
                                   delegate:self
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
             [alert show];
             
         }
     }
 
 }
-
+/*
 // if user clicks the Take me there button from the alert view, get the address of the eatery and
 // open it in the maps application
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -280,11 +392,38 @@ if(buttonIndex == 1){
     // obtain eatery address
     NSString *address = self.detailItem.data.address;
     address = [address stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSString *urlText = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
-    NSLog(urlText);
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]] == 1){
+    NSString *urlText = [NSString stringWithFormat:@"comgooglemaps://?q=%@", address];
+    NSLog(@"%@", urlText);
     // open maps
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+    }
+    else {
+        NSString *urlText = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
+        NSLog(@"%@", urlText);
+        // open maps
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+    }
 }
+}
+*/
+// if user taps the Let's Go button, obtains address of eatery and opens it in maps
+- (IBAction)linkToMaps:(id)sender{
+    // obtains address
+    NSString *address = self.detailItem.data.address;
+    address = [address stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]] == 1){
+        NSString *urlText = [NSString stringWithFormat:@"comgooglemaps://?q=%@", address];
+        NSLog(@"%@", urlText);
+        // open maps
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+    }
+    else {
+        NSString *urlText = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
+        NSLog(@"%@", urlText);
+        // open maps
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
+    }
 }
 
 #pragma mark - Managing the detail item
@@ -340,16 +479,6 @@ if(buttonIndex == 1){
         self.picker.allowsEditing = NO;
     }
     [self.navigationController presentViewController:_picker animated:YES completion:NULL];
-}
-
-// if user taps the Let's Go button, obtains address of eatery and opens it in maps
-- (IBAction)linkToMaps:(id)sender{
-    // obtains address
-    NSString *address = self.detailItem.data.address;
-    address = [address stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    NSString *urlText = [NSString stringWithFormat:@"http://maps.apple.com/?q=%@", address];
-    // opens it in maps
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlText]];
 }
 
 // if user taps Call Now button, obtains eatery phone number and calls it
