@@ -57,11 +57,11 @@ BOOL isit;
     
     // any day but sunday
     if(weekday != 1){
-        // 22
-        closes = 23.06;
+        closes = 22;
     }
     else{
-        closes = 20;
+        // 20
+        closes = 18.27;
     }
     // weekday 1 = Sunday for Gregorian calendar
     // use EateryDoc initializer to create 3 sample eateries, passing in title, rating, foodtype

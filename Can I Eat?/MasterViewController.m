@@ -338,8 +338,9 @@ EateryDoc *resultEatery;
     AppDelegate *delegate = [[AppDelegate alloc]init];
     [delegate loadData];
     
-    allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
     searchResults = allItems;
+    
     // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
     if([sender tag] == 1000){
         EateryDoc *eatery;
@@ -353,7 +354,7 @@ EateryDoc *resultEatery;
             detailController = segue.destinationViewController;
             // picks random eatery based on random int
             NSLog(@"LOADING EATERY");
-            eatery = [searchResults objectAtIndex:r];
+            eatery = [self.eateries objectAtIndex:r];
             count++;
         }
         // if it's closed pick another, if EVERYTHING is closed alert the user
