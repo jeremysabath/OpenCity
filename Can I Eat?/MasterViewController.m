@@ -25,6 +25,8 @@
     NSMutableArray *allItems;
     NSMutableArray *searchResults;
     BOOL searchTextEntered;
+    
+    NSTimer *myTimer;
 }
 @end
 
@@ -40,6 +42,8 @@
 @synthesize window;
 @synthesize AppDelegate;
 @synthesize tableView;
+
+
 
 // Stackmob
 - (AppDelegate *)appDelegate {
@@ -72,6 +76,21 @@
     // fill array with all eateries
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
     searchResults = allItems;
+    
+    myTimer = [NSTimer scheduledTimerWithTimeInterval: 2.0 target: self selector: @selector(callAfterTwoSeconds:) userInfo: nil repeats: YES];
+}
+
+int timerCount = 0;
+-(void)callAfterTwoSeconds: (NSTimer *) t {
+    if(timerCount <= 4){
+        [self.tableView reloadData];
+        timerCount++;
+    }
+    else {
+        [myTimer invalidate];
+        myTimer = nil;
+        NSLog(@"Done with Timer");
+    }
 }
 
 - (void)locationUpdate:(CLLocation *)location {

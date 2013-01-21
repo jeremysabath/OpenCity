@@ -3203,6 +3203,9 @@ BOOL isit;
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self loadData];
+    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
+    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    [masterController.tableView reloadData];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
