@@ -57,11 +57,11 @@ BOOL isit;
     
     // any day but sunday
     if(weekday != 1){
-        closes = 22;
+        // 22
+        closes = 15.26;
     }
     else{
-        // 20
-        closes = 18.27;
+        closes = 20;
     }
     // weekday 1 = Sunday for Gregorian calendar
     // use EateryDoc initializer to create 3 sample eateries, passing in title, rating, foodtype
@@ -3202,6 +3202,7 @@ BOOL isit;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self loadData];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

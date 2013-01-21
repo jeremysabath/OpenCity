@@ -144,6 +144,15 @@ EateryDoc *resultEatery;
     [self.tableView reloadData];
 }
 
+-(void)reloadForLocation {
+    int eateryCount = [allItems count];
+    for (int i = 0; i < eateryCount; i++) {
+        resultEatery = [allItems objectAtIndex:i];
+        [searchResults addObject:resultEatery];
+    }
+    [self.tableView reloadData];
+}
+
 // hides keyboard when search button clicked
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     // hide keyboard
@@ -338,9 +347,8 @@ EateryDoc *resultEatery;
     AppDelegate *delegate = [[AppDelegate alloc]init];
     [delegate loadData];
     
-    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
-    searchResults = allItems;
-    
+    allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    //searchResults = allItems;
     // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
     if([sender tag] == 1000){
         EateryDoc *eatery;
@@ -354,7 +362,7 @@ EateryDoc *resultEatery;
             detailController = segue.destinationViewController;
             // picks random eatery based on random int
             NSLog(@"LOADING EATERY");
-            eatery = [self.eateries objectAtIndex:r];
+            eatery = [searchResults objectAtIndex:r];
             count++;
         }
         // if it's closed pick another, if EVERYTHING is closed alert the user
