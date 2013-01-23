@@ -23,6 +23,9 @@
 @property (weak, nonatomic) IBOutlet RateView *rateView;
 @property (strong, nonatomic) UIImagePickerController * picker;
 @property (strong, nonatomic) IBOutlet UILabel *descriptionView;
+@property (weak, nonatomic) IBOutlet UILabel *openNowLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *openNowDot;
+
 
 // declares methods/connections with the view
 - (IBAction)isItOpenClicked:(id)sender;

@@ -66,6 +66,8 @@
     
     // give view title, initialize 
     self.title = @"WhereTo?";
+    //[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
@@ -231,6 +233,7 @@ EateryDoc *resultEatery;
         return [allItems count];
     }
 }
+
 /**********
 // Stackmob
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -243,15 +246,25 @@ EateryDoc *resultEatery;
  // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica Bold" size:17];
-        cell.detailTextLabel.textColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MyBasicCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MyBasicCell"];
     }
     if (searchTextEntered == NO) {
         EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
-        cell.textLabel.text = eatery.data.title;
+        cell.detailTextLabel.font = [UIFont fontWithName:@"American Typewriter" size:16];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:249 green:249 blue:249 alpha:1];
+        cell.textLabel.font = [UIFont fontWithName:@"American Typewriter" size:20];
+        cell.textLabel.textColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
+        cell.textLabel.shadowColor = [UIColor blackColor];
+        cell.textLabel.shadowOffset = CGSizeMake(0,-1);
+        if([eatery.data.title length] > 14){
+        NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+        cell.textLabel.text = titleText;
+        }
+        else{
+            cell.textLabel.text = eatery.data.title;
+        }
         cell.imageView.image = eatery.thumbImage;
         CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
         if(eateryLocation){
@@ -261,7 +274,8 @@ EateryDoc *resultEatery;
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
             formatter.maximumFractionDigits = 1;
             NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
-            cell.detailTextLabel.text = [distanceFromEatery stringValue];
+            NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+            cell.detailTextLabel.text = distanceString;
         }
     }
     else {
@@ -271,7 +285,7 @@ EateryDoc *resultEatery;
         //cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
     // set's background image of table
-        self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
+       // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
         NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
         return cell;
 }
@@ -408,7 +422,6 @@ EateryDoc *resultEatery;
     }
     // pick the correct eatery simply based on original order
     else{
-        
         NSLog(@"SENDER = %@", sender);
         DetailViewController *detailController = segue.destinationViewController;
         
@@ -416,6 +429,7 @@ EateryDoc *resultEatery;
         // EateryDoc *eatery = [_fetchedResultsController.fetchedObjects objectAtIndex:self.tableView.indexPathForSelectedRow.row];
         NSLog(@"eatery = %@", eatery);
         detailController.detailItem = eatery;
+        NSLog(@"THE FIRST LETTER IS: %@", [eatery.data.title substringToIndex:1]);
         
         // loadData experiment
         NSLog(@"Al's isItOpen = %i", eatery.data.isItOpen);

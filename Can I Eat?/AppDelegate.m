@@ -3047,7 +3047,7 @@ BOOL isit;
         closes = 4;
     }
     
-    if (time >= opens || time <= closes) {
+    if (time >= 22 || time <= closes) {
         isit = YES;
     }
     else {
@@ -3058,8 +3058,8 @@ BOOL isit;
                        initWithTitle:@"Quincy Grille"
                        foodtype:@"late, grill, burgers, french fries, harvard"
                        rating:4
-                       description:@"For Harvard students, the grille's provide a great place to get a snack and meet up with friends when just about everything else is closed! Try the sweet potato fries!"
-                       opensAt:opens
+                       description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Try the sweet potato fries!"
+                       opensAt:22
                        closesAt:closes
                        isItOpen:isit
                        address:@"50 Plympton Street, Cambridge, MA 02138"
@@ -3101,7 +3101,7 @@ BOOL isit;
                          initWithTitle:@"Eliot Grille"
                          foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
                          rating:4
-                         description:@"For Harvard students, the grille's provide a great place to get a snack and meet up with friends when just about everything else is closed! Head down to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
+                         description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Head down to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
                          opensAt:22
                          closesAt:closes
                          isItOpen:isit
@@ -3144,7 +3144,7 @@ BOOL isit;
                         initWithTitle:@"Quad Grille"
                         foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
                         rating:4
-                        description:@"For Harvard students, the grille's provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike out to the Quad and grab a chicken snack wrap!"
+                        description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike out to the Quad and grab a chicken snack wrap!"
                         opensAt:22.30
                         closesAt:closes
                         isItOpen:isit

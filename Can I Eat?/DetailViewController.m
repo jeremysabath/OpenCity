@@ -27,6 +27,7 @@
 @synthesize imageView = _imageView;
 @synthesize rateView = _rateView;
 @synthesize descriptionView = _descriptionView;
+@synthesize openNowLabel;
 
 /**************
  Much of the isItOpenClicked method is very repetitive with only marginal changes to account for nuances 
@@ -455,6 +456,31 @@ if(buttonIndex == 1){
         self.rateView.rating = self.detailItem.data.rating;
         self.imageView.image = self.detailItem.fullImage;
         self.descriptionView.text = self.detailItem.data.description;
+        if (self.detailItem.data.isItOpen == YES){
+            if (self.detailItem.data.closesAt >= 13){
+                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f", self.detailItem.data.closesAt-12];
+                self.openNowLabel.text = openLabelString;
+                self.openNowDot.image = [UIImage imageNamed:@"open.png"];
+            }
+            else {
+                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f", self.detailItem.data.closesAt];
+                self.openNowLabel.text = openLabelString;
+                self.openNowDot.image = [UIImage imageNamed:@"open.png"];
+            }
+        }
+        else{
+            if (self.detailItem.data.closesAt >= 13){
+                NSString *openLabelString = [NSString stringWithFormat:@"Sorry, closed at %0.2f", self.detailItem.data.closesAt-12];
+                self.openNowLabel.text = openLabelString;
+                self.openNowDot.image = [UIImage imageNamed:@"closed.png"];
+            }
+            else {
+                NSString *openLabelString = [NSString stringWithFormat:@"Sorry, closed at %0.2f", self.detailItem.data.closesAt];
+                self.openNowLabel.text = openLabelString;
+                self.openNowDot.image = [UIImage imageNamed:@"closed.png"];
+            }
+        }
+        
     }
 }
 
