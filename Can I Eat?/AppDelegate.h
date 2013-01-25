@@ -22,8 +22,4 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) SMClient *client;
 
-@property (strong) NSMutableArray *eateries;
-
-- (void) loadData;
-
 @end

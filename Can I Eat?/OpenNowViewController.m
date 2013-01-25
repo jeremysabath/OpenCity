@@ -1,12 +1,12 @@
 //
-//  MasterViewController.m
-//  Can I Eat?
+//  OpenNowViewController.m
+//  WhereTo
 //
-//  Created by Jeremy Sabath on 12/1/12.
-//  Copyright (c) 2012 Jeremy Sabath. All rights reserved.
+//  Created by Jeremy Sabath on 1/23/13.
+//  Copyright (c) 2013 Jeremy Sabath. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "OpenNowViewController.h"
 #import <MessageUI/MessageUI.h>
 #import "DetailViewController.h"
 #import "EateryData.h"
@@ -14,10 +14,7 @@
 #import "AppDelegate.h"
 #import <CoreLocation/CoreLocation.h>
 
-// Stackmob
-#import "StackMob.h"
-
-@interface MasterViewController () {
+@interface OpenNowViewController () {
     NSMutableArray *_objects;
     
     // create array of all eateries, just search results and bool for if search text was entered
@@ -27,31 +24,25 @@
     
     NSTimer *myTimer;
 }
+
 @end
 
-
-@implementation MasterViewController{
-}
-
-// Stackmob
-@synthesize managedObjectContext = _managedObjectContext;
+@implementation OpenNowViewController
 
 // synthesize properties
 @synthesize eateries = _eateries;
+@synthesize searchBar= searchBar;
 @synthesize window;
 @synthesize AppDelegate;
 @synthesize tableView;
 
-
-
-// Stackmob
-- (AppDelegate *)appDelegate {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
-}
-
-- (void)awakeFromNib
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    [super awakeFromNib];
+    self = [super initWithStyle:style];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,32 +52,43 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
+
     locationController = [[MyCLController alloc] init];
 	locationController.delegate = self;
 	[locationController.locationManager startUpdatingLocation];
     
-    // give view title, initialize 
-    self.title = @"WhereTo?";
+    // give view title, initialize
+    self.title = @"Open Now!";
     //[self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchBar.delegate = self;
     
-    // Stackmob
-    self.managedObjectContext = [self.appDelegate managedObjectContext];
-    
-    // fill array with all eateries
-    allItems = [[NSMutableArray alloc]initWithArray:_eateries];
+    int eateryCount = [allItems count];
+    searchResults = [[NSMutableArray alloc]init];
+    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
+    // populates allItems with open eateries
+    for (int i = 0; i < eateryCount; i++) {
+        resultEatery = [allItems objectAtIndex:i];
+        NSString *open;
+        
+        if (resultEatery.data.isItOpen == NO){
+            open = @"closed";
+        }
+        else {
+            open = @"open";
+        }
+        NSString *allData = [NSString stringWithFormat:@"%@", open];
+        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+        if (stringRange.location != NSNotFound){
+            [allItems addObject:resultEatery];
+        }
+    }
     searchResults = allItems;
     
     myTimer = [NSTimer scheduledTimerWithTimeInterval: 2.0 target: self selector: @selector(callAfterTwoSeconds:) userInfo: nil repeats: YES];
-    
-    [[self.tabBarController.tabBar.items objectAtIndex:0] setTitle:NSLocalizedString(@"Home", @"comment")];
-    [[self.tabBarController.tabBar.items objectAtIndex:1] setTitle:NSLocalizedString(@"Open Now!", @"comment")];
-    [[self.tabBarController.tabBar.items objectAtIndex:2] setTitle:NSLocalizedString(@"Nearby!", @"comment")];
+    self.tableView.rowHeight = 61;
 }
 
 -(void)callAfterTwoSeconds: (NSTimer *) t {
@@ -112,18 +114,12 @@
 	NSLog(@"%@", errorMessage);
 }
 
-#pragma  mark - Search Bar
-
-@synthesize searchBar= searchBar;
-
-// Apple Housekeeping
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-// Apple Housekeeping
 - (void)insertNewObject:(id)sender
 {
     if (!_objects) {
@@ -134,7 +130,6 @@
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-// Search Bar implementation
 EateryDoc *resultEatery;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     // check if there are contents in the search bar
@@ -145,7 +140,7 @@ EateryDoc *resultEatery;
     else {
         searchTextEntered = YES;
         searchResults = [[NSMutableArray alloc]init];
-
+        
         int eateryCount = [allItems count];
         // checks each eatery, one by one, for search criteria, adds matches to array searchResults
         for (int i = 0; i < eateryCount; i++) {
@@ -181,6 +176,7 @@ EateryDoc *resultEatery;
     [self.tableView reloadData];
 }
 */
+
 // hides keyboard when search button clicked
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     // hide keyboard
@@ -193,42 +189,12 @@ EateryDoc *resultEatery;
     [self.searchBar resignFirstResponder];
 }
 
-- (IBAction)openNowClicked:(id)sender{
-    int eateryCount = [allItems count];
-    searchResults = [[NSMutableArray alloc]init];
-    // checks each eatery, one by one, for search criteria, adds matches to array searchResults
-    for (int i = 0; i < eateryCount; i++) {
-        searchTextEntered = YES;
-        resultEatery = [allItems objectAtIndex:i];
-        NSString *open;
-        
-        if (resultEatery.data.isItOpen == NO){
-            open = @"closed";
-        }
-        else {
-            open = @"open";
-        }
-        NSString *allData = [NSString stringWithFormat:@"%@", open];
-        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
-        if (stringRange.location != NSNotFound){
-            [searchResults addObject:resultEatery];
-        }
-    }
-    // reloads table with searchResults
-    [self.tableView reloadData];
-}
 
-#pragma mark - Table View
-
-// Table has one section
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-
-
-// table has number of rows equal to number of eateries...
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // ... in searchResults
@@ -241,24 +207,13 @@ EateryDoc *resultEatery;
     }
 }
 
-/**********
-// Stackmob
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
-}
-************/
-
- // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"OpenNowCell" forIndexPath:indexPath];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MyBasicCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"OpenNowCell"];
     }
     if (searchTextEntered == NO) {
-        self.tableView.rowHeight = 61;
         EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
         cell.detailTextLabel.font = [UIFont fontWithName:@"American Typewriter" size:16];
         cell.detailTextLabel.textColor = [UIColor colorWithRed:249 green:249 blue:249 alpha:1];
@@ -267,8 +222,8 @@ EateryDoc *resultEatery;
         cell.textLabel.shadowColor = [UIColor blackColor];
         cell.textLabel.shadowOffset = CGSizeMake(0,-1);
         if([eatery.data.title length] > 14){
-        NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
-        cell.textLabel.text = titleText;
+            NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+            cell.textLabel.text = titleText;
         }
         else{
             cell.textLabel.text = eatery.data.title;
@@ -287,108 +242,75 @@ EateryDoc *resultEatery;
         }
     }
     else {
-        self.tableView.rowHeight = 61;
         EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
         //cell.detailTextLabel.text = [distanceFromEatery stringValue];
     }
     // set's background image of table
-       // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
-        NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
-        return cell;
-}
-
-/*********
-// Stackmob
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"MyBasicCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [object valueForKey:@"title"];
-    
-    self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
-    NSLog(@"fetchedResultsController = %@", _fetchedResultsController);
-
+    // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
+    NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
     return cell;
 }
 
-// Stackmob
-- (NSFetchedResultsController *)fetchedResultsController
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Eatery" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // NSPredicate *equalPredicate =[NSPredicate predicateWithFormat:@"title == %@", @"Al's Cafe"];
-    // [fetchRequest setPredicate:equalPredicate];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    NSLog(@"aFetchedResultsController = %@", aFetchedResultsController);
-    
-    NSError *error = nil;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        NSLog(@"An error %@, %@", error, [error userInfo]);
-    }
-    
-    return _fetchedResultsController;
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
 }
-**********************************/
+*/
 
-// Stackmob
-- (IBAction)createNewObject:(id)sender {
-    
-    int eateryCount = [allItems count];
-    for (int i = 0; i < eateryCount; i++) {
-        EateryDoc *eatery = allItems[i];
-        NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Eatery" inManagedObjectContext:self.managedObjectContext];
-    
-        [newManagedObject setValue:eatery.data.title forKey:@"title"];
-        //[newManagedObject setValue:eatery.data.rating forKey:@"rating"];
-        [newManagedObject setValue:eatery.data.foodType forKey:@"foodtype"];
-        [newManagedObject setValue:eatery.data.description forKey:@"descript"];
-        //[newManagedObject setValue:eatery.data.opensAt forKey:@"opensAt"];
-        //[newManagedObject se forKey:@"closesAt"];
-        //[newManagedObject setValue:eatery.data.isItOpen forKey:@"isItOpen"];
-        [newManagedObject setValue:eatery.data.address forKey:@"address"];
-        [newManagedObject setValue:eatery.data.website forKey:@"website"];
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
 
-        [newManagedObject setValue:[newManagedObject assignObjectId] forKey:[newManagedObject primaryKeyField]];
-    
-        NSError *error = nil;
-        if (![self.managedObjectContext save:&error]) {
-            NSLog(@"There was an error! %@", error);
-        }
-        else {
-            NSLog(@"You created a new object!");
-        }
-    }
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     */
 }
 
-// When a cell or pickforme is clicked, pushes to the detail view corresponding to the correct eatery
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{ 
+{
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
     //searchResults = allItems;
     // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
-    if([sender tag] == 1000){
+    if([sender tag] == 1001){
         EateryDoc *eatery;
         // declares a detailViewController
         DetailViewController *detailController;
@@ -442,7 +364,7 @@ EateryDoc *resultEatery;
         
         // hides keyboard
         [self.searchBar resignFirstResponder];
-
+        
     }
 }
 @end

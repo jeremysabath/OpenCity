@@ -14,18 +14,12 @@
 // Stackmob
 #import "StackMob.h"
 
-float closes;
-float opens;
-BOOL isit;
-
 @implementation AppDelegate
 
 // Stackmob
 @synthesize client = _client;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize managedObjectContext = _managedObjectContext;
-
-@synthesize eateries;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -35,11 +29,25 @@ BOOL isit;
     SMCoreDataStore *coreDataStore = [self.client coreDataStoreWithManagedObjectModel:self.managedObjectModel];
     self.managedObjectContext = [coreDataStore managedObjectContext];
     
-    // loadData experiment
     [self loadData];
     
     return YES;
 }
+
+// Stackmob
+- (NSManagedObjectModel *)managedObjectModel
+{
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"mydatamodel" withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModel;
+}
+
+float opens;
+float closes;
+bool isit;
 
 - (void) loadData {
     // determine day of week and current time
@@ -52,13 +60,13 @@ BOOL isit;
     [formatter setDateFormat:@"HH.mm.ss"];
     NSString *stringTime = [formatter stringFromDate:[NSDate date]];
     float time = [stringTime floatValue];
-
+    
 #pragma mark - Al's
     
     // any day but sunday
     if(weekday != 1){
         // 22
-        closes = 15.26;
+        closes = 22;
     }
     else{
         closes = 20;
@@ -72,22 +80,23 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *als = [[EateryDoc alloc]
-                          initWithTitle:@"Al's Cafe"
-                          foodtype:@"als, subs, sandwiches, dinner"
-                          rating:4
-                          description:@"Hungry? Come to Al's to get a delicious hot or cold sub, chips and a 20 oz. drink for less than 8 bucks!"
-                          opensAt:11
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1350 Massachusetts Avenue, Cambridge, MA 02138"
-                          number:@"tel:6174419100"
-                          website:@"http://www.alscafes.com/"
-                          thumbImage:[UIImage imageNamed:@"AlsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"Als.jpg"]
-                          latitude:+42.37309260
-                          longitude:-71.11828910];
+                      initWithTitle:@"Al's Cafe"
+                      foodtype:@"als, subs, sandwiches, dinner"
+                      rating:4
+                      description:@"Hungry? Come to Al's to get a delicious hot or cold sub, chips and a 20 oz. drink for less than 8 bucks!"
+                      opensAt:11
+                      closesAt:closes
+                      isItOpen:isit
+                      address:@"1350 Massachusetts Avenue, Cambridge, MA 02138"
+                      number:@"tel:6174419100"
+                      website:@"http://www.alscafes.com/"
+                      thumbImage:[UIImage imageNamed:@"AlsThumb.jpg"]
+                      fullImage:[UIImage imageNamed:@"Als.jpg"]
+                      latitude:+42.37309260
+                      longitude:-71.11828910
+                      distance:111111];
     NSLog(@"isit = %i", isit);
- 
+    
     
 #pragma mark - Annenberg
     
@@ -121,7 +130,7 @@ BOOL isit;
         opens = 7.30;
         closes = 19.15;
     }
-
+    
     if(time >= opens && time <= closes){
         isit = YES;
     }
@@ -130,20 +139,21 @@ BOOL isit;
     }
     
     EateryDoc *annenberg = [[EateryDoc alloc]
-                      initWithTitle:@"Annenberg"
-                      foodtype:@"cafeteria, dinner"
-                      rating:3
-                      description:@"Harvard's famous freshman dining hall. Only for Harvard College freshman and their paid guests. Watch out for the obscure hours!"
-                      opensAt:opens
-                      closesAt:closes
-                      isItOpen:isit
-                      address:@"45 Quincy Street, Cambridge, MA 02138"
-                      number:@"NONE"
-                      website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
-                      thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                      fullImage:[UIImage imageNamed:@"annenberg.jpg"]
-                      latitude:42.37622030
-                      longitude:-71.11505030];
+                            initWithTitle:@"Annenberg"
+                            foodtype:@"cafeteria, dinner"
+                            rating:3
+                            description:@"Harvard's famous freshman dining hall. Only for Harvard College freshman and their paid guests. Watch out for the obscure hours!"
+                            opensAt:opens
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"45 Quincy Street, Cambridge, MA 02138"
+                            number:@"NONE"
+                            website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                            thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                            latitude:42.37622030
+                            longitude:-71.11505030
+                            distance:111111];
     
 #pragma mark - Felipe's
     // if it's before midnight on th, fr, sat
@@ -188,7 +198,8 @@ BOOL isit;
                           thumbImage:[UIImage imageNamed:@"felipesThumb.jpg"]
                           fullImage:[UIImage imageNamed:@"felipes.jpg"]
                           latitude:42.37251330
-                          longitude:-71.11977260];
+                          longitude:-71.11977260
+                          distance:111111];
     
 #pragma mark - Otto
     
@@ -212,20 +223,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *otto = [[EateryDoc alloc]
-                          initWithTitle:@"Otto"
-                          foodtype:@"Pizza, dinner"
-                          rating:4
-                          description:@"New York style thin-crust pizza with a variety of creative and exciting toppings!"
-                          opensAt:10.3
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1432 Massachusetts Avenue, Cambridge, MA 02138"
-                          number:@"tel:6174993352"
-                          website:@"http://ottocambridge.com/"
-                          thumbImage:[UIImage imageNamed:@"ottoThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"otto.jpg"]
+                       initWithTitle:@"Otto"
+                       foodtype:@"Pizza, dinner"
+                       rating:4
+                       description:@"New York style thin-crust pizza with a variety of creative and exciting toppings!"
+                       opensAt:10.3
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"1432 Massachusetts Avenue, Cambridge, MA 02138"
+                       number:@"tel:6174993352"
+                       website:@"http://ottocambridge.com/"
+                       thumbImage:[UIImage imageNamed:@"ottoThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"otto.jpg"]
                        latitude:42.37413430
-                       longitude:-71.11899080];
+                       longitude:-71.11899080
+                       distance:111111];
     
 #pragma mark - Pinocchio's
     
@@ -267,20 +279,21 @@ BOOL isit;
         }
     }
     EateryDoc *pinocchios = [[EateryDoc alloc]
-                          initWithTitle:@"Pinocchio's"
-                          foodtype:@"Pizza, nocchs, nochs, subs, pinnochios, pinnocchios, dinner, cheap"
-                          rating:4
-                          description:@"Addictive thick crust Sicilian slices with flavorful hot subs to boot. Late-night hours!"
-                          opensAt:opens
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"74 Winthrop Street, Cambridge, MA 02138"
-                          number:@"tel:6178764897"
-                          website:@"http://pinocchiospizza.net/"
-                          thumbImage:[UIImage imageNamed:@"pinocchiosThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"pinocchios.jpg"]
+                             initWithTitle:@"Pinocchio's"
+                             foodtype:@"Pizza, nocchs, nochs, subs, pinnochios, pinnocchios, dinner, cheap"
+                             rating:4
+                             description:@"Addictive thick crust Sicilian slices with flavorful hot subs to boot. Late-night hours!"
+                             opensAt:opens
+                             closesAt:closes
+                             isItOpen:isit
+                             address:@"74 Winthrop Street, Cambridge, MA 02138"
+                             number:@"tel:6178764897"
+                             website:@"http://pinocchiospizza.net/"
+                             thumbImage:[UIImage imageNamed:@"pinocchiosThumb.jpg"]
+                             fullImage:[UIImage imageNamed:@"pinocchios.jpg"]
                              latitude:42.37198330
-                             longitude:-71.12023590];
+                             longitude:-71.12023590
+                             distance:111111];
     
 #pragma mark - Mr. Bartley's
     // if NOT Sunday
@@ -302,20 +315,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *mrBartleys = [[EateryDoc alloc]
-                          initWithTitle:@"Mr. Bartley's"
-                          foodtype:@"Burgers, shakes, french fries, grill, pub, dinner"
-                          rating:3
-                          description:@"Come to Mr. Bartley's for famous burgers, shakes and fries! Cash only!"
-                          opensAt:11
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1246 Massachusetts Ave Cambridge, MA 02138"
-                          number:@"tel:6173546559"
-                          website:@"http://www.mrbartley.com/"
-                          thumbImage:[UIImage imageNamed:@"mrBartleysThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"mrBartleys.jpg"]
+                             initWithTitle:@"Mr. Bartley's"
+                             foodtype:@"Burgers, shakes, french fries, grill, pub, dinner"
+                             rating:3
+                             description:@"Come to Mr. Bartley's for famous burgers, shakes and fries! Cash only!"
+                             opensAt:11
+                             closesAt:closes
+                             isItOpen:isit
+                             address:@"1246 Massachusetts Ave Cambridge, MA 02138"
+                             number:@"tel:6173546559"
+                             website:@"http://www.mrbartley.com/"
+                             thumbImage:[UIImage imageNamed:@"mrBartleysThumb.jpg"]
+                             fullImage:[UIImage imageNamed:@"mrBartleys.jpg"]
                              latitude:42.37247440
-                             longitude:-71.11609380];
+                             longitude:-71.11609380
+                             distance:111111];
     
 #pragma  mark - Au Bon Pain
     
@@ -350,7 +364,7 @@ BOOL isit;
         closes = 1;
     }
     
-
+    
     if (closes == 1) {
         if (time >= opens || time <= closes){
             isit = YES;
@@ -368,21 +382,22 @@ BOOL isit;
         }
     }
     EateryDoc *auBonPain = [[EateryDoc alloc]
-                          initWithTitle:@"Au Bon Pain"
-                          foodtype:@"salads, sandwiches, dinner, cheap"
-                          rating:3
-                          description:@"Just outside of the yard, Au Bon Pain provides savory breads and sandwiches along with fresh soups and salads!"
-                          opensAt:opens
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1360 Massachusetts Ave, Cambridge, MA 02138"
-                          number:@"tel:6174979797"
-                          website:@"http://www.aubonpain.com/"
-                          thumbImage:[UIImage imageNamed:@"abpThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"abp.jpg"]
+                            initWithTitle:@"Au Bon Pain"
+                            foodtype:@"salads, sandwiches, dinner, cheap"
+                            rating:3
+                            description:@"Just outside of the yard, Au Bon Pain provides savory breads and sandwiches along with fresh soups and salads!"
+                            opensAt:opens
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"1360 Massachusetts Ave, Cambridge, MA 02138"
+                            number:@"tel:6174979797"
+                            website:@"http://www.aubonpain.com/"
+                            thumbImage:[UIImage imageNamed:@"abpThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"abp.jpg"]
                             latitude:42.3730660
-                            longitude:-71.1184930];
-
+                            longitude:-71.1184930
+                            distance:111111];
+    
 #pragma mark - b.good
     
     // if sunday
@@ -401,20 +416,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *bGood = [[EateryDoc alloc]
-                            initWithTitle:@"b.good"
-                            foodtype:@"burgers, french fries, salads, milkshakes, shakes, dinner, cheap"
-                            rating:3
-                            description:@"b.good makes fast-food 'real.' Come on down for fresh burgers, shakes, fries and salads!"
-                            opensAt:11
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"24 Dunster Street, Cambridge , MA 02138"
-                            number:@"tel:6173546500"
-                            website:@"http://www.bgood.com/"
-                            thumbImage:[UIImage imageNamed:@"bGoodThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"bGood.jpg"]
+                        initWithTitle:@"b.good"
+                        foodtype:@"burgers, french fries, salads, milkshakes, shakes, dinner, cheap"
+                        rating:3
+                        description:@"b.good makes fast-food 'real.' Come on down for fresh burgers, shakes, fries and salads!"
+                        opensAt:11
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"24 Dunster Street, Cambridge , MA 02138"
+                        number:@"tel:6173546500"
+                        website:@"http://www.bgood.com/"
+                        thumbImage:[UIImage imageNamed:@"bGoodThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"bGood.jpg"]
                         latitude:42.3726189
-                        longitude:-71.1191012];
+                        longitude:-71.1191012
+                        distance:111111];
 #pragma  mark - Ben and Jerry's
     
     if (time >= 9 && time <= 22) {
@@ -424,20 +440,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *benAndJerrys = [[EateryDoc alloc]
-                        initWithTitle:@"Ben & Jerry's"
-                        foodtype:@"ice cream, sundaes, milkshakes, smoothies, dessert"
-                        rating:4
-                        description:@"Looking for a classic? Ben and Jerry's provides some of the most exciting and delicious ice cream flavors around. Stop by The Garage for a scoop, sundae or shake!"
-                        opensAt:9
-                        closesAt:22
-                        isItOpen:isit
-                        address:@"36 JFK Street, Cambridge, MA 02138"
-                        number:@"tel:6178642828"
-                        website:@"http://www.benjerry.com/"
-                        thumbImage:[UIImage imageNamed:@"benAndJerrysThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"benAndJerrys.jpg"]
+                               initWithTitle:@"Ben & Jerry's"
+                               foodtype:@"ice cream, sundaes, milkshakes, smoothies, dessert"
+                               rating:4
+                               description:@"Looking for a classic? Ben and Jerry's provides some of the most exciting and delicious ice cream flavors around. Stop by The Garage for a scoop, sundae or shake!"
+                               opensAt:9
+                               closesAt:22
+                               isItOpen:isit
+                               address:@"36 JFK Street, Cambridge, MA 02138"
+                               number:@"tel:6178642828"
+                               website:@"http://www.benjerry.com/"
+                               thumbImage:[UIImage imageNamed:@"benAndJerrysThumb.jpg"]
+                               fullImage:[UIImage imageNamed:@"benAndJerrys.jpg"]
                                latitude:42.3726417
-                               longitude:-71.1198562];
+                               longitude:-71.1198562
+                               distance:111111];
     
 #pragma mark = BerryLine
     
@@ -456,20 +473,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *berryLine = [[EateryDoc alloc]
-                               initWithTitle:@"BerryLine"
-                               foodtype:@"frozen yogurt, froyo, fresh, fruit, dessert, ice cream"
-                               rating:3
-                               description:@"BerryLine provides delicious (and nutritious?) frozen yogurt. With flavors constantly in the rotation you'll be sure to find something to sweeten your day!"
-                               opensAt:12
-                               closesAt:closes
-                               isItOpen:isit
-                               address:@"3 Arrow Street, Cambridge, MA 02138"
-                               number:@"tel:6178683500"
-                               website:@"http://www.berryline.com/"
-                               thumbImage:[UIImage imageNamed:@"berryLineThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"berryLine.jpg"]
+                            initWithTitle:@"BerryLine"
+                            foodtype:@"frozen yogurt, froyo, fresh, fruit, dessert, ice cream"
+                            rating:3
+                            description:@"BerryLine provides delicious (and nutritious?) frozen yogurt. With flavors constantly in the rotation you'll be sure to find something to sweeten your day!"
+                            opensAt:12
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"3 Arrow Street, Cambridge, MA 02138"
+                            number:@"tel:6178683500"
+                            website:@"http://www.berryline.com/"
+                            thumbImage:[UIImage imageNamed:@"berryLineThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"berryLine.jpg"]
                             latitude:42.3710162
-                            longitude:-71.1141269];
+                            longitude:-71.1141269
+                            distance:111111];
 #pragma mark - Bertucci's
     
     // if Fri-Sat
@@ -500,7 +518,8 @@ BOOL isit;
                             thumbImage:[UIImage imageNamed:@"bertuccisThumb.jpg"]
                             fullImage:[UIImage imageNamed:@"bertuccis.jpg"]
                             latitude:42.3734069
-                            longitude:-71.1204517];
+                            longitude:-71.1204517
+                            distance:111111];
     
 #pragma  mark - Boloco
     
@@ -511,20 +530,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *boloco = [[EateryDoc alloc]
-                            initWithTitle:@"Boloco"
-                            foodtype:@"burritos, smoothies, coffee, dinner, cheap"
-                            rating:3
-                            description:@"Drop into Boloco to try a fresh burrito or scrumptious smoothie."
-                            opensAt:7
-                            closesAt:23
-                            isItOpen:isit
-                            address:@"71 Mt. Auburn Street, Cambridge, MA 02138"
-                            number:@"tel:6173545838"
-                            website:@"http://boloco.com/"
-                            thumbImage:[UIImage imageNamed:@"bolocoThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"boloco.jpg"]
+                         initWithTitle:@"Boloco"
+                         foodtype:@"burritos, smoothies, coffee, dinner, cheap"
+                         rating:3
+                         description:@"Drop into Boloco to try a fresh burrito or scrumptious smoothie."
+                         opensAt:7
+                         closesAt:23
+                         isItOpen:isit
+                         address:@"71 Mt. Auburn Street, Cambridge, MA 02138"
+                         number:@"tel:6173545838"
+                         website:@"http://boloco.com/"
+                         thumbImage:[UIImage imageNamed:@"bolocoThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"boloco.jpg"]
                          latitude:42.3720326
-                         longitude:-71.1182373];
+                         longitude:-71.1182373
+                         distance:111111];
 #pragma mark - BonChon
     
     if (time >= 11.3 && time <= 23.30) {
@@ -534,20 +554,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *bonChon = [[EateryDoc alloc]
-                         initWithTitle:@"BonChon"
-                         foodtype:@"korean, bbq, barbecue, asian, bon chon, wings, dinner"
-                         rating:4
-                         description:@"Looking for something different? Try BonChon's Korean BBQ! Entrees are prepared in front of you and everything is cooked to perfection. Go for the soy garlic wings!"
-                         opensAt:11.3
-                         closesAt:23.30
-                         isItOpen:isit
-                         address:@"57 JFK Street, Cambridge, MA 02138"
-                         number:@"tel:6178680981"
-                         website:@"http://www.bonchon.com/"
-                         thumbImage:[UIImage imageNamed:@"bonChonThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"bonChon.jpg"]
+                          initWithTitle:@"BonChon"
+                          foodtype:@"korean, bbq, barbecue, asian, bon chon, wings, dinner"
+                          rating:4
+                          description:@"Looking for something different? Try BonChon's Korean BBQ! Entrees are prepared in front of you and everything is cooked to perfection. Go for the soy garlic wings!"
+                          opensAt:11.3
+                          closesAt:23.30
+                          isItOpen:isit
+                          address:@"57 JFK Street, Cambridge, MA 02138"
+                          number:@"tel:6178680981"
+                          website:@"http://www.bonchon.com/"
+                          thumbImage:[UIImage imageNamed:@"bonChonThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"bonChon.jpg"]
                           latitude:42.3721459
-                          longitude:-71.1209169];
+                          longitude:-71.1209169
+                          distance:111111];
     
 #pragma mark - Border Cafe
     
@@ -599,20 +620,21 @@ BOOL isit;
     }
     
     EateryDoc *borderCafe = [[EateryDoc alloc]
-                          initWithTitle:@"Border Cafe"
-                          foodtype:@"mexican, quesadillas, margeritas, margaritas dinner, bar"
-                          rating:4
-                          description:@"Come to Border Cafe for tasty Tex-Mex. With cool decor, cheesy quesadillas, homemade chips and fresh margaritas, there's not a lot to complain about!"
-                          opensAt:opens
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"32 Church Street, Cambridge, MA 02138"
-                          number:@"tel:6178646100"
-                          website:@"http://www.bordercafe.com/"
-                          thumbImage:[UIImage imageNamed:@"borderCafeThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"borderCafe.jpg"]
+                             initWithTitle:@"Border Cafe"
+                             foodtype:@"mexican, quesadillas, margeritas, margaritas dinner, bar"
+                             rating:4
+                             description:@"Come to Border Cafe for tasty Tex-Mex. With cool decor, cheesy quesadillas, homemade chips and fresh margaritas, there's not a lot to complain about!"
+                             opensAt:opens
+                             closesAt:closes
+                             isItOpen:isit
+                             address:@"32 Church Street, Cambridge, MA 02138"
+                             number:@"tel:6178646100"
+                             website:@"http://www.bordercafe.com/"
+                             thumbImage:[UIImage imageNamed:@"borderCafeThumb.jpg"]
+                             fullImage:[UIImage imageNamed:@"borderCafe.jpg"]
                              latitude:42.3743145
-                             longitude:-71.1202433];
+                             longitude:-71.1202433
+                             distance:111111];
     
 #pragma mark - Burdick's Chocolates
     
@@ -630,20 +652,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *burdicks = [[EateryDoc alloc]
-                             initWithTitle:@"L.A. Burdick Chocolates"
-                             foodtype:@"chocolate, pastries, tea, dessert"
-                             rating:4
-                             description:@"Burdick's Chocolates is the place to go for a savory treat at any time. Try the tea too!"
-                             opensAt:8
-                             closesAt:closes
-                             isItOpen:isit
-                             address:@"52D Brattle Street, Cambridge, MA 02138"
-                             number:@"tel:6174914340"
-                             website:@"http://www.burdickchocolate.com/"
-                             thumbImage:[UIImage imageNamed:@"burdicksThumb.jpg"]
-                             fullImage:[UIImage imageNamed:@"burdicks.jpg"]
+                           initWithTitle:@"L.A. Burdick Chocolates"
+                           foodtype:@"chocolate, pastries, tea, dessert"
+                           rating:4
+                           description:@"Burdick's Chocolates is the place to go for a savory treat at any time. Try the tea too!"
+                           opensAt:8
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"52D Brattle Street, Cambridge, MA 02138"
+                           number:@"tel:6174914340"
+                           website:@"http://www.burdickchocolate.com/"
+                           thumbImage:[UIImage imageNamed:@"burdicksThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"burdicks.jpg"]
                            latitude:42.3742859
-                           longitude:-71.1219163];
+                           longitude:-71.1219163
+                           distance:111111];
     
     
 #pragma mark - Cafe Pamplona
@@ -668,7 +691,8 @@ BOOL isit;
                            thumbImage:[UIImage imageNamed:@"pamplonaThumb.jpg"]
                            fullImage:[UIImage imageNamed:@"pamplona.jpg"]
                            latitude:42.371751
-                           longitude:-71.115472];
+                           longitude:-71.115472
+                           distance:111111];
     
 #pragma mark - Cafe Sushi
     
@@ -682,7 +706,7 @@ BOOL isit;
         opens = 12;
         closes = 14.30;
     }
-    // if it's dinner not Friday or Saturday 
+    // if it's dinner not Friday or Saturday
     else if (time >= 17.30 && weekday != 6 && weekday != 7) {
         opens = 17.30;
         closes = 22;
@@ -695,20 +719,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *sushi = [[EateryDoc alloc]
-                           initWithTitle:@"Cafe Sushi"
-                           foodtype:@"sushi, japanese, asian, dinner"
-                           rating:4
-                           description:@"Café Sushi serves fresh sushi and authentic Japanese food. Seatings for lunch and dinner!"
-                           opensAt:opens
-                           closesAt:closes
-                           isItOpen:isit
-                           address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
-                           number:@"tel:6174920434"
-                           website:@"http://cafesushicambridge.com/"
-                           thumbImage:[UIImage imageNamed:@"sushiThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"sushi.jpg"]
+                        initWithTitle:@"Cafe Sushi"
+                        foodtype:@"sushi, japanese, asian, dinner"
+                        rating:4
+                        description:@"Café Sushi serves fresh sushi and authentic Japanese food. Seatings for lunch and dinner!"
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
+                        number:@"tel:6174920434"
+                        website:@"http://cafesushicambridge.com/"
+                        thumbImage:[UIImage imageNamed:@"sushiThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"sushi.jpg"]
                         latitude:42.370649
-                        longitude:-71.1136497];
+                        longitude:-71.1136497
+                        distance:111111];
     
 #pragma mark - Cambridge, 1
     
@@ -719,20 +744,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *cambridge = [[EateryDoc alloc]
-                        initWithTitle:@"Cambridge, 1"
-                        foodtype:@"pizza, beer, bar, dinner"
-                        rating:4
-                        description:@"Cambridge, 1 is a hip place to grab a pizza, a beer, or a little of both! Booth and bar seating!"
-                        opensAt:11.30
-                        closesAt:1
-                        isItOpen:isit
-                        address:@"27 Church Street, Cambridge , MA 02138"
-                        number:@"tel:6175761111"
-                        website:@"http://www.cambridge1.us/"
-                        thumbImage:[UIImage imageNamed:@"cambridgeThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"cambridge.jpg"]
+                            initWithTitle:@"Cambridge, 1"
+                            foodtype:@"pizza, beer, bar, dinner"
+                            rating:4
+                            description:@"Cambridge, 1 is a hip place to grab a pizza, a beer, or a little of both! Booth and bar seating!"
+                            opensAt:11.30
+                            closesAt:1
+                            isItOpen:isit
+                            address:@"27 Church Street, Cambridge , MA 02138"
+                            number:@"tel:6175761111"
+                            website:@"http://www.cambridge1.us/"
+                            thumbImage:[UIImage imageNamed:@"cambridgeThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"cambridge.jpg"]
                             latitude:42.3744747
-                            longitude:-71.1200351];
+                            longitude:-71.1200351
+                            distance:111111];
     
 #pragma mark - Cardullo's
     
@@ -765,7 +791,8 @@ BOOL isit;
                             thumbImage:[UIImage imageNamed:@"cardullosThumb.jpg"]
                             fullImage:[UIImage imageNamed:@"cardullos.jpg"]
                             latitude:42.3733883
-                            longitude:-71.1197592];
+                            longitude:-71.1197592
+                            distance:111111];
     
 #pragma mark - Charlie's Kitchen
     
@@ -793,20 +820,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *charlies = [[EateryDoc alloc]
-                            initWithTitle:@"Charlie's Kitchen"
-                            foodtype:@"burgers, french fries, beer, grill, pub, dinner"
-                            rating:5
-                            description:@"You know that burger you've been craving? Charlie's Kitchen is just waiting for you to order it. The burgers are big, the beers are endless and the music is just right."
-                            opensAt:11
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"10 Eliot Street, Cambridge, MA 02138"
-                            number:@"tel:6174929646"
-                            website:@"http://www.charlieskitchen.com/"
-                            thumbImage:[UIImage imageNamed:@"charliesThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"charlies.jpg"]
+                           initWithTitle:@"Charlie's Kitchen"
+                           foodtype:@"burgers, french fries, beer, grill, pub, dinner"
+                           rating:5
+                           description:@"You know that burger you've been craving? Charlie's Kitchen is just waiting for you to order it. The burgers are big, the beers are endless and the music is just right."
+                           opensAt:11
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"10 Eliot Street, Cambridge, MA 02138"
+                           number:@"tel:6174929646"
+                           website:@"http://www.charlieskitchen.com/"
+                           thumbImage:[UIImage imageNamed:@"charliesThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"charlies.jpg"]
                            latitude:42.3724547
-                           longitude:-71.1214953];
+                           longitude:-71.1214953
+                           distance:111111];
     
 #pragma mark - Chipotle Mexican Grill
     
@@ -830,7 +858,8 @@ BOOL isit;
                            thumbImage:[UIImage imageNamed:@"chipotleThumb.jpg"]
                            fullImage:[UIImage imageNamed:@"chipotle.jpg"]
                            latitude:42.373199
-                           longitude:-71.1211545];
+                           longitude:-71.1211545
+                           distance:111111];
     
 #pragma mark - Chutney's
     
@@ -854,7 +883,8 @@ BOOL isit;
                            thumbImage:[UIImage imageNamed:@"chutneysThumb.jpg"]
                            fullImage:[UIImage imageNamed:@"chutneys.jpg"]
                            latitude:42.3726417
-                           longitude:-71.1198562];
+                           longitude:-71.1198562
+                           distance:111111];
     
 #pragma mark - Clover
     
@@ -865,20 +895,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *clover = [[EateryDoc alloc]
-                           initWithTitle:@"Clover"
-                           foodtype:@"vegetarian, sandwiches, salads, soups, french fries"
-                           rating:4
-                           description:@"Fast food done different! Clover crafts gourmet fast foods each and every day. With new menu items each day of the week, there's always something new and delicious to try."
-                           opensAt:7
-                           closesAt:24
-                           isItOpen:isit
-                           address:@"7 Holyoke Street, Cambridge, MA 02138"
-                           number:@"NONE"
-                           website:@"http://www.cloverfoodlab.com/"
-                           thumbImage:[UIImage imageNamed:@"cloverThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"clover.jpg"]
+                         initWithTitle:@"Clover"
+                         foodtype:@"vegetarian, sandwiches, salads, soups, french fries"
+                         rating:4
+                         description:@"Fast food done different! Clover crafts gourmet fast foods each and every day. With new menu items each day of the week, there's always something new and delicious to try."
+                         opensAt:7
+                         closesAt:24
+                         isItOpen:isit
+                         address:@"7 Holyoke Street, Cambridge, MA 02138"
+                         number:@"NONE"
+                         website:@"http://www.cloverfoodlab.com/"
+                         thumbImage:[UIImage imageNamed:@"cloverThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"clover.jpg"]
                          latitude:42.3725081
-                         longitude:-71.1182788];
+                         longitude:-71.1182788
+                         distance:111111];
     
 #pragma mark - Crazy Dough's Pizza Co.
     
@@ -898,21 +929,22 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *crazyDoughs = [[EateryDoc alloc]
-                         initWithTitle:@"Crazy Dough's Pizza Co."
-                         foodtype:@"pizza, dinner, cheap"
-                         rating:4
-                         description:@"Feeling crazy?! Well, either way it'd be crazy not to go to Crazy Dough's Pizza Co. Walk up the stairs in the garage for flavorful pizza with fresh and exciting toppings."
-                         opensAt:opens
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"36 JFK Street, Cambridge, MA 02138"
-                         number:@"tel:6174924848"
-                         website:@"http://www.crazydoughs.com/"
-                         thumbImage:[UIImage imageNamed:@"crazyDoughsThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"crazyDoughs.jpg"]
+                              initWithTitle:@"Crazy Dough's Pizza Co."
+                              foodtype:@"pizza, dinner, cheap"
+                              rating:4
+                              description:@"Feeling crazy?! Well, either way it'd be crazy not to go to Crazy Dough's Pizza Co. Walk up the stairs in the garage for flavorful pizza with fresh and exciting toppings."
+                              opensAt:opens
+                              closesAt:closes
+                              isItOpen:isit
+                              address:@"36 JFK Street, Cambridge, MA 02138"
+                              number:@"tel:6174924848"
+                              website:@"http://www.crazydoughs.com/"
+                              thumbImage:[UIImage imageNamed:@"crazyDoughsThumb.jpg"]
+                              fullImage:[UIImage imageNamed:@"crazyDoughs.jpg"]
                               latitude:42.3726417
-                              longitude:-71.1198562];
-
+                              longitude:-71.1198562
+                              distance:111111];
+    
 #pragma mark - Crema Cafe
     
     if (weekday == 6 || weekday == 7){
@@ -929,20 +961,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *crema = [[EateryDoc alloc]
-                              initWithTitle:@"Crema Cafe"
-                              foodtype:@"cafe, coffee, sandwiches, dessert"
-                              rating:3
-                              description:@"Cozy up with Crema Cafe. Here, you can sip high-quality coffee, indulge in flavorful sandwiches and always feel right at home."
-                              opensAt:opens
-                              closesAt:21
-                              isItOpen:isit
-                              address:@"27 Brattle Street, Cambridge, MA 02138"
-                              number:@"tel:6178762700"
-                              website:@"http://cremacambridge.com/"
-                              thumbImage:[UIImage imageNamed:@"cremaThumb.jpg"]
-                              fullImage:[UIImage imageNamed:@"crema.jpg"]
+                        initWithTitle:@"Crema Cafe"
+                        foodtype:@"cafe, coffee, sandwiches, dessert"
+                        rating:3
+                        description:@"Cozy up with Crema Cafe. Here, you can sip high-quality coffee, indulge in flavorful sandwiches and always feel right at home."
+                        opensAt:opens
+                        closesAt:21
+                        isItOpen:isit
+                        address:@"27 Brattle Street, Cambridge, MA 02138"
+                        number:@"tel:6178762700"
+                        website:@"http://cremacambridge.com/"
+                        thumbImage:[UIImage imageNamed:@"cremaThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"crema.jpg"]
                         latitude:42.3732534
-                        longitude:-71.1207538];
+                        longitude:-71.1207538
+                        distance:111111];
     
 #pragma mark - Dado Tea
     // Mon-Fri
@@ -961,7 +994,7 @@ BOOL isit;
         opens = 10;
         closes = 20;
     }
-
+    
     if (time >= opens && time <= closes){
         isit = YES;
     }
@@ -969,20 +1002,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *dado = [[EateryDoc alloc]
-                        initWithTitle:@"Dado Tea"
-                        foodtype:@"tea, sandwiches, wraps, salads"
-                        rating:3
-                        description:@"Dado Tea strives to provide healthy, wholesome and - most importantly - delicious food. Stop in for high quality teas, salads, sandwiches and wraps."
-                        opensAt:opens
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"50 Church Street, Cambridge, MA 02138"
-                        number:@"tel:6175470950"
-                        website:@"http://www.dadotea.com"
-                        thumbImage:[UIImage imageNamed:@"dadoThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"dado.jpg"]
+                       initWithTitle:@"Dado Tea"
+                       foodtype:@"tea, sandwiches, wraps, salads"
+                       rating:3
+                       description:@"Dado Tea strives to provide healthy, wholesome and - most importantly - delicious food. Stop in for high quality teas, salads, sandwiches and wraps."
+                       opensAt:opens
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"50 Church Street, Cambridge, MA 02138"
+                       number:@"tel:6175470950"
+                       website:@"http://www.dadotea.com"
+                       thumbImage:[UIImage imageNamed:@"dadoThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"dado.jpg"]
                        latitude:42.3741968
-                       longitude:-71.1206414];
+                       longitude:-71.1206414
+                       distance:111111];
     
 #pragma mark - Darwin's
     
@@ -1000,20 +1034,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *darwins = [[EateryDoc alloc]
-                       initWithTitle:@"Darwin's"
-                       foodtype:@"sandwiches, coffee, dinner"
-                       rating:5
-                       description:@"Darwin's is one of those places you just keep going back to. The sandwiches are incredible, the music is fresh and the people are great. A must-see."
-                       opensAt:opens
-                       closesAt:21
-                       isItOpen:isit
-                       address:@"148 Mount Auburn Street, Cambridge, MA 02138"
-                       number:@"tel:6173545233"
-                       website:@"http://darwinsltd.com/"
-                       thumbImage:[UIImage imageNamed:@"darwinsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"darwins.jpg"]
+                          initWithTitle:@"Darwin's"
+                          foodtype:@"sandwiches, coffee, dinner"
+                          rating:5
+                          description:@"Darwin's is one of those places you just keep going back to. The sandwiches are incredible, the music is fresh and the people are great. A must-see."
+                          opensAt:opens
+                          closesAt:21
+                          isItOpen:isit
+                          address:@"148 Mount Auburn Street, Cambridge, MA 02138"
+                          number:@"tel:6173545233"
+                          website:@"http://darwinsltd.com/"
+                          thumbImage:[UIImage imageNamed:@"darwinsThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"darwins.jpg"]
                           latitude:42.3740664
-                          longitude:-71.1251335];
+                          longitude:-71.1251335
+                          distance:111111];
     
 #pragma mark - Dunkin' Donuts
     
@@ -1024,20 +1059,21 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *dunkin = [[EateryDoc alloc]
-                          initWithTitle:@"Dunkin' Donuts"
-                          foodtype:@"coffee, donuts, cheap"
-                          rating:5
-                          description:@"It's Dunkin' Donuts!"
-                          opensAt:6
-                          closesAt:24
-                          isItOpen:isit
-                          address:@"65 JFK Street, Cambridge, MA 02138"
-                          number:@"tel:6173545096"
-                          website:@"http://www.dunkindonuts.com/dunkindonuts/en.html"
-                          thumbImage:[UIImage imageNamed:@"dunkinThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"dunkin.jpg"]
+                         initWithTitle:@"Dunkin' Donuts"
+                         foodtype:@"coffee, donuts, cheap"
+                         rating:5
+                         description:@"It's Dunkin' Donuts!"
+                         opensAt:6
+                         closesAt:24
+                         isItOpen:isit
+                         address:@"65 JFK Street, Cambridge, MA 02138"
+                         number:@"tel:6173545096"
+                         website:@"http://www.dunkindonuts.com/dunkindonuts/en.html"
+                         thumbImage:[UIImage imageNamed:@"dunkinThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"dunkin.jpg"]
                          latitude:42.3714451
-                         longitude:-71.1210993];
+                         longitude:-71.1210993
+                         distance:111111];
     
 #pragma mark - Falafel Corner
     
@@ -1066,20 +1102,21 @@ BOOL isit;
         }
     }
     EateryDoc *falafel = [[EateryDoc alloc]
-                         initWithTitle:@"Falafel Corner"
-                         foodtype:@"falafel, greek, cheap"
-                         rating:3
-                         description:@"Falafel Corner gives you all of the Mediterranean food you want. Great falafel, shawarma, grape leaves... and don't forget the baba ghanouj."
-                         opensAt:11
-                        closesAt:closes
-                         isItOpen:isit
-                         address:@"8 Eliot Street, Cambridge, MA 02138"
-                         number:@"tel:6174418888"
-                         website:@"http://falafelcorner.eat24hour.com/"
-                         thumbImage:[UIImage imageNamed:@"falafelThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"falafel.jpg"]
+                          initWithTitle:@"Falafel Corner"
+                          foodtype:@"falafel, greek, cheap"
+                          rating:3
+                          description:@"Falafel Corner gives you all of the Mediterranean food you want. Great falafel, shawarma, grape leaves... and don't forget the baba ghanouj."
+                          opensAt:11
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"8 Eliot Street, Cambridge, MA 02138"
+                          number:@"tel:6174418888"
+                          website:@"http://falafelcorner.eat24hour.com/"
+                          thumbImage:[UIImage imageNamed:@"falafelThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"falafel.jpg"]
                           latitude:42.3725867
-                          longitude:-71.1215271];
+                          longitude:-71.1215271
+                          distance:111111];
     
 #pragma mark - Finale
     
@@ -1103,21 +1140,22 @@ BOOL isit;
         isit = NO;
     }
     EateryDoc *finale = [[EateryDoc alloc]
-                          initWithTitle:@"Finale"
-                          foodtype:@"dessert, pastry, cake, chocolate, coffee"
-                          rating:3
-                          description:@"Finale Desserterie & Bakery makes decadent desserts and snacks all day long. Stop by for something rich!"
-                          opensAt:11
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"30 Dunster Street, Cambridge, MA 02138"
-                          number:@"tel:6174419797"
-                          website:@"http://www.finaledesserts.com/"
-                          thumbImage:[UIImage imageNamed:@"finaleThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"finale.jpg"]
+                         initWithTitle:@"Finale"
+                         foodtype:@"dessert, pastry, cake, chocolate, coffee"
+                         rating:3
+                         description:@"Finale Desserterie & Bakery makes decadent desserts and snacks all day long. Stop by for something rich!"
+                         opensAt:11
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"30 Dunster Street, Cambridge, MA 02138"
+                         number:@"tel:6174419797"
+                         website:@"http://www.finaledesserts.com/"
+                         thumbImage:[UIImage imageNamed:@"finaleThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"finale.jpg"]
                          latitude:42.3724468
-                         longitude:-71.119202];
-
+                         longitude:-71.119202
+                         distance:111111];
+    
 #pragma  mark - FiRE + iCE
     
     // Monday-Thursday
@@ -1144,20 +1182,21 @@ BOOL isit;
     }
     
     EateryDoc *fire = [[EateryDoc alloc]
-                         initWithTitle:@"FiRE + iCE"
-                         foodtype:@"burgers, bar, dinner"
-                         rating:3
-                         description:@"FiRE + iCE, the improvisational grill. Here, you pick your ingredients and your sauce and then watch your creation come to life on the big round grill in the center of the restaurant. Don't forget to check out the well-stocked bar!"
-                         opensAt:opens
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"50 Church St, Cambridge, MA 02138"
-                         number:@"tel:6175479007"
-                         website:@"http://www.fire-ice.com/"
-                         thumbImage:[UIImage imageNamed:@"fireThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"fire.jpg"]
+                       initWithTitle:@"FiRE + iCE"
+                       foodtype:@"burgers, bar, dinner"
+                       rating:3
+                       description:@"FiRE + iCE, the improvisational grill. Here, you pick your ingredients and your sauce and then watch your creation come to life on the big round grill in the center of the restaurant. Don't forget to check out the well-stocked bar!"
+                       opensAt:opens
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"50 Church St, Cambridge, MA 02138"
+                       number:@"tel:6175479007"
+                       website:@"http://www.fire-ice.com/"
+                       thumbImage:[UIImage imageNamed:@"fireThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"fire.jpg"]
                        latitude:42.3741968
-                       longitude:-71.1206414];
+                       longitude:-71.1206414
+                       distance:111111];
     
 #pragma mark - First Printer Restaurant Bar & Grill
     
@@ -1195,20 +1234,21 @@ BOOL isit;
     }
     
     EateryDoc *firstPrinter = [[EateryDoc alloc]
-                       initWithTitle:@"First Printer Restaurant Bar & Grill"
-                       foodtype:@"bar, grill, wine, dinner"
-                       rating:3
-                       description:@"First Printer is a great place to go no matter what type of food you're looking for. With an extensive list of entrees, wines, beers and cocktails, you can always find something to suit your fancy."
-                       opensAt:opens
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"15 Dunster Street, Cambridge , MA 02138"
-                       number:@"tel:6174970900"
-                       website:@"http://thefirstprinter.com/"
-                       thumbImage:[UIImage imageNamed:@"firstPrinterThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"firstPrinter.jpg"]
+                               initWithTitle:@"First Printer Restaurant Bar & Grill"
+                               foodtype:@"bar, grill, wine, dinner"
+                               rating:3
+                               description:@"First Printer is a great place to go no matter what type of food you're looking for. With an extensive list of entrees, wines, beers and cocktails, you can always find something to suit your fancy."
+                               opensAt:opens
+                               closesAt:closes
+                               isItOpen:isit
+                               address:@"15 Dunster Street, Cambridge , MA 02138"
+                               number:@"tel:6174970900"
+                               website:@"http://thefirstprinter.com/"
+                               thumbImage:[UIImage imageNamed:@"firstPrinterThumb.jpg"]
+                               fullImage:[UIImage imageNamed:@"firstPrinter.jpg"]
                                latitude:42.3729744
-                               longitude:-71.1189416];
+                               longitude:-71.1189416
+                               distance:111111];
     
 #pragma  mark - Flat Patties
     
@@ -1228,20 +1268,21 @@ BOOL isit;
     }
     
     EateryDoc *flatPatties = [[EateryDoc alloc]
-                               initWithTitle:@"Flat Patties"
-                               foodtype:@"grill, burger, sandwiches, french fries, dessert, dinner"
-                               rating:3
-                               description:@"Flat Patties serves up a variety of classic American food. Come for delicious burgers, sandwiches, hand cut fries and even decadent desserts!"
-                               opensAt:11.30
-                               closesAt:closes
-                               isItOpen:isit
-                               address:@"33 Brattle Street, Cambridge, MA 02138"
-                               number:@"tel:6178716871"
-                               website:@"http://www.flatpatties.com/"
-                               thumbImage:[UIImage imageNamed:@"flatPattiesThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"flatPatties.jpg"]
+                              initWithTitle:@"Flat Patties"
+                              foodtype:@"grill, burger, sandwiches, french fries, dessert, dinner"
+                              rating:3
+                              description:@"Flat Patties serves up a variety of classic American food. Come for delicious burgers, sandwiches, hand cut fries and even decadent desserts!"
+                              opensAt:11.30
+                              closesAt:closes
+                              isItOpen:isit
+                              address:@"33 Brattle Street, Cambridge, MA 02138"
+                              number:@"tel:6178716871"
+                              website:@"http://www.flatpatties.com/"
+                              thumbImage:[UIImage imageNamed:@"flatPattiesThumb.jpg"]
+                              fullImage:[UIImage imageNamed:@"flatPatties.jpg"]
                               latitude:42.3735254
-                              longitude:-71.1209047];
+                              longitude:-71.1209047
+                              distance:111111];
     
 #pragma mark - Grafton Street Pub & Grill
     
@@ -1250,7 +1291,7 @@ BOOL isit;
         closes = 2;
     }
     else if (time <= 5 && (weekday == 6 || weekday == 7 || weekday == 1)) {
-        closes = 2; 
+        closes = 2;
     }
     else if (time <= 24 && (weekday >= 1 && weekday <= 4)) {
         closes = 1;
@@ -1267,20 +1308,21 @@ BOOL isit;
     }
     
     EateryDoc *grafton = [[EateryDoc alloc]
-                              initWithTitle:@"Grafton Street Pub & Grill"
-                              foodtype:@"grill, pub, pizza, burger, sandwiches, salads, dinner"
-                              rating:3
-                              description:@"Stop by Grafton Street Pub & Grill, for a great entree, sandwich or salad. Check out the buttermilk mashed potatoes!"
-                              opensAt:11
-                              closesAt:closes
-                              isItOpen:isit
-                              address:@"1230 Massachusetts Avenue, Cambridge, MA 02138"
-                              number:@"tel:6174970400"
-                              website:@"http://www.graftonstreetcambridge.com/"
-                              thumbImage:[UIImage imageNamed:@"graftonThumb.jpg"]
-                              fullImage:[UIImage imageNamed:@"grafton.jpg"]
+                          initWithTitle:@"Grafton Street Pub & Grill"
+                          foodtype:@"grill, pub, pizza, burger, sandwiches, salads, dinner"
+                          rating:3
+                          description:@"Stop by Grafton Street Pub & Grill, for a great entree, sandwich or salad. Check out the buttermilk mashed potatoes!"
+                          opensAt:11
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"1230 Massachusetts Avenue, Cambridge, MA 02138"
+                          number:@"tel:6174970400"
+                          website:@"http://www.graftonstreetcambridge.com/"
+                          thumbImage:[UIImage imageNamed:@"graftonThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"grafton.jpg"]
                           latitude:42.3723329
-                          longitude:-71.1158832];
+                          longitude:-71.1158832
+                          distance:111111];
     
 #pragma  mark - Grendel's Den
     
@@ -1292,23 +1334,24 @@ BOOL isit;
     }
     
     EateryDoc *grendels = [[EateryDoc alloc]
-                          initWithTitle:@"Grendel's Den"
-                          foodtype:@"grill, pub, bar, burger, french fries, sandwiches, salads, dinner"
-                          rating:4
-                          description:@"Grendel's Den is a Harvard Square classic for great food and great beer. They have an extensive selection of beers as well as great burgers and sandwiches. Stop by on Sunday's between 5 and 7.30 for happy hour!"
-                          opensAt:11.30
-                          closesAt:1
-                          isItOpen:isit
-                          address:@"89 Winthrop Street, Cambridge, MA 02138"
-                          number:@"tel:6174911160"
-                          website:@"http://www.grendelsden.com/"
-                          thumbImage:[UIImage imageNamed:@"grendelsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"grendels.jpg"]
+                           initWithTitle:@"Grendel's Den"
+                           foodtype:@"grill, pub, bar, burger, french fries, sandwiches, salads, dinner"
+                           rating:4
+                           description:@"Grendel's Den is a Harvard Square classic for great food and great beer. They have an extensive selection of beers as well as great burgers and sandwiches. Stop by on Sunday's between 5 and 7.30 for happy hour!"
+                           opensAt:11.30
+                           closesAt:1
+                           isItOpen:isit
+                           address:@"89 Winthrop Street, Cambridge, MA 02138"
+                           number:@"tel:6174911160"
+                           website:@"http://www.grendelsden.com/"
+                           thumbImage:[UIImage imageNamed:@"grendelsThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"grendels.jpg"]
                            latitude:42.3723652
-                           longitude:-71.120898];
+                           longitude:-71.120898
+                           distance:111111];
     
 #pragma mark - Harvest
-     
+    
     // Lunch Monday-Saturday
     if (time < 17.3 && (weekday != 1)) {
         opens = 12;
@@ -1343,23 +1386,24 @@ BOOL isit;
     }
     
     EateryDoc *harvest = [[EateryDoc alloc]
-                           initWithTitle:@"Harvest"
-                           foodtype:@"sandwiches, dinner"
-                           rating:4
-                           description:@"Visit Harvest for a fine-dining experience complete with modern show kitchen, heated patio and, of course, excellent food."
-                           opensAt:opens
-                           closesAt:closes
-                           isItOpen:isit
-                           address:@"44 Brattle Street, Cambridge, MA 02138"
-                           number:@"tel:6178682255"
-                           website:@"http://harvestcambridge.com/"
-                           thumbImage:[UIImage imageNamed:@"harvestThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"harvest.jpg"]
+                          initWithTitle:@"Harvest"
+                          foodtype:@"sandwiches, dinner"
+                          rating:4
+                          description:@"Visit Harvest for a fine-dining experience complete with modern show kitchen, heated patio and, of course, excellent food."
+                          opensAt:opens
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"44 Brattle Street, Cambridge, MA 02138"
+                          number:@"tel:6178682255"
+                          website:@"http://harvestcambridge.com/"
+                          thumbImage:[UIImage imageNamed:@"harvestThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"harvest.jpg"]
                           latitude:42.3739314
-                          longitude:-71.1216376];
-
+                          longitude:-71.1216376
+                          distance:111111];
+    
 #pragma mark - Hong Kong Restaurant
-
+    
     // Thurs before midnight
     if (time <= 24 && weekday == 5) {
         closes = 2.30;
@@ -1396,21 +1440,22 @@ BOOL isit;
     }
     
     EateryDoc *hongKong = [[EateryDoc alloc]
-                          initWithTitle:@"Hong Kong Restaurant"
-                          foodtype:@"dinner, chinese, asian"
-                          rating:4
-                          description:@"'The Kong' is every Harvard students' late-night best friend. It serves classic American Chinese food. For those 21+, don't forget to try the infamous Scorpion Bowl (watch out for the scary bouncer)."
-                          opensAt:11.30
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1238 Mass Avenue, Cambridge, MA 02138"
-                          number:@"tel:617864311"
-                          website:@"http://www.hongkongharvard.com/"
-                          thumbImage:[UIImage imageNamed:@"hongKongThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"hongKong.jpg"]
+                           initWithTitle:@"Hong Kong Restaurant"
+                           foodtype:@"dinner, chinese, asian"
+                           rating:4
+                           description:@"'The Kong' is every Harvard students' late-night best friend. It serves classic American Chinese food. For those 21+, don't forget to try the infamous Scorpion Bowl (watch out for the scary bouncer)."
+                           opensAt:11.30
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"1238 Mass Avenue, Cambridge, MA 02138"
+                           number:@"tel:617864311"
+                           website:@"http://www.hongkongharvard.com/"
+                           thumbImage:[UIImage imageNamed:@"hongKongThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"hongKong.jpg"]
                            latitude:42.370562
-                           longitude:-71.114159];
-
+                           longitude:-71.114159
+                           distance:111111];
+    
 #pragma mark - J.P. Licks
     
     if (weekday != 7 && weekday != 1) {
@@ -1428,20 +1473,21 @@ BOOL isit;
     }
     
     EateryDoc *jpLicks = [[EateryDoc alloc]
-                           initWithTitle:@"J.P. Licks"
-                           foodtype:@"jp, ice cream, shakes, dessert"
-                           rating:5
-                           description:@"J.P. Licks is the go to ice-cream shop in Harvard Square. With creative flavors and delicious toppings, there really isn't another choice!"
-                           opensAt:opens
-                           closesAt:24
-                           isItOpen:isit
-                           address:@"1312 Massachusetts Ave, Cambridge, MA 02138"
-                           number:@"tel:6174921001"
-                           website:@"http://www.jplicks.com/"
-                           thumbImage:[UIImage imageNamed:@"jpLicksThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"jpLicks.jpg"]
+                          initWithTitle:@"J.P. Licks"
+                          foodtype:@"jp, ice cream, shakes, dessert"
+                          rating:5
+                          description:@"J.P. Licks is the go to ice-cream shop in Harvard Square. With creative flavors and delicious toppings, there really isn't another choice!"
+                          opensAt:opens
+                          closesAt:24
+                          isItOpen:isit
+                          address:@"1312 Massachusetts Ave, Cambridge, MA 02138"
+                          number:@"tel:6174921001"
+                          website:@"http://www.jplicks.com/"
+                          thumbImage:[UIImage imageNamed:@"jpLicksThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"jpLicks.jpg"]
                           latitude:42.3731182
-                          longitude:-71.1179677];
+                          longitude:-71.1179677
+                          distance:111111];
     
 #pragma mark - John Harvard's Brew House
     
@@ -1453,20 +1499,21 @@ BOOL isit;
     }
     
     EateryDoc *johnHarvards = [[EateryDoc alloc]
-                          initWithTitle:@"John Harvard's Brew House"
-                          foodtype:@"bar, pub, dinner, beer"
-                          rating:4
-                          description:@"A staple of the Harvard landscape, John Harvard's provides excellent pub food with fresh, homemade beer!"
-                          opensAt:11.30
-                          closesAt:1
-                          isItOpen:isit
-                          address:@"33 Dunster Street, Cambridge, MA 02138"
-                          number:@"tel:6178683585"
-                          website:@"https://www.johnharvards.com/"
-                          thumbImage:[UIImage imageNamed:@"johnHarvardsThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"johnHarvards.jpg"]
+                               initWithTitle:@"John Harvard's Brew House"
+                               foodtype:@"bar, pub, dinner, beer"
+                               rating:4
+                               description:@"A staple of the Harvard landscape, John Harvard's provides excellent pub food with fresh, homemade beer!"
+                               opensAt:11.30
+                               closesAt:1
+                               isItOpen:isit
+                               address:@"33 Dunster Street, Cambridge, MA 02138"
+                               number:@"tel:6178683585"
+                               website:@"https://www.johnharvards.com/"
+                               thumbImage:[UIImage imageNamed:@"johnHarvardsThumb.jpg"]
+                               fullImage:[UIImage imageNamed:@"johnHarvards.jpg"]
                                latitude:42.3725237
-                               longitude:-71.1192685];
+                               longitude:-71.1192685
+                               distance:111111];
     
 #pragma mark - Lamole Restaurant
     
@@ -1478,20 +1525,21 @@ BOOL isit;
     }
     
     EateryDoc *lamole = [[EateryDoc alloc]
-                               initWithTitle:@"Lamole Restaurant"
-                               foodtype:@"pizza, dinner, salads, subs, sandwiches, wings, "
-                               rating:3
-                               description:@"Lamole offers great pizza, subs, salads, wings and more, all made fresh every day!"
-                               opensAt:11
-                               closesAt:1
-                               isItOpen:isit
-                               address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
-                               number:@"tel:6179450441"
-                               website:@"http://lamolepizza.com/"
-                               thumbImage:[UIImage imageNamed:@"lamoleThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"lamole.jpg"]
+                         initWithTitle:@"Lamole Restaurant"
+                         foodtype:@"pizza, dinner, salads, subs, sandwiches, wings, "
+                         rating:3
+                         description:@"Lamole offers great pizza, subs, salads, wings and more, all made fresh every day!"
+                         opensAt:11
+                         closesAt:1
+                         isItOpen:isit
+                         address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
+                         number:@"tel:6179450441"
+                         website:@"http://lamolepizza.com/"
+                         thumbImage:[UIImage imageNamed:@"lamoleThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"lamole.jpg"]
                          latitude:42.370649
-                         longitude:-71.1136497];
+                         longitude:-71.1136497
+                         distance:111111];
     
 #pragma mark - Legal Sea Foods
     
@@ -1511,20 +1559,21 @@ BOOL isit;
     }
     
     EateryDoc *legal = [[EateryDoc alloc]
-                         initWithTitle:@"Legal Sea Foods"
-                         foodtype:@"dinner"
-                         rating:3
-                         description:@"Legal Sea Foods provides high quality sea fare as well as excellent steaks. Right by The Charles Hotel!"
-                         opensAt:11
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"20 University Road, Cambridge, MA 02138"
-                         number:@"tel:6174919400"
-                         website:@"http://www.legalseafoods.com/"
-                         thumbImage:[UIImage imageNamed:@"legalThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"legal.jpg"]
+                        initWithTitle:@"Legal Sea Foods"
+                        foodtype:@"dinner"
+                        rating:3
+                        description:@"Legal Sea Foods provides high quality sea fare as well as excellent steaks. Right by The Charles Hotel!"
+                        opensAt:11
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"20 University Road, Cambridge, MA 02138"
+                        number:@"tel:6174919400"
+                        website:@"http://www.legalseafoods.com/"
+                        thumbImage:[UIImage imageNamed:@"legalThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"legal.jpg"]
                         latitude:42.3732935
-                        longitude:-71.122976];
+                        longitude:-71.122976
+                        distance:111111];
     
 #pragma mark - Lizzy's Ice Cream
     
@@ -1543,20 +1592,21 @@ BOOL isit;
     }
     
     EateryDoc *lizzys = [[EateryDoc alloc]
-                        initWithTitle:@"Lizzy's Ice Cream"
-                        foodtype:@"dessert, ice cream"
-                        rating:3
-                        description:@"Founded by an ex-corporate type, Lizzy's Ice Cream is truly a childhood dream come true. Stop by for a high quality licking experience!"
-                        opensAt:12
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"31A Church Street, Cambridge, MA 02138"
-                        number:@"tel:6173542911"
-                        website:@"http://www.lizzysicecream.com/"
-                        thumbImage:[UIImage imageNamed:@"lizzysThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"lizzys.jpg"]
+                         initWithTitle:@"Lizzy's Ice Cream"
+                         foodtype:@"dessert, ice cream"
+                         rating:3
+                         description:@"Founded by an ex-corporate type, Lizzy's Ice Cream is truly a childhood dream come true. Stop by for a high quality licking experience!"
+                         opensAt:12
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"31A Church Street, Cambridge, MA 02138"
+                         number:@"tel:6173542911"
+                         website:@"http://www.lizzysicecream.com/"
+                         thumbImage:[UIImage imageNamed:@"lizzysThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"lizzys.jpg"]
                          latitude:42.3745203
-                         longitude:-71.12019];
+                         longitude:-71.12019
+                         distance:111111];
     
 #pragma mark - Midwest Grill
     
@@ -1568,20 +1618,21 @@ BOOL isit;
     }
     
     EateryDoc *midwest = [[EateryDoc alloc]
-                         initWithTitle:@"Midwest Grill"
-                         foodtype:@"grill, brazillian, bbq, barbecue, dinner"
-                         rating:3
-                         description:@"Come to Midwest Grill for a mouthwatering Brazillian BBQ experience! Any meat-lover can feel at home here, but vegetarian and seafood dishes are served too."
-                         opensAt:11
-                         closesAt:23
-                         isItOpen:isit
-                         address:@"1124 Cambridge Street, Cambridge, MA 02139"
-                         number:@"tel:6173547536"
-                         website:@"http://www.midwestgrillrestaurant.com/"
-                         thumbImage:[UIImage imageNamed:@"midwestThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"midwest.jpg"]
+                          initWithTitle:@"Midwest Grill"
+                          foodtype:@"grill, brazillian, bbq, barbecue, dinner"
+                          rating:3
+                          description:@"Come to Midwest Grill for a mouthwatering Brazillian BBQ experience! Any meat-lover can feel at home here, but vegetarian and seafood dishes are served too."
+                          opensAt:11
+                          closesAt:23
+                          isItOpen:isit
+                          address:@"1124 Cambridge Street, Cambridge, MA 02139"
+                          number:@"tel:6173547536"
+                          website:@"http://www.midwestgrillrestaurant.com/"
+                          thumbImage:[UIImage imageNamed:@"midwestThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"midwest.jpg"]
                           latitude:42.372855
-                          longitude:-71.09603];
+                          longitude:-71.09603
+                          distance:111111];
     
 #pragma mark - Noir
     
@@ -1593,20 +1644,21 @@ BOOL isit;
     }
     
     EateryDoc *noir = [[EateryDoc alloc]
-                          initWithTitle:@"Noir"
-                          foodtype:@"bar"
-                          rating:4
-                          description:@"Noir is a classy spot to grab drinks. Enjoy the signature cocktails and the chic feel!"
-                          opensAt:16
-                          closesAt:2
-                          isItOpen:isit
-                          address:@"1 Bennett Street, Cambridge, MA 02138"
-                          number:@"6176618010"
-                          website:@"http://www.noir-bar.com/"
-                          thumbImage:[UIImage imageNamed:@"noirThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"noir.jpg"]
+                       initWithTitle:@"Noir"
+                       foodtype:@"bar"
+                       rating:4
+                       description:@"Noir is a classy spot to grab drinks. Enjoy the signature cocktails and the chic feel!"
+                       opensAt:16
+                       closesAt:2
+                       isItOpen:isit
+                       address:@"1 Bennett Street, Cambridge, MA 02138"
+                       number:@"6176618010"
+                       website:@"http://www.noir-bar.com/"
+                       thumbImage:[UIImage imageNamed:@"noirThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"noir.jpg"]
                        latitude:42.372258
-                       longitude:-71.122667];
+                       longitude:-71.122667
+                       distance:111111];
     
 #pragma mark - Nubar
     
@@ -1665,20 +1717,21 @@ BOOL isit;
     
     
     EateryDoc *nubar = [[EateryDoc alloc]
-                       initWithTitle:@"Nubar"
-                       foodtype:@"bar, dinner, beer, wine"
-                       rating:4
-                       description:@"Nubar is hip restaurant and lounge located right in front of the famous Sheraton Commander Hotel. Stop by for cocktails and excellent modern cuisine!"
-                       opensAt:opens
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"16 Garden Street, Cambridge, MA 02138"
-                       number:@"tel:6172341365"
-                       website:@"http://nubarcambridge.com/"
-                       thumbImage:[UIImage imageNamed:@"nubarThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"nubar.jpg"]
+                        initWithTitle:@"Nubar"
+                        foodtype:@"bar, dinner, beer, wine"
+                        rating:4
+                        description:@"Nubar is hip restaurant and lounge located right in front of the famous Sheraton Commander Hotel. Stop by for cocktails and excellent modern cuisine!"
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"16 Garden Street, Cambridge, MA 02138"
+                        number:@"tel:6172341365"
+                        website:@"http://nubarcambridge.com/"
+                        thumbImage:[UIImage imageNamed:@"nubarThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"nubar.jpg"]
                         latitude:42.3773012
-                        longitude:-71.1231757];
+                        longitude:-71.1231757
+                        distance:111111];
     
     
 #pragma mark - Oggi Gourmet
@@ -1702,20 +1755,21 @@ BOOL isit;
     }
     
     EateryDoc *oggi = [[EateryDoc alloc]
-                        initWithTitle:@"Oggi Gourmet"
-                        foodtype:@"sandwiches, dinner, pizza, salad"
-                        rating:4
-                        description:@"Located in the Holyoke Center, Oggi Gourmet makes mouthwatering pizza, sandwiches and salads. With everything handmade from the highest quality ingredients, you won't be disappointed."
-                        opensAt:opens
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"1350 Massachusetts Avenue, Cambridge, MA 02138"
-                        number:@"tel:6174926444"
-                        website:@"http://www.oggigourmet.com/"
-                        thumbImage:[UIImage imageNamed:@"oggiThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"oggi.jpg"]
+                       initWithTitle:@"Oggi Gourmet"
+                       foodtype:@"sandwiches, dinner, pizza, salad"
+                       rating:4
+                       description:@"Located in the Holyoke Center, Oggi Gourmet makes mouthwatering pizza, sandwiches and salads. With everything handmade from the highest quality ingredients, you won't be disappointed."
+                       opensAt:opens
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"1350 Massachusetts Avenue, Cambridge, MA 02138"
+                       number:@"tel:6174926444"
+                       website:@"http://www.oggigourmet.com/"
+                       thumbImage:[UIImage imageNamed:@"oggiThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"oggi.jpg"]
                        latitude:42.3730926
-                       longitude:-71.1182891];
+                       longitude:-71.1182891
+                       distance:111111];
     
 #pragma mark - Orinoco: A Latin Kitchen
     
@@ -1763,20 +1817,21 @@ BOOL isit;
     }
     
     EateryDoc *orinoco = [[EateryDoc alloc]
-                       initWithTitle:@"Orinoco: A Latin Kitchen"
-                       foodtype:@"mexican, beer, wine, dinner, sandwiches, salads"
-                       rating:4
-                       description:@"Stop by Orinoco for delicious Latin American food. With everything empanadas to ensaladas, there is a fantastic meal waiting for everyone."
-                       opensAt:opens
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"56 JFK Street, Cambridge, MA 02138"
-                       number:@"tel:6173546900"
-                       website:@"http://www.orinocokitchen.com/"
-                       thumbImage:[UIImage imageNamed:@"orinocoThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"orinoco.jpg"]
+                          initWithTitle:@"Orinoco: A Latin Kitchen"
+                          foodtype:@"mexican, beer, wine, dinner, sandwiches, salads"
+                          rating:4
+                          description:@"Stop by Orinoco for delicious Latin American food. With everything empanadas to ensaladas, there is a fantastic meal waiting for everyone."
+                          opensAt:opens
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"56 JFK Street, Cambridge, MA 02138"
+                          number:@"tel:6173546900"
+                          website:@"http://www.orinocokitchen.com/"
+                          thumbImage:[UIImage imageNamed:@"orinocoThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"orinoco.jpg"]
                           latitude:42.3718668
-                          longitude:-71.1205965];
+                          longitude:-71.1205965
+                          distance:111111];
     
 #pragma mark - Panera
     
@@ -1799,20 +1854,21 @@ BOOL isit;
     }
     
     EateryDoc *panera = [[EateryDoc alloc]
-                          initWithTitle:@"Panera"
-                          foodtype:@"dinner, sandwiches, salads, coffee, tea, cheap"
-                          rating:2
-                          description:@"Panera Bread makes the bread fresh from the oven every day to prepare sandwiches and other oven-baked goods. Come by for a meal or a quick snack!"
-                          opensAt:opens
-                          closesAt:closes
-                          isItOpen:isit
-                          address:@"1288 Massachusetts Avenue, Cambridge, MA 02138"
-                          number:@"tel:6178680651"
-                          website:@"http://www.panerabread.com/"
-                          thumbImage:[UIImage imageNamed:@"paneraThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"panera.jpg"]
+                         initWithTitle:@"Panera"
+                         foodtype:@"dinner, sandwiches, salads, coffee, tea, cheap"
+                         rating:2
+                         description:@"Panera Bread makes the bread fresh from the oven every day to prepare sandwiches and other oven-baked goods. Come by for a meal or a quick snack!"
+                         opensAt:opens
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"1288 Massachusetts Avenue, Cambridge, MA 02138"
+                         number:@"tel:6178680651"
+                         website:@"http://www.panerabread.com/"
+                         thumbImage:[UIImage imageNamed:@"paneraThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"panera.jpg"]
                          latitude:42.3727504
-                         longitude:-71.116986];
+                         longitude:-71.116986
+                         distance:111111];
     
 #pragma mark - Park Restaurant & Bar
     
@@ -1851,20 +1907,21 @@ BOOL isit;
     }
     
     EateryDoc *park = [[EateryDoc alloc]
-                         initWithTitle:@"Park Restaurant & Bar"
-                         foodtype:@"bar, dinner, beer, wine"
-                         rating:5
-                         description:@"Come to park for cocktails, a snack or a leisurely meal. The food is modern and delicious and the list of cocktails, beers and wines is extensive!"
-                         opensAt:17
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"59 JFK Street, Cambridge, MA 02138"
-                         number:@"tel:6174919851"
-                         website:@"http://www.parkcambridge.com/"
-                         thumbImage:[UIImage imageNamed:@"parkThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"park.jpg"]
+                       initWithTitle:@"Park Restaurant & Bar"
+                       foodtype:@"bar, dinner, beer, wine"
+                       rating:5
+                       description:@"Come to park for cocktails, a snack or a leisurely meal. The food is modern and delicious and the list of cocktails, beers and wines is extensive!"
+                       opensAt:17
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"59 JFK Street, Cambridge, MA 02138"
+                       number:@"tel:6174919851"
+                       website:@"http://www.parkcambridge.com/"
+                       thumbImage:[UIImage imageNamed:@"parkThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"park.jpg"]
                        latitude:42.3715778
-                       longitude:-71.1209947];
+                       longitude:-71.1209947
+                       distance:111111];
     
 #pragma mark - Peet's Coffee and Tea
     
@@ -1889,20 +1946,21 @@ BOOL isit;
     }
     
     EateryDoc *peets = [[EateryDoc alloc]
-                       initWithTitle:@"Peet's Coffee and Tea"
-                       foodtype:@"coffee, tea, cheap, peets"
-                       rating:5
-                       description:@"Peet's is a nice choice for those looking for a small coffee shop with great, strong coffee."
-                       opensAt:opens
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"100 Mount Auburn Street, Cambridge, MA 02138"
-                       number:@"tel:6174921844"
-                       website:@"http://www.peets.com/fvpage.asp?rdir=1&"
-                       thumbImage:[UIImage imageNamed:@"peetsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"peets.jpg"]
+                        initWithTitle:@"Peet's Coffee and Tea"
+                        foodtype:@"coffee, tea, cheap, peets"
+                        rating:5
+                        description:@"Peet's is a nice choice for those looking for a small coffee shop with great, strong coffee."
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"100 Mount Auburn Street, Cambridge, MA 02138"
+                        number:@"tel:6174921844"
+                        website:@"http://www.peets.com/fvpage.asp?rdir=1&"
+                        thumbImage:[UIImage imageNamed:@"peetsThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"peets.jpg"]
                         latitude:42.3727334
-                        longitude:-71.120611];
+                        longitude:-71.120611
+                        distance:111111];
     
 #pragma mark - Pinkberry
     
@@ -1921,20 +1979,21 @@ BOOL isit;
     }
     
     EateryDoc *pinkberry = [[EateryDoc alloc]
-                        initWithTitle:@"Pinkberry"
-                        foodtype:@"froyo, dessert, ice cream"
-                        rating:5
-                        description:@"Pinkberry serves high quality frozen yogurt with over 30 fresh and delicious toppings. Stop in for a mouthwatering frozen treat."
-                        opensAt:9
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"1380 Massachusetts Avenue, Cambridge, MA 02138"
-                        number:@"tel:6175470573"
-                        website:@"http://www.pinkberry.com/"
-                        thumbImage:[UIImage imageNamed:@"pinkberryThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"pinkberry.jpg"]
+                            initWithTitle:@"Pinkberry"
+                            foodtype:@"froyo, dessert, ice cream"
+                            rating:5
+                            description:@"Pinkberry serves high quality frozen yogurt with over 30 fresh and delicious toppings. Stop in for a mouthwatering frozen treat."
+                            opensAt:9
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"1380 Massachusetts Avenue, Cambridge, MA 02138"
+                            number:@"tel:6175470573"
+                            website:@"http://www.pinkberry.com/"
+                            thumbImage:[UIImage imageNamed:@"pinkberryThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"pinkberry.jpg"]
                             latitude:42.3733731
-                            longitude:-71.1191679];
+                            longitude:-71.1191679
+                            distance:111111];
     
 #pragma mark - Qdoba Mexican Grill
     
@@ -1946,20 +2005,21 @@ BOOL isit;
     }
     
     EateryDoc *qdoba = [[EateryDoc alloc]
-                            initWithTitle:@"Qdoba Mexican Grill"
-                            foodtype:@"burritos, cheap, dinner"
-                            rating:3
-                            description:@"Qdoba is the place to go for delicious burritos at a great price. Ample seating offers a study space for the urban student!"
-                            opensAt:11
-                            closesAt:21.30
-                            isItOpen:isit
-                            address:@"1290 Massachusetts Avenue, Cambridge, MA 02138"
-                            number:@"tel:6178711136"
-                            website:@"http://www.qdoba.com/"
-                            thumbImage:[UIImage imageNamed:@"qdobaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"qdoba.jpg"]
+                        initWithTitle:@"Qdoba Mexican Grill"
+                        foodtype:@"burritos, cheap, dinner"
+                        rating:3
+                        description:@"Qdoba is the place to go for delicious burritos at a great price. Ample seating offers a study space for the urban student!"
+                        opensAt:11
+                        closesAt:21.30
+                        isItOpen:isit
+                        address:@"1290 Massachusetts Avenue, Cambridge, MA 02138"
+                        number:@"tel:6178711136"
+                        website:@"http://www.qdoba.com/"
+                        thumbImage:[UIImage imageNamed:@"qdobaThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"qdoba.jpg"]
                         latitude:42.3727837
-                        longitude:-71.1170776];
+                        longitude:-71.1170776
+                        distance:111111];
     
 #pragma mark - Rialto
     
@@ -1978,20 +2038,21 @@ BOOL isit;
     }
     
     EateryDoc *rialto = [[EateryDoc alloc]
-                        initWithTitle:@"Rialto"
-                        foodtype:@"dinner, italian, dessert, bar"
-                        rating:5
-                        description:@"Rialto is a high quality modern Italian restaurant. Just go to the second floor of the Charles Hotel for a delicious meal, quick snack or drink at the bar!"
-                        opensAt:17
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"1 Bennett Street, Cambridge, MA 02138"
-                        number:@"tel:6176615050"
-                        website:@"http://www.rialto-restaurant.com/"
-                        thumbImage:[UIImage imageNamed:@"rialtoThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"rialto.jpg"]
+                         initWithTitle:@"Rialto"
+                         foodtype:@"dinner, italian, dessert, bar"
+                         rating:5
+                         description:@"Rialto is a high quality modern Italian restaurant. Just go to the second floor of the Charles Hotel for a delicious meal, quick snack or drink at the bar!"
+                         opensAt:17
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"1 Bennett Street, Cambridge, MA 02138"
+                         number:@"tel:6176615050"
+                         website:@"http://www.rialto-restaurant.com/"
+                         thumbImage:[UIImage imageNamed:@"rialtoThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"rialto.jpg"]
                          latitude:42.372258
-                         longitude:-71.122667];
+                         longitude:-71.122667
+                         distance:111111];
     
 #pragma mark - Russell House Tavern
     
@@ -2011,7 +2072,7 @@ BOOL isit;
     else if (time < 5 && (weekday == 6 || weekday == 7 || weekday == 1)) {
         closes = 2;
     }
-
+    
     if (time >= 11 || time <= closes) {
         isit = YES;
     }
@@ -2020,20 +2081,21 @@ BOOL isit;
     }
     
     EateryDoc *russellHouse = [[EateryDoc alloc]
-                         initWithTitle:@"Russell House Tavern"
-                         foodtype:@"dinner, bar"
-                         rating:5
-                         description:@"Russell House is a high-class restaurant located right outside of Harvard Yard. The food is fantastic, as is the bar. A Harvard Square must-see!"
-                         opensAt:11
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"14 JFK Street, Cambridge, MA 02138"
-                         number:@"tel:6175003055"
-                         website:@"http://www.russellhousecambridge.com/"
-                         thumbImage:[UIImage imageNamed:@"russellHouseThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"russellHouse.jpg"]
+                               initWithTitle:@"Russell House Tavern"
+                               foodtype:@"dinner, bar"
+                               rating:5
+                               description:@"Russell House is a high-class restaurant located right outside of Harvard Yard. The food is fantastic, as is the bar. A Harvard Square must-see!"
+                               opensAt:11
+                               closesAt:closes
+                               isItOpen:isit
+                               address:@"14 JFK Street, Cambridge, MA 02138"
+                               number:@"tel:6175003055"
+                               website:@"http://www.russellhousecambridge.com/"
+                               thumbImage:[UIImage imageNamed:@"russellHouseThumb.jpg"]
+                               fullImage:[UIImage imageNamed:@"russellHouse.jpg"]
                                latitude:42.3731241
-                               longitude:-71.119659];
+                               longitude:-71.119659
+                               distance:111111];
     
 #pragma mark - Sabra Grill
     
@@ -2045,20 +2107,21 @@ BOOL isit;
     }
     
     EateryDoc *sabra = [[EateryDoc alloc]
-                               initWithTitle:@"Sabra Grill"
-                               foodtype:@"dinner, mediterranean, cheap"
-                               rating:4
-                               description:@"Come to Sabra for gourmet Middle-Eastern cuisine. The food is fresh, flavorful and different!"
-                               opensAt:10
-                               closesAt:22
-                               isItOpen:isit
-                               address:@"20 Eliot Street, Cambridge, MA 02138"
-                               number:@"tel:6178685777"
-                               website:@"http://www.sabrafoods.com/Sabra_Grill.htm"
-                               thumbImage:[UIImage imageNamed:@"sabraThumb.jpg"]
-                               fullImage:[UIImage imageNamed:@"sabra.jpg"]
+                        initWithTitle:@"Sabra Grill"
+                        foodtype:@"dinner, mediterranean, cheap"
+                        rating:4
+                        description:@"Come to Sabra for gourmet Middle-Eastern cuisine. The food is fresh, flavorful and different!"
+                        opensAt:10
+                        closesAt:22
+                        isItOpen:isit
+                        address:@"20 Eliot Street, Cambridge, MA 02138"
+                        number:@"tel:6178685777"
+                        website:@"http://www.sabrafoods.com/Sabra_Grill.htm"
+                        thumbImage:[UIImage imageNamed:@"sabraThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"sabra.jpg"]
                         latitude:42.3722762
-                        longitude:-71.1217977];
+                        longitude:-71.1217977
+                        distance:111111];
     
 #pragma mark - Sandrine's Bistro
     
@@ -2086,20 +2149,21 @@ BOOL isit;
     }
     
     EateryDoc *sandrines = [[EateryDoc alloc]
-                        initWithTitle:@"Sandrine's Bistro"
-                        foodtype:@"dinner, french, wine, dessert, beer, bar"
-                        rating:4
-                        description:@"This French restaurant is home to Master Chef Raymond Ost. Stop in for a meal of exquisite French cuisine or a cocktail at the bar!"
-                        opensAt:opens
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"8 Holyoke Street, Cambridge, MA 02138"
-                        number:@"tel:6174975300"
-                        website:@"http://www.sandrines.com/"
-                        thumbImage:[UIImage imageNamed:@"sandrinesThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"sandrines.jpg"]
+                            initWithTitle:@"Sandrine's Bistro"
+                            foodtype:@"dinner, french, wine, dessert, beer, bar"
+                            rating:4
+                            description:@"This French restaurant is home to Master Chef Raymond Ost. Stop in for a meal of exquisite French cuisine or a cocktail at the bar!"
+                            opensAt:opens
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"8 Holyoke Street, Cambridge, MA 02138"
+                            number:@"tel:6174975300"
+                            website:@"http://www.sandrines.com/"
+                            thumbImage:[UIImage imageNamed:@"sandrinesThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"sandrines.jpg"]
                             latitude:42.372694
-                            longitude:-71.117968];
+                            longitude:-71.117968
+                            distance:111111];
     
 #pragma mark - Shabu Ya
     
@@ -2128,20 +2192,21 @@ BOOL isit;
     }
     
     EateryDoc *shabuya = [[EateryDoc alloc]
-                            initWithTitle:@"Shabu Ya"
-                            foodtype:@"dinner, asian, chinese, bbq, barbecue"
-                            rating:3
-                            description:@"Shabu Ya is a specialty restaurant serving up shabu-shabu, a traditional Asian dish known as 'hot-pot.' Stop in for a delicious and different dining experience!"
-                            opensAt:11.3
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"57 JFK Street, Cambridge, MA 02138"
-                            number:@"tel:6178646868"
-                            website:@"http://www.shabuyarestaurant.com"
-                            thumbImage:[UIImage imageNamed:@"shabuyaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"shabuya.jpg"]
+                          initWithTitle:@"Shabu Ya"
+                          foodtype:@"dinner, asian, chinese, bbq, barbecue"
+                          rating:3
+                          description:@"Shabu Ya is a specialty restaurant serving up shabu-shabu, a traditional Asian dish known as 'hot-pot.' Stop in for a delicious and different dining experience!"
+                          opensAt:11.3
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"57 JFK Street, Cambridge, MA 02138"
+                          number:@"tel:6178646868"
+                          website:@"http://www.shabuyarestaurant.com"
+                          thumbImage:[UIImage imageNamed:@"shabuyaThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"shabuya.jpg"]
                           latitude:42.3721459
-                          longitude:-71.1209169];
+                          longitude:-71.1209169
+                          distance:111111];
     
 #pragma mark - Shays Pub & Wine Bar
     
@@ -2160,20 +2225,21 @@ BOOL isit;
     }
     
     EateryDoc *shays = [[EateryDoc alloc]
-                          initWithTitle:@"Shays Pub & Wine Bar"
-                          foodtype:@"dinner, grill, beer, mexican, sandwiches, burgers, fries"
-                          rating:4
-                          description:@"Drop into Shays for a delicious burger, handcut fries or one of their excellent Mexican dishes. You will want to order every single item on the menu!"
-                          opensAt:opens
-                          closesAt:1
-                          isItOpen:isit
-                          address:@"58 JFK Street, Cambridge, MA 02138"
-                          number:@"tel:6178649161"
-                          website:@"http://www.shayspubandwinebar.com/"
-                          thumbImage:[UIImage imageNamed:@"shaysThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"shays.jpg"]
+                        initWithTitle:@"Shays Pub & Wine Bar"
+                        foodtype:@"dinner, grill, beer, mexican, sandwiches, burgers, fries"
+                        rating:4
+                        description:@"Drop into Shays for a delicious burger, handcut fries or one of their excellent Mexican dishes. You will want to order every single item on the menu!"
+                        opensAt:opens
+                        closesAt:1
+                        isItOpen:isit
+                        address:@"58 JFK Street, Cambridge, MA 02138"
+                        number:@"tel:6178649161"
+                        website:@"http://www.shayspubandwinebar.com/"
+                        thumbImage:[UIImage imageNamed:@"shaysThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"shays.jpg"]
                         latitude:42.3717688
-                        longitude:-71.1207992];
+                        longitude:-71.1207992
+                        distance:111111];
     
 #pragma mark - Spice Thai Cuisine
     
@@ -2216,7 +2282,8 @@ BOOL isit;
                         thumbImage:[UIImage imageNamed:@"spiceThumb.jpg"]
                         fullImage:[UIImage imageNamed:@"spice.jpg"]
                         latitude:42.3721411
-                        longitude:-71.1184277];
+                        longitude:-71.1184277
+                        distance:111111];
     
 #pragma mark - Starbuck's (Church St)
     
@@ -2235,20 +2302,21 @@ BOOL isit;
     }
     
     EateryDoc *starbucksChurch = [[EateryDoc alloc]
-                        initWithTitle:@"Starbucks (Church St)"
-                        foodtype:@"Coffee, sandwiches"
-                        rating:3
-                        description:@"Frapps, lattes, sandwiches, cookies, WiFi and plain old coffee too. It'll cost you, but it's worth it! More quaint than the other two locations. Check it out!"
-                        opensAt:opens
-                        closesAt:22.3
-                        isItOpen:isit
-                        address:@"31 Church Street, MA 02138"
-                        number:@"tel:6174927870"
-                        website:@"http://www.starbucks.com/"
-                        thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
+                                  initWithTitle:@"Starbucks (Church St)"
+                                  foodtype:@"Coffee, sandwiches"
+                                  rating:3
+                                  description:@"Frapps, lattes, sandwiches, cookies, WiFi and plain old coffee too. It'll cost you, but it's worth it! More quaint than the other two locations. Check it out!"
+                                  opensAt:opens
+                                  closesAt:22.3
+                                  isItOpen:isit
+                                  address:@"31 Church Street, MA 02138"
+                                  number:@"tel:6174927870"
+                                  website:@"http://www.starbucks.com/"
+                                  thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
+                                  fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
                                   latitude:42.3745203
-                                  longitude:-71.12019];
+                                  longitude:-71.12019
+                                  distance:111111];
     
 #pragma mark - Starbucks (Garage)
     
@@ -2282,7 +2350,8 @@ BOOL isit;
                                   thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
                                   fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
                                   latitude:42.3726417
-                                  longitude:-71.1198562];
+                                  longitude:-71.1198562
+                                  distance:111111];
     
 #pragma mark - Starbucks (Square)
     
@@ -2306,7 +2375,8 @@ BOOL isit;
                                   thumbImage:[UIImage imageNamed:@"StarbucksThumb.jpg"]
                                   fullImage:[UIImage imageNamed:@"Starbucks.jpg"]
                                   latitude:42.3733731
-                                  longitude:-71.1191679];
+                                  longitude:-71.1191679
+                                  distance:111111];
     
 #pragma mark - Subway
     
@@ -2318,20 +2388,21 @@ BOOL isit;
     }
     
     EateryDoc *subway = [[EateryDoc alloc]
-                                  initWithTitle:@"Subway"
-                                  foodtype:@"sandwiches, cookies, dinner, cheap"
-                                  rating:3
-                                  description:@"Eat something fresh and fit today! Come to Subway for the sandwiches you know and love. Grab the $5 footlongs!"
-                                  opensAt:8
-                                  closesAt:22
-                                  isItOpen:isit
-                                  address:@"36 JFK Street, Cambridge, MA  02138"
-                                  number:@"tel:6174410011"
-                                  website:@"http://www.subway.com/subwayroot/default.aspx"
-                                  thumbImage:[UIImage imageNamed:@"subwayThumb.jpg"]
-                                  fullImage:[UIImage imageNamed:@"subway.jpg"]
+                         initWithTitle:@"Subway"
+                         foodtype:@"sandwiches, cookies, dinner, cheap"
+                         rating:3
+                         description:@"Eat something fresh and fit today! Come to Subway for the sandwiches you know and love. Grab the $5 footlongs!"
+                         opensAt:8
+                         closesAt:22
+                         isItOpen:isit
+                         address:@"36 JFK Street, Cambridge, MA  02138"
+                         number:@"tel:6174410011"
+                         website:@"http://www.subway.com/subwayroot/default.aspx"
+                         thumbImage:[UIImage imageNamed:@"subwayThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"subway.jpg"]
                          latitude:42.3726417
-                         longitude:-71.1198562];
+                         longitude:-71.1198562
+                         distance:111111];
     
 #pragma mark - Sweet
     
@@ -2352,21 +2423,22 @@ BOOL isit;
     }
     
     EateryDoc *sweet = [[EateryDoc alloc]
-                         initWithTitle:@"Sweet"
-                         foodtype:@"dessert, chocolate, coffee, tea"
-                         rating:3
-                         description:@"Visit Sweet for gourmet cupcakes or a cup of coffee or tea! All of their products are made with the highest quality ingredients!"
-                         opensAt:11
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"0 Brattle Street, Cambridge MA 02138"
-                         number:@"tel:6175472253"
-                         website:@"http://www.sweetcupcakes.com/"
-                         thumbImage:[UIImage imageNamed:@"sweetThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"sweet.jpg"]
+                        initWithTitle:@"Sweet"
+                        foodtype:@"dessert, chocolate, coffee, tea"
+                        rating:3
+                        description:@"Visit Sweet for gourmet cupcakes or a cup of coffee or tea! All of their products are made with the highest quality ingredients!"
+                        opensAt:11
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"0 Brattle Street, Cambridge MA 02138"
+                        number:@"tel:6175472253"
+                        website:@"http://www.sweetcupcakes.com/"
+                        thumbImage:[UIImage imageNamed:@"sweetThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"sweet.jpg"]
                         latitude:42.3732905
-                        longitude:-71.1200106];
-
+                        longitude:-71.1200106
+                        distance:111111];
+    
     
 #pragma mark - Takemura Japanese Restaurant
     
@@ -2394,20 +2466,21 @@ BOOL isit;
     }
     
     EateryDoc *takemura = [[EateryDoc alloc]
-                        initWithTitle:@"Takemura Japanese Restaurant"
-                        foodtype:@"asian, chinese, dinner, sushi, bbq, barbecue"
-                        rating:3
-                        description:@"Takemura is an excellent Japanese Restaurant located in the basement at 18 Eliot Street. Come by for sushi, teriyaki, Korean barbecue and more!"
-                        opensAt:opens
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"18 Eliot Street, Cambridge, MA 02138"
-                        number:@"tel:(617)-492-6700"
-                        website:@"http://www.yelp.com/biz/takemura-japanese-restaurant-cambridge"
-                        thumbImage:[UIImage imageNamed:@"takemuraThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"takemura.jpg"]
+                           initWithTitle:@"Takemura Japanese Restaurant"
+                           foodtype:@"asian, chinese, dinner, sushi, bbq, barbecue"
+                           rating:3
+                           description:@"Takemura is an excellent Japanese Restaurant located in the basement at 18 Eliot Street. Come by for sushi, teriyaki, Korean barbecue and more!"
+                           opensAt:opens
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"18 Eliot Street, Cambridge, MA 02138"
+                           number:@"tel:(617)-492-6700"
+                           website:@"http://www.yelp.com/biz/takemura-japanese-restaurant-cambridge"
+                           thumbImage:[UIImage imageNamed:@"takemuraThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"takemura.jpg"]
                            latitude:42.372091
-                           longitude:-71.121394];
+                           longitude:-71.121394
+                           distance:111111];
     
 #pragma mark - Tamarind Bay
     
@@ -2449,7 +2522,8 @@ BOOL isit;
                            thumbImage:[UIImage imageNamed:@"tamarindThumb.jpg"]
                            fullImage:[UIImage imageNamed:@"tamarind.jpg"]
                            latitude:42.3723438
-                           longitude:-71.1201938];
+                           longitude:-71.1201938
+                           distance:111111];
     
 #pragma mark - Tanjore
     
@@ -2482,20 +2556,21 @@ BOOL isit;
     }
     
     EateryDoc *tanjore = [[EateryDoc alloc]
-                           initWithTitle:@"Tanjore"
-                           foodtype:@"dinner, indian, curry"
-                           rating:3
-                           description:@"Come to Tamarind Bay for high quality Indian food in a modern and comfortable setting!"
-                           opensAt:opens
-                           closesAt:closes
-                           isItOpen:isit
-                           address:@"18 Eliot Street, Cambridge, MA 02138"
-                           number:@"tel:(617) 868-1900"
-                           website:@"http://www.tanjoreharvardsq.com/"
-                           thumbImage:[UIImage imageNamed:@"tanjoreThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"tanjore.jpg"]
+                          initWithTitle:@"Tanjore"
+                          foodtype:@"dinner, indian, curry"
+                          rating:3
+                          description:@"Come to Tamarind Bay for high quality Indian food in a modern and comfortable setting!"
+                          opensAt:opens
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"18 Eliot Street, Cambridge, MA 02138"
+                          number:@"tel:(617) 868-1900"
+                          website:@"http://www.tanjoreharvardsq.com/"
+                          thumbImage:[UIImage imageNamed:@"tanjoreThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"tanjore.jpg"]
                           latitude:42.372091
-                          longitude:-71.121394];
+                          longitude:-71.121394
+                          distance:111111];
     
 #pragma mark - Temple Bar
     
@@ -2515,23 +2590,24 @@ BOOL isit;
     }
     
     EateryDoc *temple = [[EateryDoc alloc]
-                          initWithTitle:@"Temple Bar"
-                          foodtype:@"bar, dinner, beer, wine, cocktails, grill"
-                          rating:3
-                          description:@"Temple Bar is a great place to go to unwind, enjoy a specialty cocktail and savor the flavor of Chef Greg Boschetti's exquisite menu."
-                          opensAt:opens
-                          closesAt:1
-                          isItOpen:isit
-                          address:@"1688 Massachusetts Avenue, Cambridge, MA 02138"
-                          number:@"tel:617.547.5055"
-                          website:@"http://www.templebarcambridge.com/"
-                          thumbImage:[UIImage imageNamed:@"templeThumb.jpg"]
-                          fullImage:[UIImage imageNamed:@"temple.jpg"]
+                         initWithTitle:@"Temple Bar"
+                         foodtype:@"bar, dinner, beer, wine, cocktails, grill"
+                         rating:3
+                         description:@"Temple Bar is a great place to go to unwind, enjoy a specialty cocktail and savor the flavor of Chef Greg Boschetti's exquisite menu."
+                         opensAt:opens
+                         closesAt:1
+                         isItOpen:isit
+                         address:@"1688 Massachusetts Avenue, Cambridge, MA 02138"
+                         number:@"tel:617.547.5055"
+                         website:@"http://www.templebarcambridge.com/"
+                         thumbImage:[UIImage imageNamed:@"templeThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"temple.jpg"]
                          latitude:42.382751
-                         longitude:-71.1198133];
+                         longitude:-71.1198133
+                         distance:111111];
     
 #pragma mark - Ten Tables Cambridge
-
+    
     if (weekday >= 2 && weekday <= 5) {
         opens = 17.3;
         closes = 22;
@@ -2553,20 +2629,21 @@ BOOL isit;
     }
     
     EateryDoc *tenTables = [[EateryDoc alloc]
-                         initWithTitle:@"Ten Tables Cambridge"
-                         foodtype:@"bar, dinner, beer, wine, cocktails, grill"
-                         rating:4
-                         description:@"Ten Tables is a special restaurant the truly pays attention to the details. Ingredients are carefully selected and cocktails carefully mixed. Come by for a quality dining experience."
-                         opensAt:opens
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"5 Craigie Street Circle, Cambridge, MA 02139"
-                         number:@"tel:617-388-8324"
-                         website:@"http://www.tentables.net/"
-                         thumbImage:[UIImage imageNamed:@"tenTablesThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"tenTables.jpg"]
+                            initWithTitle:@"Ten Tables Cambridge"
+                            foodtype:@"bar, dinner, beer, wine, cocktails, grill"
+                            rating:4
+                            description:@"Ten Tables is a special restaurant the truly pays attention to the details. Ingredients are carefully selected and cocktails carefully mixed. Come by for a quality dining experience."
+                            opensAt:opens
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"5 Craigie Street Circle, Cambridge, MA 02139"
+                            number:@"tel:617-388-8324"
+                            website:@"http://www.tentables.net/"
+                            thumbImage:[UIImage imageNamed:@"tenTablesThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"tenTables.jpg"]
                             latitude:42.3736158
-                            longitude:-71.1097335];
+                            longitude:-71.1097335
+                            distance:111111];
     
 #pragma mark - The Maharaja
     
@@ -2595,20 +2672,21 @@ BOOL isit;
     }
     
     EateryDoc *maharaja = [[EateryDoc alloc]
-                            initWithTitle:@"The Maharaja"
-                            foodtype:@"indian, dinner, curry"
-                            rating:3
-                            description:@"Located in the heart of Harvard Square, The Maharaja serves up traditional Indian dishes in a beautiful, cultured setting."
-                            opensAt:opens
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"57 JFK Street, Cambridge, MA 02138"
-                            number:@"tel:617-547-2757"
-                            website:@"http://www.maharajaboston.com/"
-                            thumbImage:[UIImage imageNamed:@"maharajaThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"maharaja.jpg"]
+                           initWithTitle:@"The Maharaja"
+                           foodtype:@"indian, dinner, curry"
+                           rating:3
+                           description:@"Located in the heart of Harvard Square, The Maharaja serves up traditional Indian dishes in a beautiful, cultured setting."
+                           opensAt:opens
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"57 JFK Street, Cambridge, MA 02138"
+                           number:@"tel:617-547-2757"
+                           website:@"http://www.maharajaboston.com/"
+                           thumbImage:[UIImage imageNamed:@"maharajaThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"maharaja.jpg"]
                            latitude:42.3721459
-                           longitude:-71.1209169];
+                           longitude:-71.1209169
+                           distance:111111];
     
 #pragma mark - the red house
     
@@ -2627,7 +2705,7 @@ BOOL isit;
         opens = 12;
         closes = 1;
     }
-
+    
     if (closes == 1) {
         if (time >= opens || time <= closes) {
             isit = YES;
@@ -2659,7 +2737,8 @@ BOOL isit;
                            thumbImage:[UIImage imageNamed:@"redHouseThumb.jpg"]
                            fullImage:[UIImage imageNamed:@"redHouse.jpg"]
                            latitude:42.372386
-                           longitude:-71.1211576];
+                           longitude:-71.1211576
+                           distance:111111];
     
 #pragma mark - The Regattabar
     
@@ -2690,20 +2769,21 @@ BOOL isit;
     }
     
     EateryDoc *regattabar = [[EateryDoc alloc]
-                           initWithTitle:@"The Regattabar"
-                           foodtype:@"beer, wine, bar, jazz"
-                           rating:4
-                           description:@"Located in the Charles Hotel, the Regattabar is more than just a bar. It is one of New England's premier jazz clubs. There's music on Tuesday-Saturday nights! Stop by for delicious bar food, cocktails and a foot-tappin' time! Call or go online for tickets!"
-                           opensAt:opens
-                           closesAt:closes
-                           isItOpen:isit
-                           address:@"1 Bennett Street, Cambridge, MA 02138"
-                           number:@"tel:617.395.7757 "
-                           website:@"http://www.regattabarjazz.com/"
-                           thumbImage:[UIImage imageNamed:@"regattabarThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"regattabar.jpg"]
+                             initWithTitle:@"The Regattabar"
+                             foodtype:@"beer, wine, bar, jazz"
+                             rating:4
+                             description:@"Located in the Charles Hotel, the Regattabar is more than just a bar. It is one of New England's premier jazz clubs. There's music on Tuesday-Saturday nights! Stop by for delicious bar food, cocktails and a foot-tappin' time! Call or go online for tickets!"
+                             opensAt:opens
+                             closesAt:closes
+                             isItOpen:isit
+                             address:@"1 Bennett Street, Cambridge, MA 02138"
+                             number:@"tel:617.395.7757 "
+                             website:@"http://www.regattabarjazz.com/"
+                             thumbImage:[UIImage imageNamed:@"regattabarThumb.jpg"]
+                             fullImage:[UIImage imageNamed:@"regattabar.jpg"]
                              latitude:42.372258
-                             longitude:-71.122667];
+                             longitude:-71.122667
+                             distance:111111];
     
 #pragma mark - Insomnia Cookies
     
@@ -2715,20 +2795,21 @@ BOOL isit;
     }
     
     EateryDoc *insomnia = [[EateryDoc alloc]
-                             initWithTitle:@"Insomnia Cookies"
-                             foodtype:@"dessert"
-                             rating:4
-                             description:@"Insomnia Cookies keeps the lights on until 3 am every night! AND they deliver! The cookies are fresh and delicious, but beware: some say they're addictive."
-                             opensAt:11
-                             closesAt:3
-                             isItOpen:isit
-                             address:@"65 Mount Auburn Street, Cambridge, Massachusetts 02138"
-                             number:@"tel:8776326654"
-                             website:@"https://insomniacookies.com/"
-                             thumbImage:[UIImage imageNamed:@"insomniaThumb.jpg"]
-                             fullImage:[UIImage imageNamed:@"insomnia.jpg"]
+                           initWithTitle:@"Insomnia Cookies"
+                           foodtype:@"dessert"
+                           rating:4
+                           description:@"Insomnia Cookies keeps the lights on until 3 am every night! AND they deliver! The cookies are fresh and delicious, but beware: some say they're addictive."
+                           opensAt:11
+                           closesAt:3
+                           isItOpen:isit
+                           address:@"65 Mount Auburn Street, Cambridge, Massachusetts 02138"
+                           number:@"tel:8776326654"
+                           website:@"https://insomniacookies.com/"
+                           thumbImage:[UIImage imageNamed:@"insomniaThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"insomnia.jpg"]
                            latitude:42.3719479
-                           longitude:-71.1181612];
+                           longitude:-71.1181612
+                           distance:111111];
     
 #pragma mark - Tory Row
     
@@ -2740,20 +2821,21 @@ BOOL isit;
     }
     
     EateryDoc *tory = [[EateryDoc alloc]
-                           initWithTitle:@"Tory Row"
-                           foodtype:@""
-                           rating:4
-                           description:@"Tory Row is a late-night hotspot as well as a fabulous modern restaurant all day long. Come by for a menu where everything is delicious and nothing is ordinary!"
-                           opensAt:9
-                           closesAt:1
-                           isItOpen:isit
-                           address:@"3 Brattle Street, Cambridge, Massachusetts 02138"
-                           number:@"tel:6178768769"
-                           website:@"http://www.toryrow.us/"
-                           thumbImage:[UIImage imageNamed:@"toryThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"tory.jpg"]
+                       initWithTitle:@"Tory Row"
+                       foodtype:@""
+                       rating:4
+                       description:@"Tory Row is a late-night hotspot as well as a fabulous modern restaurant all day long. Come by for a menu where everything is delicious and nothing is ordinary!"
+                       opensAt:9
+                       closesAt:1
+                       isItOpen:isit
+                       address:@"3 Brattle Street, Cambridge, Massachusetts 02138"
+                       number:@"tel:6178768769"
+                       website:@"http://www.toryrow.us/"
+                       thumbImage:[UIImage imageNamed:@"toryThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"tory.jpg"]
                        latitude:42.3735449
-                       longitude:-71.1195765];
+                       longitude:-71.1195765
+                       distance:111111];
     
 #pragma mark - Trattoria Pulcinella
     
@@ -2765,20 +2847,21 @@ BOOL isit;
     }
     
     EateryDoc *trattoria = [[EateryDoc alloc]
-                       initWithTitle:@"Trattoria Pulcinella"
-                       foodtype:@"dinner, italian"
-                       rating:4
-                       description:@"This down to earth establishment is focused on delivering quality dining experiences based on a fundamental, Mediterranean style of cooking. Come by for a delicious meal!"
-                       opensAt:17
-                       closesAt:22
-                       isItOpen:isit
-                       address:@"147 Huron Ave, Cambridge, Massachusetts 02138"
-                       number:@"tel:617-491-6336"
-                       website:@"http://www.trattoriapulcinella.net/"
-                       thumbImage:[UIImage imageNamed:@"trattoriaThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"trattoria.jpg"]
+                            initWithTitle:@"Trattoria Pulcinella"
+                            foodtype:@"dinner, italian"
+                            rating:4
+                            description:@"This down to earth establishment is focused on delivering quality dining experiences based on a fundamental, Mediterranean style of cooking. Come by for a delicious meal!"
+                            opensAt:17
+                            closesAt:22
+                            isItOpen:isit
+                            address:@"147 Huron Ave, Cambridge, Massachusetts 02138"
+                            number:@"tel:617-491-6336"
+                            website:@"http://www.trattoriapulcinella.net/"
+                            thumbImage:[UIImage imageNamed:@"trattoriaThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"trattoria.jpg"]
                             latitude:42.38256
-                            longitude:-71.1308553];
+                            longitude:-71.1308553
+                            distance:111111];
     
 #pragma mark - Uno Chicago Grill
     
@@ -2817,20 +2900,21 @@ BOOL isit;
     }
     
     EateryDoc *unos = [[EateryDoc alloc]
-                            initWithTitle:@"Uno Chicago Grill"
-                            foodtype:@"dinner, pizza, salads, sandwiches, bar, burgers, dessert"
-                            rating:3
-                            description:@"At Unos, you won't leave hungry! Come on in for delicious deep dish pizzas, creative appetizers, big burgers, fresh salads and even juicy steaks! Go big or go home."
-                            opensAt:11
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"22 JFK Street, Cambridge, Massachusetts 02138"
-                            number:@"tel:6174971530"
-                            website:@"http://www.unos.com/"
-                            thumbImage:[UIImage imageNamed:@"unosThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"unos.jpg"]
+                       initWithTitle:@"Uno Chicago Grill"
+                       foodtype:@"dinner, pizza, salads, sandwiches, bar, burgers, dessert"
+                       rating:3
+                       description:@"At Unos, you won't leave hungry! Come on in for delicious deep dish pizzas, creative appetizers, big burgers, fresh salads and even juicy steaks! Go big or go home."
+                       opensAt:11
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"22 JFK Street, Cambridge, Massachusetts 02138"
+                       number:@"tel:6174971530"
+                       website:@"http://www.unos.com/"
+                       thumbImage:[UIImage imageNamed:@"unosThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"unos.jpg"]
                        latitude:42.3729782
-                       longitude:-71.1196811];
+                       longitude:-71.1196811
+                       distance:111111];
     
 #pragma mark - UpStairs on the Square
     
@@ -2842,20 +2926,21 @@ BOOL isit;
     }
     
     EateryDoc *upstairs = [[EateryDoc alloc]
-                       initWithTitle:@"UpStairs on the Square"
-                       foodtype:@"dinner, wine, bar"
-                       rating:4
-                       description:@"At UpStairs on the Square, you can expect to be treated well. Here, customer satisfaction starts the moment you walk in the door and doesn't stop until you're well on your way home! Dinner stops around 10 or 11 but the bar serves till 1 every night!"
-                       opensAt:11
-                       closesAt:1
-                       isItOpen:isit
-                       address:@"91 Winthrop Street, Cambridge, MA 02138"
-                       number:@"tel:617-864-1933"
-                       website:@"http://www.upstairsonthesquare.com/"
-                       thumbImage:[UIImage imageNamed:@"upstairsThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"upstairs.jpg"]
+                           initWithTitle:@"UpStairs on the Square"
+                           foodtype:@"dinner, wine, bar"
+                           rating:4
+                           description:@"At UpStairs on the Square, you can expect to be treated well. Here, customer satisfaction starts the moment you walk in the door and doesn't stop until you're well on your way home! Dinner stops around 10 or 11 but the bar serves till 1 every night!"
+                           opensAt:11
+                           closesAt:1
+                           isItOpen:isit
+                           address:@"91 Winthrop Street, Cambridge, MA 02138"
+                           number:@"tel:617-864-1933"
+                           website:@"http://www.upstairsonthesquare.com/"
+                           thumbImage:[UIImage imageNamed:@"upstairsThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"upstairs.jpg"]
                            latitude:42.3724175
-                           longitude:-71.1209446];
+                           longitude:-71.1209446
+                           distance:111111];
     
 #pragma mark - Veggie Planet
     
@@ -2867,20 +2952,21 @@ BOOL isit;
     }
     
     EateryDoc *veggie = [[EateryDoc alloc]
-                           initWithTitle:@"Veggie Planet"
-                           foodtype:@"dinner, pizza, beer, wine"
-                           rating:3
-                           description:@"Looking for something different? Come to Veggie Planet for delicious all-vegetarian pizzas! Now serving beer and wine! Stop by in the evening to catch great folk music!"
-                           opensAt:11.3
-                           closesAt:22.3
-                           isItOpen:isit
-                           address:@"47 Palmer Street, Cambridge, MA 02138"
-                           number:@"tel:617-661-1513"
-                           website:@"http://www.veggieplanet.net/"
-                           thumbImage:[UIImage imageNamed:@"veggieThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"veggie.jpg"]
+                         initWithTitle:@"Veggie Planet"
+                         foodtype:@"dinner, pizza, beer, wine"
+                         rating:3
+                         description:@"Looking for something different? Come to Veggie Planet for delicious all-vegetarian pizzas! Now serving beer and wine! Stop by in the evening to catch great folk music!"
+                         opensAt:11.3
+                         closesAt:22.3
+                         isItOpen:isit
+                         address:@"47 Palmer Street, Cambridge, MA 02138"
+                         number:@"tel:617-661-1513"
+                         website:@"http://www.veggieplanet.net/"
+                         thumbImage:[UIImage imageNamed:@"veggieThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"veggie.jpg"]
                          latitude:42.3738466
-                         longitude:-71.1199904];
+                         longitude:-71.1199904
+                         distance:111111];
     
 #pragma mark - Wagamama
     
@@ -2907,22 +2993,23 @@ BOOL isit;
     }
     
     EateryDoc *wagamama = [[EateryDoc alloc]
-                         initWithTitle:@"Wagamama"
-                         foodtype:@"dinner, chinese, asian, japanese, salad, wine, beer"
-                         rating:4
-                         description:@"Wagamama is an international noodle restaurant located right in Harvard Square! Stop in for excellent Asian-fusion food ranging from various kinds of noodle and rice dishes to dumplings and soup!"
-                         opensAt:opens
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"57 JFK Street, Cambridge, MA 02138"
-                         number:@"tel:617-499-0930"
-                         website:@"http://www.wagamama.us/"
-                         thumbImage:[UIImage imageNamed:@"wagamamaThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"wagamama.jpg"]
+                           initWithTitle:@"Wagamama"
+                           foodtype:@"dinner, chinese, asian, japanese, salad, wine, beer"
+                           rating:4
+                           description:@"Wagamama is an international noodle restaurant located right in Harvard Square! Stop in for excellent Asian-fusion food ranging from various kinds of noodle and rice dishes to dumplings and soup!"
+                           opensAt:opens
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"57 JFK Street, Cambridge, MA 02138"
+                           number:@"tel:617-499-0930"
+                           website:@"http://www.wagamama.us/"
+                           thumbImage:[UIImage imageNamed:@"wagamamaThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"wagamama.jpg"]
                            latitude:42.3721459
-                           longitude:-71.1209169];
+                           longitude:-71.1209169
+                           distance:111111];
     
-#pragma mark - Zinneken's 
+#pragma mark - Zinneken's
     
     if (weekday >= 2 && weekday <= 5) {
         closes = 23;
@@ -2942,20 +3029,21 @@ BOOL isit;
     }
     
     EateryDoc *zinnekens = [[EateryDoc alloc]
-                           initWithTitle:@"Zinneken's"
-                           foodtype:@"dessert, chocolate, cake"
-                           rating:4
-                           description:@"Zinneken's makes gourmet Belgian waffles fresh every day. Looking for something sweet AND savory, then Zinneken's is the place for you. A must-see!"
-                           opensAt:8
-                           closesAt:closes 
-                           isItOpen:isit
-                           address:@"1154 Massachusetts Avenue, Cambridge, MA 02138"
-                           number:@"tel:6176063295"
-                           website:@"http://www.yelp.com/biz/zinnekens-cambridge"
-                           thumbImage:[UIImage imageNamed:@"zinnekensThumb.jpg"]
-                           fullImage:[UIImage imageNamed:@"zinnekens.jpg"]
+                            initWithTitle:@"Zinneken's"
+                            foodtype:@"dessert, chocolate, cake"
+                            rating:4
+                            description:@"Zinneken's makes gourmet Belgian waffles fresh every day. Looking for something sweet AND savory, then Zinneken's is the place for you. A must-see!"
+                            opensAt:8
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"1154 Massachusetts Avenue, Cambridge, MA 02138"
+                            number:@"tel:6176063295"
+                            website:@"http://www.yelp.com/biz/zinnekens-cambridge"
+                            thumbImage:[UIImage imageNamed:@"zinnekensThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"zinnekens.jpg"]
                             latitude:42.371471
-                            longitude:-71.1147083];
+                            longitude:-71.1147083
+                            distance:111111];
     
 #pragma mark - Zoe's
     
@@ -2980,20 +3068,21 @@ BOOL isit;
     }
     
     EateryDoc *zoes = [[EateryDoc alloc]
-                            initWithTitle:@"Zoe's"
-                            foodtype:@"greek, diner"
-                            rating:3
-                            description:@"Remember that classic diner from your childhood? Well step back in time and visit Zoe's! This quintessential Greek diner serves the classics, including breakfast all day!"
-                            opensAt:opens
-                            closesAt:closes
-                            isItOpen:isit
-                            address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
-                            number:@"tel:617-495-0055"
-                            website:@"http://www.yelp.com/biz/zoes-cambridge"
-                            thumbImage:[UIImage imageNamed:@"zoesThumb.jpg"]
-                            fullImage:[UIImage imageNamed:@"zoes.jpg"]
+                       initWithTitle:@"Zoe's"
+                       foodtype:@"greek, diner"
+                       rating:3
+                       description:@"Remember that classic diner from your childhood? Well step back in time and visit Zoe's! This quintessential Greek diner serves the classics, including breakfast all day!"
+                       opensAt:opens
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"1105 Massachusetts Avenue, Cambridge, MA 02138"
+                       number:@"tel:617-495-0055"
+                       website:@"http://www.yelp.com/biz/zoes-cambridge"
+                       thumbImage:[UIImage imageNamed:@"zoesThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"zoes.jpg"]
                        latitude:42.370649
-                       longitude:-71.1136497];
+                       longitude:-71.1136497
+                       distance:111111];
     
 #pragma mark - IHOP
     
@@ -3018,7 +3107,8 @@ BOOL isit;
                        thumbImage:[UIImage imageNamed:@"ihopThumb.jpg"]
                        fullImage:[UIImage imageNamed:@"ihop.jpg"]
                        latitude:42.3720291
-                       longitude:-71.1215069];
+                       longitude:-71.1215069
+                       distance:111111];
     
 #pragma mark - Quincy Grille
     
@@ -3055,20 +3145,21 @@ BOOL isit;
     }
     
     EateryDoc *quincy = [[EateryDoc alloc]
-                       initWithTitle:@"Quincy Grille"
-                       foodtype:@"late, grill, burgers, french fries, harvard"
-                       rating:4
-                       description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Try the sweet potato fries!"
-                       opensAt:22
-                       closesAt:closes
-                       isItOpen:isit
-                       address:@"50 Plympton Street, Cambridge, MA 02138"
-                       number:@"NONE"
-                       website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
-                       thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                       fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                         initWithTitle:@"Quincy Grille"
+                         foodtype:@"late, grill, burgers, french fries, harvard"
+                         rating:4
+                         description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Try the sweet potato fries!"
+                         opensAt:22
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"50 Plympton Street, Cambridge, MA 02138"
+                         number:@"NONE"
+                         website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
+                         thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]
                          latitude:42.3713751
-                         longitude:-71.117056];
+                         longitude:-71.117056
+                         distance:111111];
     
 #pragma mark - Eliot Grille
     
@@ -3098,20 +3189,21 @@ BOOL isit;
     }
     
     EateryDoc *eliot = [[EateryDoc alloc]
-                         initWithTitle:@"Eliot Grille"
-                         foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
-                         rating:4
-                         description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Head down to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
-                         opensAt:22
-                         closesAt:closes
-                         isItOpen:isit
-                         address:@"100 Dunster Street, Cambridge, MA 02138"
-                         number:@"NONE"
-                         website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
-                         thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                        initWithTitle:@"Eliot Grille"
+                        foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
+                        rating:4
+                        description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Head down to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
+                        opensAt:22
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"100 Dunster Street, Cambridge, MA 02138"
+                        number:@"NONE"
+                        website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
+                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
                         latitude:42.3716096
-                        longitude:-71.1196882];
+                        longitude:-71.1196882
+                        distance:111111];
     
 #pragma mark - Quad Grille
     
@@ -3141,45 +3233,66 @@ BOOL isit;
     
     
     EateryDoc *quad = [[EateryDoc alloc]
-                        initWithTitle:@"Quad Grille"
-                        foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
-                        rating:4
-                        description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike out to the Quad and grab a chicken snack wrap!"
-                        opensAt:22.30
-                        closesAt:closes
-                        isItOpen:isit
-                        address:@"60 Linnaean Street, Cambridge, MA 02138"
-                        number:@"NONE"
-                        website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
-                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
-                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                       initWithTitle:@"Quad Grille"
+                       foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
+                       rating:4
+                       description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike out to the Quad and grab a chicken snack wrap!"
+                       opensAt:22.30
+                       closesAt:closes
+                       isItOpen:isit
+                       address:@"60 Linnaean Street, Cambridge, MA 02138"
+                       number:@"NONE"
+                       website:@"http://www.thecrimson.com/article/2010/10/12/grille-pm-menu-quad/"
+                       thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                       fullImage:[UIImage imageNamed:@"annenberg.jpg"]
                        latitude:42.3818309
-                       longitude:-71.1245817];
+                       longitude:-71.1245817
+                       distance:111111];
     
     
     // add to mutable array
-    eateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
+    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
     
     // set them to master view controller
-    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
-    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
-    masterController.eateries = eateries;
     
+    UITabBarController *tabController = (UITabBarController *) self.window.rootViewController;
+    NSLog(@"rootViewController is: %@", tabController);
+    UINavigationController *navController = [tabController.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on tabController is: %@", navController);
+    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on navController is: %@", navController);
+    masterController.eateries = loadedEateries;
+    
+    UINavigationController *navController1 = [tabController.viewControllers objectAtIndex:1];
+    MasterViewController *openNowController = [navController1.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on navController1 is: %@", navController);
+    int eateryCount = [loadedEateries count];
+    NSMutableArray *searchResults = [[NSMutableArray alloc]init];
+    // populates searchResults with open eateries
+    for (int i = 0; i < eateryCount; i++) {
+        EateryDoc *resultEatery = [loadedEateries objectAtIndex:i];
+        NSString *open;
+        if (resultEatery.data.isItOpen == NO){
+            open = @"closed";
+        }
+        else {
+            open = @"open";
+        }
+        NSString *allData = [NSString stringWithFormat:@"%@", open];
+        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+        if (stringRange.location != NSNotFound){
+            [searchResults addObject:resultEatery];
+        }
+    openNowController.eateries = searchResults;
+    }
+    
+    UINavigationController *navController2 = [tabController.viewControllers objectAtIndex:2];
+    MasterViewController *nearbyController = [navController2.viewControllers objectAtIndex:0];
+    nearbyController.eateries = loadedEateries;
     // loadData experiment
     NSLog(@"DONE LOADING DATA");
     NSLog(@"loadData Al's isItOpen = %i", als.data.isItOpen);
-}
-
-
-// Stackmob
-- (NSManagedObjectModel *)managedObjectModel
-{
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"mydatamodel" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
+    
 }
 				
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -3202,10 +3315,20 @@ BOOL isit;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self loadData];
-    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
+    UITabBarController *tabController = (UITabBarController *) self.window.rootViewController;
+    NSLog(@"rootViewController is: %@", tabController);
+    UINavigationController *navController = [tabController.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on tabController is: %@", navController);
     MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on navController is: %@", navController);
+    [self loadData];
     [masterController.tableView reloadData];
+    
+    UINavigationController *navController1 = [tabController.viewControllers objectAtIndex:1];
+    MasterViewController *openNowController = [navController1.viewControllers objectAtIndex:0];
+    NSLog(@"objectAtIndex 0 on navController1 is: %@", navController);
+    [openNowController.tableView reloadData];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

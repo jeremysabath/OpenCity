@@ -23,6 +23,7 @@
 @property (assign) BOOL isItOpen;
 @property CLLocationDegrees latitude;
 @property CLLocationDegrees longitude;
+@property float distance;
 
--(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString*)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString*) address number:(NSString*) number website:(NSString*) website latitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
+-(id)initWithTitle:(NSString*)title foodtype:(NSString*)footype rating:(int) rating description:(NSString*)description opensAt:(float) opensAt closesAt:(float) closesAt isItOpen:(BOOL)isItOpen address:(NSString*) address number:(NSString*) number website:(NSString*) website latitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude distance:(float)distance;
 @end
