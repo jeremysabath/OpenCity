@@ -15,8 +15,12 @@
 #define IS_IT_OPEN 1
 #define CONTACT_US 2
 
-@interface DetailViewController ()
+@interface DetailViewController () {
+    bool showAlert;
+}
 - (void)configureView;
+
+
 @end
 
 @implementation DetailViewController
@@ -115,7 +119,7 @@
 
 // if the is it open button is clicked....
 - (IBAction)isItOpenClicked:(id)sender {
-        
+    showAlert = YES;
     // loadData experiment
     NSLog(@"isItOpen = %i", self.detailItem.data.isItOpen);
     
@@ -143,8 +147,9 @@
                               otherButtonTitles: nil];
         // show the alert
         alert.tag = IS_IT_OPEN;
-        [alert show];
-
+        if (showAlert == YES){
+            [alert show];
+        }
     }
     // if it's open 24 hours
     else if (self.detailItem.data.closesAt == 48){
@@ -156,7 +161,9 @@
                               cancelButtonTitle:@"Done"
                               otherButtonTitles: @"Take Me There!", nil];
         alert.tag = IS_IT_OPEN;
-        [alert show];
+        if (showAlert == YES){
+            [alert show];
+        }
     }
     // if it opens at midnight...
     else if (self.detailItem.data.opensAt == 24) {
@@ -175,7 +182,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and will be open
         // if the eatery is closed and the current time is before when the eatery opens
@@ -188,7 +197,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and is already closed
         else {
@@ -200,7 +211,9 @@
                               cancelButtonTitle:@"Done"
                               otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
     }
         // if it closes after midnight...
@@ -217,7 +230,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }        
         // ... and will open before noon
         // if eatery is closed and current time is before eatery opens and eatery opens before noon
@@ -230,7 +245,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and will open after noon
         // if eatery is closed and current time is before eatery opens and eatery opens after noon
@@ -244,7 +261,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ...and is already closed
         else {
@@ -256,7 +275,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
             }
     }
     // if it closes at midnight...
@@ -274,7 +295,9 @@
                                   otherButtonTitles: @"Take Me There!", nil];
             
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and will open before noon
         else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt < 12) {
@@ -286,7 +309,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and will open at noon
         else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt == 12) {
@@ -298,7 +323,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
 
         // ... and wil open after noon
@@ -312,7 +339,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ...and is already closed
         else {
@@ -324,7 +353,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
 
     }
@@ -342,7 +373,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: @"Take Me There!", nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and will open before noon
         else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt < 12) {
@@ -354,7 +387,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and wil open after noon
         else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt >= 12) {
@@ -367,7 +402,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
         }
         // ... and is closed
         else {
@@ -379,7 +416,9 @@
                                   cancelButtonTitle:@"Done"
                                   otherButtonTitles: nil];
             alert.tag = IS_IT_OPEN;
-            [alert show];
+            if (showAlert == YES){
+                [alert show];
+            }
             
         }
     }
@@ -442,6 +481,11 @@ if(buttonIndex == 1){
 // manage the star-rating view
 - (void)configureView
 {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH.mm.ss"];
+    NSString *stringTime = [formatter stringFromDate:[NSDate date]];
+    float time = [stringTime floatValue];
+    
     // Update the user interface for the detail item.
     // Create properties for the rateView
     self.rateView.notSelectedImage = [UIImage imageNamed:@"EmptyStar.png"];
@@ -456,31 +500,339 @@ if(buttonIndex == 1){
         self.rateView.rating = self.detailItem.data.rating;
         self.imageView.image = self.detailItem.fullImage;
         self.descriptionView.text = self.detailItem.data.description;
-        if (self.detailItem.data.isItOpen == YES){
-            if (self.detailItem.data.closesAt >= 13){
-                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f!", self.detailItem.data.closesAt-12];
-                self.openNowLabel.text = openLabelString;
-                self.openNowDot.image = [UIImage imageNamed:@"open.png"];
+        /*
+        if (eatery.data.isItOpen == YES){
+            if ((eatery.data.closesAt - time) <= 0.30 && (eatery.data.closesAt - time) > 0) {
+                cell.detailTextLabel.textColor = [UIColor yellowColor];
             }
             else {
-                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f!", self.detailItem.data.closesAt];
-                self.openNowLabel.text = openLabelString;
+                cell.detailTextLabel.textColor = [UIColor greenColor];
+            }
+         */
+        if (self.detailItem.data.isItOpen == YES){
+            showAlert = NO;
+            self.openNowLabel.text = [self messageMethod];
+            if ((self.detailItem.data.closesAt - time) <= 0.30 && (self.detailItem.data.closesAt - time) > 0) {
+                self.openNowDot.image = [UIImage imageNamed:@"yellow.png"];
+            }
+            else {
                 self.openNowDot.image = [UIImage imageNamed:@"open.png"];
             }
+
         }
         else{
-            if (self.detailItem.data.closesAt >= 13){
-                NSString *openLabelString = [NSString stringWithFormat:@"Sorry, closed at %0.2f", self.detailItem.data.closesAt-12];
-                self.openNowLabel.text = openLabelString;
-                self.openNowDot.image = [UIImage imageNamed:@"closed.png"];
+            self.openNowLabel.text = [self messageMethod];
+            self.openNowDot.image = [UIImage imageNamed:@"closed.png"];
+        }
+        
+    }
+}
+
+- (NSString *)messageMethod {
+    // get the current time
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"HH.mm.ss"];
+    NSString *stringTime = [formatter stringFromDate:[NSDate date]];
+    // convert time from string to float
+    float time = [stringTime floatValue];
+    NSString *opensMessage = [[NSString alloc]init];
+    NSString *closesMessage = [[NSString alloc]init];
+    
+
+    
+    // if it's closed on a day
+    if (self.detailItem.data.closesAt == 25){
+        // declare message alert view will show
+        closesMessage = [NSString stringWithFormat: @"Sorry! Closed all day!"];
+        // declare an alert view to alert user
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Is It Open?"
+                              message:closesMessage
+                              delegate:self
+                              cancelButtonTitle:@"Done"
+                              otherButtonTitles: nil];
+        // show the alert
+        alert.tag = IS_IT_OPEN;
+        if (showAlert == YES){
+            [alert show];
+        }
+    }
+    // if it's open 24 hours
+    else if (self.detailItem.data.closesAt == 48){
+        opensMessage = [NSString stringWithFormat: @"Open 24 hours!"];
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Is It Open?"
+                              message:closesMessage
+                              delegate:self
+                              cancelButtonTitle:@"Done"
+                              otherButtonTitles: @"Take Me There!", nil];
+        alert.tag = IS_IT_OPEN;
+        if (showAlert == YES){
+            [alert show];
+        }
+    }
+    // if it opens at midnight...
+    else if (self.detailItem.data.opensAt == 24) {
+        
+        // declare string with opening and closing times
+        NSString *closes = [NSString stringWithFormat:@"%.2f", self.detailItem.data.closesAt];
+        NSString *opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt];
+        
+        // ... and is open
+        if (self.detailItem.data.isItOpen == YES) {
+            opensMessage = [NSString stringWithFormat: @"Open till %@am!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
             }
-            else {
-                NSString *openLabelString = [NSString stringWithFormat:@"Sorry, closed at %0.2f", self.detailItem.data.closesAt];
-                self.openNowLabel.text = openLabelString;
-                self.openNowDot.image = [UIImage imageNamed:@"closed.png"];
+        }
+        // ... and will be open
+        // if the eatery is closed and the current time is before when the eatery opens
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt) {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at 12am!"];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and is already closed
+        else {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Closed at %@am!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+    }
+    // if it closes after midnight...
+    else if (self.detailItem.data.closesAt <= 4){
+        NSString *closes = [NSString stringWithFormat:@"%.2f", self.detailItem.data.closesAt];
+        NSString *opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt];
+        // ... and is open
+        if (self.detailItem.data.isItOpen != NO) {
+            opensMessage = [NSString stringWithFormat: @"Open till %@am!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and will open before noon
+        // if eatery is closed and current time is before eatery opens and eatery opens before noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt < 12) {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@am!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and will open after noon
+        // if eatery is closed and current time is before eatery opens and eatery opens after noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt >= 12) {
+            opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt-12];
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@pm!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ...and is already closed
+        else {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Closed at %@am!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+    }
+    // if it closes at midnight...
+    else if (self.detailItem.data.closesAt == 24) {
+        NSString *closes = [NSString stringWithFormat:@"%.2f", self.detailItem.data.closesAt];
+        NSString *opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt];
+        // ..and is open
+        if (self.detailItem.data.isItOpen == YES) {
+            opensMessage = [NSString stringWithFormat: @"Open till midnight!"];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: @"Take Me There!", nil];
+            
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and will open before noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt < 12) {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@am!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and will open at noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt == 12) {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@pm!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
             }
         }
         
+        // ... and wil open after noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt >= 12) {
+            opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt-12];
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@pm!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ...and is already closed
+        else {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Closed at midnight!"];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        
+    }
+    // if it closes before midnight...
+    else{
+        NSString *closes = [NSString stringWithFormat:@"%.2f", self.detailItem.data.closesAt-12];
+        NSString *opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt];
+        // ... and is open
+        if (self.detailItem.data.isItOpen == YES) {
+            opensMessage = [NSString stringWithFormat: @"Open till %@pm!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: @"Take Me There!", nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and will open before noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt < 12) {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@am!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and wil open after noon
+        else if (self.detailItem.data.isItOpen == NO && time < self.detailItem.data.opensAt && self.detailItem.data.opensAt >= 12) {
+            opens = [NSString stringWithFormat:@"%.2f", self.detailItem.data.opensAt-12];
+            closesMessage = [NSString stringWithFormat: @"Sorry! Opens at %@pm!", opens];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:opensMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+        }
+        // ... and is closed
+        else {
+            closesMessage = [NSString stringWithFormat: @"Sorry! Closed at %@pm!", closes];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Is It Open?"
+                                  message:closesMessage
+                                  delegate:self
+                                  cancelButtonTitle:@"Done"
+                                  otherButtonTitles: nil];
+            alert.tag = IS_IT_OPEN;
+            if (showAlert == YES){
+                [alert show];
+            }
+            
+        }
+    }
+    if (self.detailItem.data.isItOpen == NO){
+        return closesMessage;
+    }
+    else {
+        return opensMessage;
     }
 }
 

@@ -3281,43 +3281,11 @@ bool isit;
     
     // set them to master view controller
     
-    UITabBarController *tabController = (UITabBarController *) self.window.rootViewController;
-    NSLog(@"rootViewController is: %@", tabController);
-    UINavigationController *navController = [tabController.viewControllers objectAtIndex:0];
-    NSLog(@"objectAtIndex 0 on tabController is: %@", navController);
+    UINavigationController *navController =  (UINavigationController *) self.window.rootViewController;
     MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
     NSLog(@"objectAtIndex 0 on navController is: %@", navController);
     masterController.eateries = loadedEateries;
-    
-    UINavigationController *navController1 = [tabController.viewControllers objectAtIndex:1];
-    MasterViewController *openNowController = [navController1.viewControllers objectAtIndex:0];
-    NSLog(@"objectAtIndex 0 on navController1 is: %@", navController);
-    int eateryCount = [loadedEateries count];
-    NSMutableArray *searchResults = [[NSMutableArray alloc]init];
-    // populates searchResults with open eateries
-    for (int i = 0; i < eateryCount; i++) {
-        EateryDoc *resultEatery = [loadedEateries objectAtIndex:i];
-        NSString *open;
-        if (resultEatery.data.isItOpen == NO){
-            open = @"closed";
-        }
-        else {
-            open = @"open";
-        }
-        NSString *allData = [NSString stringWithFormat:@"%@", open];
-        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
-        if (stringRange.location != NSNotFound){
-            [searchResults addObject:resultEatery];
-        }
-    openNowController.eateries = searchResults;
-    }
-    
-    UINavigationController *navController2 = [tabController.viewControllers objectAtIndex:2];
-    MasterViewController *nearbyController = [navController2.viewControllers objectAtIndex:0];
-    nearbyController.eateries = loadedEateries;
-    // loadData experiment
-    NSLog(@"DONE LOADING DATA");
-    NSLog(@"loadData Al's isItOpen = %i", als.data.isItOpen);
+    [masterController.tableView reloadData];
     
 }
 				
@@ -3341,19 +3309,11 @@ bool isit;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    UITabBarController *tabController = (UITabBarController *) self.window.rootViewController;
-    NSLog(@"rootViewController is: %@", tabController);
-    UINavigationController *navController = [tabController.viewControllers objectAtIndex:0];
-    NSLog(@"objectAtIndex 0 on tabController is: %@", navController);
+    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
     MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
     NSLog(@"objectAtIndex 0 on navController is: %@", navController);
     [self loadData];
     [masterController.tableView reloadData];
-    
-    UINavigationController *navController1 = [tabController.viewControllers objectAtIndex:1];
-    MasterViewController *openNowController = [navController1.viewControllers objectAtIndex:0];
-    NSLog(@"objectAtIndex 0 on navController1 is: %@", navController);
-    [openNowController.tableView reloadData];
     
 }
 
