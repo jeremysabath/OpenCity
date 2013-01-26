@@ -245,11 +245,21 @@ EateryDoc *resultEatery;
         EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
-        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+        if(eateryLocation){
+            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+            double mileConversion = distance * 0.000621371192;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 1;
+            NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+            NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+            cell.detailTextLabel.text = distanceString;
     }
     // set's background image of table
     // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
     NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
+}
     return cell;
 }
 

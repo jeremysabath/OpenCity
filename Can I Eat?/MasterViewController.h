@@ -67,15 +67,20 @@
 
 // generate tableView
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+
+
+
 @property (strong, nonatomic) UIWindow *window;
 @property (strong) NSMutableArray *eateries;
 @property (nonatomic) Class AppDelegate;
+@property (weak, nonatomic) UIActionSheet *actionSheet;
 
 - (void)locationUpdate:(CLLocation *)location;
 - (void)locationError:(NSError *)error;
 
 // Open Now button
 - (IBAction)openNowClicked:(id)sender;
+- (IBAction)sortByClicked:(id)sender;
 
 
 // methods for user clicking buttons

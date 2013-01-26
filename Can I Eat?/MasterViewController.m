@@ -17,13 +17,24 @@
 // Stackmob
 #import "StackMob.h"
 
-@interface MasterViewController () {
+@interface MasterViewController () <UIActionSheetDelegate> {
     NSMutableArray *_objects;
     
     // create array of all eateries, just search results and bool for if search text was entered
     NSMutableArray *allItems;
     NSMutableArray *searchResults;
     BOOL searchTextEntered;
+    NSMutableDictionary *distancesDict;
+    NSMutableArray *sortedEateries;
+    EateryDoc *localEatery;
+    bool distanceSorted;
+    bool userDoesSomething;
+    bool sortedFirst;
+    bool sortedIsCorrect;
+    NSMutableArray *currentEateryArray;
+    NSMutableArray *newCurrentEateryArray;
+    int cellCounter;
+    int counter;
     
     NSTimer *myTimer;
 }
@@ -41,8 +52,7 @@
 @synthesize window;
 @synthesize AppDelegate;
 @synthesize tableView;
-
-
+@synthesize actionSheet = _actionSheet;
 
 // Stackmob
 - (AppDelegate *)appDelegate {
@@ -54,6 +64,85 @@
     [super awakeFromNib];
 }
 
+- (void)loadLocations {
+    int eateryCount = [allItems count];
+    double lastDistance;
+    CLLocation *eateryLocation;
+    // currently showing all
+    if(clicked == NO){
+        [sortedEateries removeAllObjects];
+        [distancesDict removeAllObjects];
+        for (int i = 0; i < eateryCount; i++){
+            localEatery = allItems[i];
+            do {
+                eateryLocation = [[CLLocation alloc] initWithLatitude:localEatery.data.latitude longitude:localEatery.data.longitude];
+            }
+            while (!eateryLocation);
+                CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                while (distance == lastDistance){
+                    distance = lastDistance+.001;
+                double mileConversion = distance * 0.000621371192;
+                id orderID = [NSNumber numberWithInt:i];
+                id distanceID = [NSNumber numberWithDouble:mileConversion];
+                [distancesDict setValue:orderID forKey:distanceID];
+                lastDistance = distance;
+            }
+        }
+        NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
+        sortedKeys = [[distancesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
+        int dictCount = [distancesDict count];
+        for (int i = 0; i < dictCount; i++) {
+            if (dictCount == 0 || dictCount == 1){
+                break;
+            }
+            else {
+                int key = [[distancesDict objectForKey:sortedKeys[i]] integerValue];
+                EateryDoc *sortedEatery = allItems[key];
+                [sortedEateries addObject:sortedEatery];
+            }
+        }
+        if ([sortedEateries count] == 0){
+            sortedEateries = allItems;
+        }
+    }
+    // currently showing what's open
+    else {
+        eateryCount = [sortedEateries count];
+        for (int i = 0; i < eateryCount; i++){
+            localEatery = searchResults[i];
+            do {
+                eateryLocation = [[CLLocation alloc] initWithLatitude:localEatery.data.latitude longitude:localEatery.data.longitude];
+            }
+            while (!eateryLocation);
+            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+            while (distance == lastDistance){
+                distance = lastDistance+.001;
+            }
+            double mileConversion = distance * 0.000621371192;
+            id orderID = [NSNumber numberWithInt:i];
+            id distanceID = [NSNumber numberWithDouble:mileConversion];
+            [distancesDict setValue:orderID forKey:distanceID];
+            }
+        NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
+        sortedKeys = [[distancesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
+        int dictCount = [distancesDict count];
+        for (int i = 0; i < dictCount; i++) {
+            if (dictCount == 0 || dictCount == 1){
+                break;
+            }
+            else {
+                int key = [[distancesDict objectForKey:sortedKeys[i]] integerValue];
+                EateryDoc *sortedEatery = allItems[key];
+                [sortedEateries addObject:sortedEatery];
+            }
+        }
+        if ([sortedEateries count] == 0){
+            sortedEateries = searchResults;
+        }
+    }
+currentEateryArray = sortedEateries;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
 }
@@ -62,6 +151,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    sortedEateries = [[NSMutableArray alloc]init];
+    distancesDict = [[NSMutableDictionary alloc]init];
+    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
+    currentEateryArray = [[NSMutableArray alloc]init];
+    newCurrentEateryArray = [[NSMutableArray alloc]init];
     
     locationController = [[MyCLController alloc] init];
 	locationController.delegate = self;
@@ -193,31 +288,201 @@ EateryDoc *resultEatery;
     [self.searchBar resignFirstResponder];
 }
 
+bool clicked = 0;
 - (IBAction)openNowClicked:(id)sender{
-    int eateryCount = [allItems count];
-    searchResults = [[NSMutableArray alloc]init];
-    // checks each eatery, one by one, for search criteria, adds matches to array searchResults
-    for (int i = 0; i < eateryCount; i++) {
-        searchTextEntered = YES;
-        resultEatery = [allItems objectAtIndex:i];
-        NSString *open;
-        
-        if (resultEatery.data.isItOpen == NO){
-            open = @"closed";
+    userDoesSomething = YES;
+    if (distanceSorted == NO){
+        // currently showing all
+        if (clicked == NO){
+            clicked = YES;
+            int eateryCount = [allItems count];
+            searchResults = [[NSMutableArray alloc]init];
+            // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+            for (int i = 0; i < eateryCount; i++) {
+                resultEatery = [allItems objectAtIndex:i];
+                NSString *open;
+                if (resultEatery.data.isItOpen == NO){
+                    open = @"closed";
+                }
+                else {
+                    open = @"open";
+                }
+                NSString *allData = [NSString stringWithFormat:@"%@", open];
+                NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+                if (stringRange.location != NSNotFound){
+                    [searchResults addObject:resultEatery];
+                }
+            }
+            if ([searchResults count] == 0){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Nothing's open, try again later!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+                clicked = NO;
+                userDoesSomething = NO;
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"OpenNow"
+                                  message:@"Here's WhatsOpen!"
+                                  delegate:self
+                                  cancelButtonTitle:@"Cool"
+                                  otherButtonTitles: nil];
+            [alert show];
+            self.navigationItem.leftBarButtonItem.title = @"ShowAll";
+            }
         }
-        else {
-            open = @"open";
+        else{
+            clicked = NO;
+            int eateryCount = [allItems count];
+            searchResults = [[NSMutableArray alloc]init];
+            // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+            for (int i = 0; i < eateryCount; i++) {
+                searchTextEntered = NO;
+                resultEatery = [allItems objectAtIndex:i];
+                [searchResults addObject:resultEatery];
+            }
+            if ([searchResults count] == 0){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Nothing's open, try again later!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+                clicked = NO;
+                userDoesSomething = NO;
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"ShowAll"
+                                      message:@"Here's everything!!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Cool"
+                                      otherButtonTitles: nil];
+                [alert show];
+                self.navigationItem.leftBarButtonItem.title = @"WhatsOpen";
+            }
         }
-        NSString *allData = [NSString stringWithFormat:@"%@", open];
-        NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
-        if (stringRange.location != NSNotFound){
-            [searchResults addObject:resultEatery];
+    }
+    // if distance sorted
+    else {
+        // if all are showing
+        if (clicked == NO){
+            clicked = YES;
+            int eateryCount = [sortedEateries count];
+            searchResults = [[NSMutableArray alloc]init];
+            // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+            for (int i = 0; i < eateryCount; i++) {
+                searchTextEntered = YES;
+                resultEatery = [sortedEateries objectAtIndex:i];
+                NSString *open;
+                
+                if (resultEatery.data.isItOpen == NO){
+                    open = @"closed";
+                }
+                else {
+                    open = @"open";
+                }
+                NSString *allData = [NSString stringWithFormat:@"%@", open];
+                NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
+                if (stringRange.location != NSNotFound){
+                    [searchResults addObject:resultEatery];
+                }
+            }
+            if ([searchResults count] == 0){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Nothing's open, try again later!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+                clicked = NO;
+                sortedFirst = YES;
+                sortedIsCorrect = YES;
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"OpenNow"
+                                      message:@"Here's WhatsOpen!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Cool"
+                                      otherButtonTitles: nil];
+                [alert show];
+                self.navigationItem.leftBarButtonItem.title = @"ShowAll";
+            }            
+        }
+        // if only open are showing
+        else{
+            clicked = NO;
+            int eateryCount = [sortedEateries count];
+            searchResults = [[NSMutableArray alloc]init];
+            // checks each eatery, one by one, for search criteria, adds matches to array searchResults
+            for (int i = 0; i < eateryCount; i++) {
+                searchTextEntered = YES;
+                resultEatery = [sortedEateries objectAtIndex:i];
+                [searchResults addObject:resultEatery];
+            }
+            if ([searchResults count] == 0){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Nothing's open, try again later!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+                clicked = NO;
+                sortedFirst = YES;
+            }
+            else {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"ShowAll"
+                                      message:@"Here's everything!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Cool"
+                                      otherButtonTitles: nil];
+                [alert show];
+                self.navigationItem.leftBarButtonItem.title = @"WhatsOpen";
+            }
+            
+        }
+        if (sortedIsCorrect == NO){
+            sortedEateries = searchResults;
         }
     }
     // reloads table with searchResults
+    [self loadLocations];
     [self.tableView reloadData];
 }
 
+- (IBAction)sortByClicked:(id)sender {
+    userDoesSomething = YES;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"SortBy FirstLetter", @"SortBy Distance", nil];
+    [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0)
+    {
+        distanceSorted = NO;
+        [self.tableView reloadData];
+    }
+    else if (buttonIndex == 1){
+        distanceSorted = YES;
+        [self loadLocations];
+        myTimer = [NSTimer scheduledTimerWithTimeInterval: 2.0 target: self selector: @selector(callAfterTwoSeconds:) userInfo: nil repeats: YES];
+        [self.tableView reloadData];
+    }
+}
 #pragma mark - Table View
 
 // Table has one section
@@ -226,19 +491,71 @@ EateryDoc *resultEatery;
     return 1;
 }
 
-
-
 // table has number of rows equal to number of eateries...
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // ... in searchResults
-    if (searchTextEntered == YES){
-        return [searchResults count];
-    }
-    // ... in total
-    else {
+    if (userDoesSomething == NO){
+        cellCounter = [allItems count];
         return [allItems count];
     }
+    else {
+        cellCounter = [currentEateryArray count];
+        return [currentEateryArray count];
+    }
+    /*
+    else if (sortedFirst == YES){
+        sortedFirst = NO;
+        return [sortedEateries count];
+    }
+    else {
+        // will be alphabetical
+        if (distanceSorted == NO){
+            // currently showing all
+            if (clicked == NO) {
+                if (searchTextEntered == YES){
+                    return [searchResults count];
+                }
+                // ... in total
+                else {
+                    return [allItems count];
+                }
+            }
+            // currently showing whatsopen
+            else {
+                // ... in searchResults
+                if (searchTextEntered == YES){
+                    return [searchResults count];
+                }
+                // ... in total
+                else {
+                    return [searchResults count];
+                }
+            }
+        }
+        // will be sorted
+        else {
+            // showing all
+            if (clicked == NO) {
+                if (searchTextEntered == YES){
+                    return [sortedEateries count];
+                }
+                // ... in total
+                else {
+                    return [sortedEateries count];
+                }
+            }
+            else {
+                if (searchTextEntered == YES){
+                    return [sortedEateries count];
+                }
+                // ... in total
+                else {
+                    return [sortedEateries count];
+                }
+            }
+        }
+    }
+     */
 }
 
 /**********
@@ -255,47 +572,279 @@ EateryDoc *resultEatery;
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MyBasicCell" forIndexPath:indexPath];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"MyBasicCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"MyBasicCell"];
     }
-    if (searchTextEntered == NO) {
-        self.tableView.rowHeight = 61;
-        EateryDoc *eatery = [allItems objectAtIndex:indexPath.row];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"American Typewriter" size:16];
-        cell.detailTextLabel.textColor = [UIColor colorWithRed:249 green:249 blue:249 alpha:1];
-        cell.textLabel.font = [UIFont fontWithName:@"American Typewriter" size:20];
-        cell.textLabel.textColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
-        cell.textLabel.shadowColor = [UIColor blackColor];
-        cell.textLabel.shadowOffset = CGSizeMake(0,-1);
-        if([eatery.data.title length] > 14){
-        NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
-        cell.textLabel.text = titleText;
+    cell.detailTextLabel.font = [UIFont fontWithName:@"American Typewriter" size:16];
+    cell.textLabel.font = [UIFont fontWithName:@"American Typewriter" size:20];
+    cell.textLabel.textColor = [UIColor colorWithRed:.95 green:.95 blue:.95 alpha:1];
+    cell.textLabel.shadowColor = [UIColor blackColor];
+    cell.textLabel.shadowOffset = CGSizeMake(0,-1);
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
+    EateryDoc *eatery = [[EateryDoc alloc]init];
+    // if alphabetical...
+    if (distanceSorted == NO) {
+        // ...and will show all
+        if (clicked == NO) {
+            // if unsearched
+            if (searchTextEntered == NO) {
+                self.tableView.rowHeight = 61;
+                eatery = [allItems objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    //NSNumber *distanceID = [NSNumber numberWithDouble:mileConversion];
+                    //NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    //formatter.maximumFractionDigits = 1;
+                    //NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%.2f mi", mileConversion];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    
+                }
+            }
+            else {
+                self.tableView.rowHeight = 61;
+                eatery = [searchResults objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
         }
-        else{
-            cell.textLabel.text = eatery.data.title;
-        }
-        cell.imageView.image = eatery.thumbImage;
-        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
-        if(eateryLocation){
-            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
-            double mileConversion = distance * 0.000621371192;
-            
-            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            formatter.maximumFractionDigits = 1;
-            NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
-            NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
-            cell.detailTextLabel.text = distanceString;
+        // and will show whatsopen
+        else {
+            // if unsearched
+            if (searchTextEntered == NO) {
+                self.tableView.rowHeight = 61;
+                eatery = [searchResults objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    
+                }
+            }
+            else {
+                self.tableView.rowHeight = 61;
+                eatery = [searchResults objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
         }
     }
+    // if distance sorted
     else {
-        self.tableView.rowHeight = 61;
-        EateryDoc *eatery = [searchResults objectAtIndex:indexPath.row];
-        cell.textLabel.text = eatery.data.title;
-        cell.imageView.image = eatery.thumbImage;
-        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        if (clicked == NO) {
+            if (searchTextEntered == NO) {
+                self.tableView.rowHeight = 61;
+                eatery = [sortedEateries objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
+            else {
+                self.tableView.rowHeight = 61;
+                eatery = [sortedEateries objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }            cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
+        }
+        else {
+            if (searchTextEntered == NO) {
+                self.tableView.rowHeight = 61;
+                eatery = [sortedEateries objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }
+                cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
+            else {
+                self.tableView.rowHeight = 61;
+                eatery = [sortedEateries objectAtIndex:indexPath.row];
+                if([eatery.data.title length] > 14){
+                    NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
+                    cell.textLabel.text = titleText;
+                }
+                else{
+                    cell.textLabel.text = eatery.data.title;
+                }            cell.imageView.image = eatery.thumbImage;
+                CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+                if(eateryLocation){
+                    CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                    double mileConversion = distance * 0.000621371192;
+                    
+                    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                    formatter.maximumFractionDigits = 1;
+                    NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+                    NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+                    if (eatery.data.isItOpen == YES){
+                        cell.detailTextLabel.textColor = [UIColor greenColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                    else {
+                        cell.detailTextLabel.textColor = [UIColor redColor];
+                        cell.detailTextLabel.text = distanceString;
+                    }
+                }
+            }
+        }
     }
     // set's background image of table
        // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
-        NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
+        // NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
+    [newCurrentEateryArray addObject:eatery];
+    counter++;
+    if (cellCounter == counter-1){
+        counter = 0;
+        currentEateryArray = newCurrentEateryArray;
+    }
         return cell;
 }
 
@@ -386,63 +935,122 @@ EateryDoc *resultEatery;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 { 
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
-    //searchResults = allItems;
-    // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
-    if([sender tag] == 1000){
-        EateryDoc *eatery;
-        // declares a detailViewController
-        DetailViewController *detailController;
-        int count = 1;
-        do {
-            int r;
-            // picks random integer <= total number of eateries
-            r = arc4random() % [searchResults count];
-            detailController = segue.destinationViewController;
-            // picks random eatery based on random int
-            NSLog(@"LOADING EATERY");
-            eatery = [searchResults objectAtIndex:r];
-            count++;
+    if (distanceSorted == NO){
+        // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
+        if([sender tag] == 1000){
+            EateryDoc *eatery;
+            // declares a detailViewController
+            DetailViewController *detailController;
+            int count = 1;
+            do {
+                int r;
+                // picks random integer <= total number of eateries
+                r = arc4random() % [searchResults count];
+                detailController = segue.destinationViewController;
+                // picks random eatery based on random int
+                NSLog(@"LOADING EATERY");
+                eatery = [searchResults objectAtIndex:r];
+                count++;
+            }
+            // if it's closed pick another, if EVERYTHING is closed alert the user
+            while (eatery.data.isItOpen == NO && count <= [_eateries count]);
+            // Apologize to user if all is closed
+            if (count == [_eateries count]){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Everything's closed right now! Try again soon!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+            }
+            detailController.detailItem = eatery;
         }
-        // if it's closed pick another, if EVERYTHING is closed alert the user
-        while (eatery.data.isItOpen == NO && count <= [_eateries count]);
-        // Apologize to user if all is closed
-        if (count == [_eateries count]){
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Sorry!"
-                                  message:@"Everything's closed right now! Try again soon!"
-                                  delegate:self
-                                  cancelButtonTitle:@"Done"
-                                  otherButtonTitles: nil];
-            [alert show];
+        
+        // pick the correct eatery based on the searchResults
+        else if (searchTextEntered == YES) {
+            DetailViewController *detailController = segue.destinationViewController;
+            EateryDoc *eatery = [searchResults objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            detailController.detailItem = eatery;
+            [self.searchBar resignFirstResponder];
         }
-        detailController.detailItem = eatery;
+        // pick the correct eatery simply based on original order
+        else{
+            NSLog(@"SENDER = %@", sender);
+            DetailViewController *detailController = segue.destinationViewController;
+            
+            EateryDoc *eatery = [self.eateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            // EateryDoc *eatery = [_fetchedResultsController.fetchedObjects objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            NSLog(@"eatery = %@", eatery);
+            detailController.detailItem = eatery;
+            NSLog(@"THE FIRST LETTER IS: %@", [eatery.data.title substringToIndex:1]);
+            
+            // loadData experiment
+            NSLog(@"Al's isItOpen = %i", eatery.data.isItOpen);
+            NSLog(@"Al's closesAt = %f", eatery.data.closesAt);
+            
+            // hides keyboard
+            [self.searchBar resignFirstResponder];
+        }
     }
-    // pick the correct eatery based on the searchResults
-    else if (searchTextEntered == YES) {
-        DetailViewController *detailController = segue.destinationViewController;
-        EateryDoc *eatery = [searchResults objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-        detailController.detailItem = eatery;
-        // hides keyboard
-        [self.searchBar resignFirstResponder];
-    }
-    // pick the correct eatery simply based on original order
-    else{
-        NSLog(@"SENDER = %@", sender);
-        DetailViewController *detailController = segue.destinationViewController;
+    // if distanceSorted
+    else {
+        // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
+        if([sender tag] == 1000){
+            EateryDoc *eatery;
+            // declares a detailViewController
+            DetailViewController *detailController;
+            int count = 1;
+            do {
+                int r;
+                // picks random integer <= total number of eateries
+                r = arc4random() % [sortedEateries count];
+                detailController = segue.destinationViewController;
+                // picks random eatery based on random int
+                NSLog(@"LOADING EATERY");
+                eatery = [sortedEateries objectAtIndex:r];
+                count++;
+            }
+            // if it's closed pick another, if EVERYTHING is closed alert the user
+            while (eatery.data.isItOpen == NO && count <= [sortedEateries count]);
+            // Apologize to user if all is closed
+            if (count == [sortedEateries count]){
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Sorry!"
+                                      message:@"Everything's closed right now! Try again soon!"
+                                      delegate:self
+                                      cancelButtonTitle:@"Done"
+                                      otherButtonTitles: nil];
+                [alert show];
+            }
+            detailController.detailItem = eatery;
+        }
         
-        EateryDoc *eatery = [self.eateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-        // EateryDoc *eatery = [_fetchedResultsController.fetchedObjects objectAtIndex:self.tableView.indexPathForSelectedRow.row];
-        NSLog(@"eatery = %@", eatery);
-        detailController.detailItem = eatery;
-        NSLog(@"THE FIRST LETTER IS: %@", [eatery.data.title substringToIndex:1]);
-        
-        // loadData experiment
-        NSLog(@"Al's isItOpen = %i", eatery.data.isItOpen);
-        NSLog(@"Al's closesAt = %f", eatery.data.closesAt);
-        
-        // hides keyboard
-        [self.searchBar resignFirstResponder];
-
+        // pick the correct eatery based on the searchResults
+        else if (searchTextEntered == YES) {
+            DetailViewController *detailController = segue.destinationViewController;
+            EateryDoc *eatery = [sortedEateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            detailController.detailItem = eatery;
+            [self.searchBar resignFirstResponder];
+        }
+        // pick the correct eatery simply based on original order
+        else{
+            NSLog(@"SENDER = %@", sender);
+            DetailViewController *detailController = segue.destinationViewController;
+            
+            EateryDoc *eatery = [sortedEateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            // EateryDoc *eatery = [_fetchedResultsController.fetchedObjects objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+            NSLog(@"eatery = %@", eatery);
+            detailController.detailItem = eatery;
+            NSLog(@"THE FIRST LETTER IS: %@", [eatery.data.title substringToIndex:1]);
+            
+            // loadData experiment
+            NSLog(@"Al's isItOpen = %i", eatery.data.isItOpen);
+            NSLog(@"Al's closesAt = %f", eatery.data.closesAt);
+            
+            // hides keyboard
+            [self.searchBar resignFirstResponder];
+        }
     }
 }
 @end

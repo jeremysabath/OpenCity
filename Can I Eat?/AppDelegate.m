@@ -99,7 +99,7 @@ bool isit;
     
     
 #pragma mark - Annenberg
-    
+
     // weekday breakfast
     if (time < 10 && weekday != 1){
         opens = 7.3;
@@ -3249,9 +3249,35 @@ bool isit;
                        longitude:-71.1245817
                        distance:111111];
     
+# pragma mark - Tasty Burger
+    
+    if (time >= 11 || time < 4){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *tastyBurger = [[EateryDoc alloc]
+                              initWithTitle:@"Tasty Burger"
+                              foodtype:@"late, burgers, grill, french fries, milkshakes, sandwiches, dinner"
+                              rating:5
+                              description:@"Located right in the middle of Harvard Square is the brand new Tasty Burger. Stop in for delicious old-school burgers, fries, shakes and more. Now head over!"
+                              opensAt:11
+                              closesAt:4
+                              isItOpen:isit
+                              address:@"40 JFK Street, Cambridge, MA 02138"
+                              number:@"tel:617-425-4444"
+                              website:@"http://www.tastyburger.com/tasty-burger-harvard-square/"
+                              thumbImage:[UIImage imageNamed:@"tastyThumb.jpg"]
+                              fullImage:[UIImage imageNamed:@"tasty.jpg"]
+                              latitude:42.3733023
+                              longitude:-71.1195091
+                              distance:111111];
+    
     
     // add to mutable array
-    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
+    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, tastyBurger, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
     
     // set them to master view controller
     

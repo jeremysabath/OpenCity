@@ -458,12 +458,12 @@ if(buttonIndex == 1){
         self.descriptionView.text = self.detailItem.data.description;
         if (self.detailItem.data.isItOpen == YES){
             if (self.detailItem.data.closesAt >= 13){
-                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f", self.detailItem.data.closesAt-12];
+                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f!", self.detailItem.data.closesAt-12];
                 self.openNowLabel.text = openLabelString;
                 self.openNowDot.image = [UIImage imageNamed:@"open.png"];
             }
             else {
-                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f", self.detailItem.data.closesAt];
+                NSString *openLabelString = [NSString stringWithFormat:@"Open till %0.2f!", self.detailItem.data.closesAt];
                 self.openNowLabel.text = openLabelString;
                 self.openNowDot.image = [UIImage imageNamed:@"open.png"];
             }

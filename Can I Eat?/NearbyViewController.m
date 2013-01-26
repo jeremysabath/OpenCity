@@ -50,38 +50,69 @@
 - (void)loadLocations {
     sortedEateries = [[NSMutableArray alloc]init];
     distancesDict = [[NSMutableDictionary alloc]init];
-    searchResults = [[NSMutableArray alloc]init];
     allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
     int eateryCount = [allItems count];
-    for (int i = 0; i < eateryCount; i++){
-        localEatery = allItems[i];
-        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:localEatery.data.latitude longitude:localEatery.data.longitude];
-        if(eateryLocation){
-            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
-            double mileConversion = distance * 0.00062137119200000000000001;
-            id orderID = [NSNumber numberWithInt:i];
-            id distanceID = [NSNumber numberWithDouble:mileConversion];
-            [distancesDict setValue:orderID forKey:distanceID];
+    if(searchTextEntered == NO){
+        for (int i = 0; i < eateryCount; i++){
+            localEatery = allItems[i];
+            CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:localEatery.data.latitude longitude:localEatery.data.longitude];
+            if(eateryLocation){
+                CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                double mileConversion = distance * 0.00062137119200000000000001;
+                id orderID = [NSNumber numberWithInt:i];
+                id distanceID = [NSNumber numberWithDouble:mileConversion];
+                [distancesDict setValue:orderID forKey:distanceID];
+            }
         }
-    }
-    NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
-    sortedKeys = [[distancesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
-    int dictCount = [distancesDict count];
-    for (int i = 0; i < dictCount; i++) {
-        if (dictCount == 0 || dictCount == 1){
-            break;
+        NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
+        sortedKeys = [[distancesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
+        int dictCount = [distancesDict count];
+        for (int i = 0; i < dictCount; i++) {
+            if (dictCount == 0 || dictCount == 1){
+                break;
+            }
+            else {
+                int key = [[distancesDict objectForKey:sortedKeys[i]] integerValue];
+                EateryDoc *sortedEatery = allItems[key];
+                [sortedEateries addObject:sortedEatery];
+            }
         }
-        else {
-            int key = [[distancesDict objectForKey:sortedKeys[i]] integerValue];
-            EateryDoc *sortedEatery = allItems[key];
-            [sortedEateries addObject:sortedEatery];
+        if ([sortedEateries count] == 0){
+            sortedEateries = allItems;
         }
+
     }
-    if ([sortedEateries count] == 0){
-        sortedEateries = allItems;
+    else {
+        eateryCount = [sortedEateries count];
+        for (int i = 0; i < eateryCount; i++){
+            localEatery = searchResults[i];
+            CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:localEatery.data.latitude longitude:localEatery.data.longitude];
+            if(eateryLocation){
+                CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+                double mileConversion = distance * 0.00062137119200000000000001;
+                id orderID = [NSNumber numberWithInt:i];
+                id distanceID = [NSNumber numberWithDouble:mileConversion];
+                [distancesDict setValue:orderID forKey:distanceID];
+            }
+        }
+        NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
+        sortedKeys = [[distancesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
+        int dictCount = [distancesDict count];
+        for (int i = 0; i < dictCount; i++) {
+            if (dictCount == 0 || dictCount == 1){
+                break;
+            }
+            else {
+                int key = [[distancesDict objectForKey:sortedKeys[i]] integerValue];
+                EateryDoc *sortedEatery = allItems[key];
+                [sortedEateries addObject:sortedEatery];
+            }
+        }
+        if ([sortedEateries count] == 0){
+            sortedEateries = searchResults;
+        }
+
     }
-    //NSArray *finallySorted = [[NSArray alloc]init];
-    //finallySorted = [[sortedEateries reverseObjectEnumerator] allObjects];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -163,10 +194,10 @@ EateryDoc *resultEatery;
         searchTextEntered = YES;
         searchResults = [[NSMutableArray alloc]init];
         
-        int eateryCount = [allItems count];
+        int eateryCount = [sortedEateries count];
         // checks each eatery, one by one, for search criteria, adds matches to array searchResults
         for (int i = 0; i < eateryCount; i++) {
-            resultEatery = [allItems objectAtIndex:i];
+            resultEatery = [sortedEateries objectAtIndex:i];
             NSString *title = resultEatery.data.title;
             NSString *foodtype = resultEatery.data.foodType;
             NSString *description = resultEatery.data.description;
@@ -184,6 +215,7 @@ EateryDoc *resultEatery;
                 [searchResults addObject:resultEatery];
             }
         }
+        [self loadLocations];
     }
     // reloads table with searchResults
     [self.tableView reloadData];
@@ -225,7 +257,7 @@ EateryDoc *resultEatery;
     }
     // ... in total
     else {
-        return [allItems count];
+        return [sortedEateries count];
     }
 }
 
@@ -257,7 +289,7 @@ EateryDoc *resultEatery;
             double mileConversion = distance * 0.000621371192;
             
             NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-            formatter.maximumFractionDigits = 2;
+            formatter.maximumFractionDigits = 1;
             NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
             NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
             cell.detailTextLabel.text = distanceString;
@@ -268,14 +300,23 @@ EateryDoc *resultEatery;
         EateryDoc *eatery = [sortedEateries objectAtIndex:indexPath.row];
         cell.textLabel.text = eatery.data.title;
         cell.imageView.image = eatery.thumbImage;
-        //cell.detailTextLabel.text = [distanceFromEatery stringValue];
+        CLLocation *eateryLocation = [[CLLocation alloc] initWithLatitude:eatery.data.latitude longitude:eatery.data.longitude];
+        if(eateryLocation){
+            CLLocationDistance distance = [self.currentLocation distanceFromLocation:eateryLocation];
+            double mileConversion = distance * 0.000621371192;
+            
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 1;
+            NSNumber *distanceFromEatery = [formatter numberFromString:[formatter stringFromNumber:[NSNumber numberWithDouble:mileConversion]]];
+            NSString *distanceString = [NSString stringWithFormat:@"%@ mi", [distanceFromEatery stringValue]];
+            cell.detailTextLabel.text = distanceString;
     }
     // set's background image of table
     // self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Background.jpg"]];
     NSLog(@"tableview: %@", [self.eateries objectAtIndex:indexPath.row]);
+}
     return cell;
 }
-
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -315,19 +356,6 @@ EateryDoc *resultEatery;
  }
  */
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     allItems = [[NSMutableArray alloc]initWithArray:_eateries];
@@ -341,17 +369,17 @@ EateryDoc *resultEatery;
         do {
             int r;
             // picks random integer <= total number of eateries
-            r = arc4random() % [searchResults count];
+            r = arc4random() % [sortedEateries count];
             detailController = segue.destinationViewController;
             // picks random eatery based on random int
             NSLog(@"LOADING EATERY");
-            eatery = [searchResults objectAtIndex:r];
+            eatery = [sortedEateries objectAtIndex:r];
             count++;
         }
         // if it's closed pick another, if EVERYTHING is closed alert the user
         while (eatery.data.isItOpen == NO && count <= [_eateries count]);
         // Apologize to user if all is closed
-        if (count == [_eateries count]){
+        if (count == [sortedEateries count]){
             UIAlertView *alert = [[UIAlertView alloc]
                                   initWithTitle:@"Sorry!"
                                   message:@"Everything's closed right now! Try again soon!"
@@ -365,7 +393,7 @@ EateryDoc *resultEatery;
     // pick the correct eatery based on the searchResults
     else if (searchTextEntered == YES) {
         DetailViewController *detailController = segue.destinationViewController;
-        EateryDoc *eatery = [searchResults objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+        EateryDoc *eatery = [sortedEateries objectAtIndex:self.tableView.indexPathForSelectedRow.row];
         detailController.detailItem = eatery;
         // hides keyboard
         [self.searchBar resignFirstResponder];
