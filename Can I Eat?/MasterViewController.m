@@ -127,7 +127,7 @@
         [titlesDict setValue:orderID forKey:titleID];
     }
     NSMutableArray *sortedKeys = [[NSMutableArray alloc]init];
-    sortedKeys = [[titlesDict allKeys]sortedArrayUsingSelector:@selector(compare:)];
+    sortedKeys = [[titlesDict allKeys]sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     int dictCount = [titlesDict count];
     for (int i = 0; i < dictCount; i++) {
         int key = [[titlesDict objectForKey:sortedKeys[i]] integerValue];
@@ -166,6 +166,7 @@
     }
     else {
         tempArray = [[NSMutableArray alloc]initWithArray:searchResults];
+        [searchResults removeAllObjects];
     }
     [currentEateryArray removeAllObjects];
     // sorted by Distance
@@ -289,13 +290,16 @@ currentEateryArray = sortedEateries;
 */
 
 - (void)viewDidAppear:(BOOL)animated {
+    currentEateryArray = [[NSMutableArray alloc]initWithArray:self.eateries];
     [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    sleep(1.5);
+    [super viewDidLoad];
     allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
+    [self sortByFirstLetter:allItems];
     searchResults = [[NSMutableArray alloc]initWithArray:allItems];
     currentEateryArray = [[NSMutableArray alloc]initWithArray:allItems];
     tempArray = [[NSMutableArray alloc]init];
@@ -360,7 +364,12 @@ EateryDoc *resultEatery;
     
     if (searchText.length == 0) {
         searchTextEntered = NO;
-        currentEateryArray = [[NSMutableArray alloc]initWithArray:tempArray];
+        if ([tempArray count] != 0) {
+            currentEateryArray = [[NSMutableArray alloc]initWithArray:tempArray];
+        }
+        else {
+            currentEateryArray = [[NSMutableArray alloc]initWithArray:allItems];
+        }
         [self.tableView reloadData];
         [self.searchBar resignFirstResponder];
     }
@@ -618,7 +627,7 @@ EateryDoc *resultEatery;
                                   delegate:self
                                   cancelButtonTitle:@"Cancel"
                                   destructiveButtonTitle:nil
-                                  otherButtonTitles:@"SortBy FirstLetter", @"SortBy Distance", nil];
+                                  otherButtonTitles:@"SortedBy FirstLetter", @"SortedBy Distance", nil];
     [actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
@@ -781,7 +790,7 @@ EateryDoc *resultEatery;
     double mileConversion = distance * 0.000621371192;
     NSString *distanceString = [NSString stringWithFormat:@"%.2f mi", mileConversion];
     if (eatery.data.isItOpen == YES){
-        if ((eatery.data.closesAt - time) <= 0.30 && (eatery.data.closesAt - time) > 0) {
+        if ((eatery.data.closesAt - time) <= 0.70 && (eatery.data.closesAt - time) > 0) {
             cell.detailTextLabel.textColor = [UIColor yellowColor];
         }
         else {

@@ -14,8 +14,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>W fo realBG.png</string>
-				<string>W fo realBGRetina.png</string>
+				<string>Icon.png</string>
+				<string>Icon@2x.png</string>
 			</array>
 		</dict>
 	</dict>

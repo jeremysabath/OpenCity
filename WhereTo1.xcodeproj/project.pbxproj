@@ -159,6 +159,12 @@
 		DD389A9416706A0500231929 /* charliesThumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD389A9216706A0500231929 /* charliesThumb.jpg */; };
 		DD50FC1C16747AC900056CC2 /* WhereTo?-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDD67F2D1674792400FEEC88 /* WhereTo?-Info.plist */; };
 		DD50FC271674846600056CC2 /* W fo realBGRetina.png in Resources */ = {isa = PBXBuildFile; fileRef = DD50FC261674846600056CC2 /* W fo realBGRetina.png */; };
+		DD5ACDCA16B4A77100438C43 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DD5ACDC916B4A77000438C43 /* Icon.png */; };
+		DD5ACDCD16B4A77400438C43 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD5ACDCC16B4A77400438C43 /* Icon@2x.png */; };
+		DD5ACDD016B5B2EE00438C43 /* tasty.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD5ACDCE16B5B2EE00438C43 /* tasty.jpg */; };
+		DD5ACDD116B5B2EE00438C43 /* tastyThumb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD5ACDCF16B5B2EE00438C43 /* tastyThumb.jpg */; };
+		DD5ACDD316B5B38500438C43 /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = DD5ACDD216B5B38500438C43 /* yellow.png */; };
+		DD60EC5B16B47E7C009881D1 /* headButton.png in Resources */ = {isa = PBXBuildFile; fileRef = DD60EC5A16B47E7C009881D1 /* headButton.png */; };
 		DDA146E91694C974007E01F6 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = DDA146BC1694C974007E01F6 /* CHANGELOG.md */; };
 		DDA146EA1694C974007E01F6 /* libstackmob-v1.1.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA146E81694C974007E01F6 /* libstackmob-v1.1.3.a */; };
 		DDA146ED1694C99C007E01F6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA146EC1694C99C007E01F6 /* CoreData.framework */; };
@@ -375,6 +381,12 @@
 		DD389A9116706A0500231929 /* charlies.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charlies.jpg; sourceTree = "<group>"; };
 		DD389A9216706A0500231929 /* charliesThumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = charliesThumb.jpg; sourceTree = "<group>"; };
 		DD50FC261674846600056CC2 /* W fo realBGRetina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "W fo realBGRetina.png"; sourceTree = "<group>"; };
+		DD5ACDC916B4A77000438C43 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		DD5ACDCC16B4A77400438C43 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		DD5ACDCE16B5B2EE00438C43 /* tasty.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tasty.jpg; sourceTree = "<group>"; };
+		DD5ACDCF16B5B2EE00438C43 /* tastyThumb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tastyThumb.jpg; sourceTree = "<group>"; };
+		DD5ACDD216B5B38500438C43 /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yellow.png; path = "Can I Eat?/yellow.png"; sourceTree = "<group>"; };
+		DD60EC5A16B47E7C009881D1 /* headButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = headButton.png; path = "Can I Eat?/headButton.png"; sourceTree = "<group>"; };
 		DDA146BC1694C974007E01F6 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
 		DDA146BE1694C974007E01F6 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		DDA146BF1694C974007E01F6 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -502,6 +514,8 @@
 		DD3898F2166ABA8A00231929 = {
 			isa = PBXGroup;
 			children = (
+				DD5ACDCC16B4A77400438C43 /* Icon@2x.png */,
+				DD5ACDC916B4A77000438C43 /* Icon.png */,
 				DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */,
 				DDA146F21694C9B9007E01F6 /* MobileCoreServices.framework */,
 				DDA146F01694C9B0007E01F6 /* SystemConfiguration.framework */,
@@ -509,9 +523,11 @@
 				DDA146EC1694C99C007E01F6 /* CoreData.framework */,
 				DDA146BB1694C974007E01F6 /* StackMob-v1.1.3 */,
 				DDA7A064167B9B9400EA3966 /* libsqlite3.0.dylib */,
+				DD60EC5A16B47E7C009881D1 /* headButton.png */,
 				DDBD708216AF3F4C00C846C8 /* button.png */,
 				DDBD708816AF916C00C846C8 /* closed.png */,
 				DDBD708A16AF917000C846C8 /* open.png */,
+				DD5ACDD216B5B38500438C43 /* yellow.png */,
 				DDA7A062167B9A8A00EA3966 /* EateryData.storyboard */,
 				DDA7A05E167B97CB00EA3966 /* EateryData.xcdatamodeld */,
 				DDA9ACC21673507900D7A485 /* W fo realBG.png */,
@@ -748,6 +764,8 @@
 				DD1817381673F8BD00FB996B /* tamarindThumb.jpg */,
 				DD18173B1673FA3700FB996B /* tanjore.jpg */,
 				DD18173C1673FA3700FB996B /* tanjoreThumb.jpg */,
+				DD5ACDCE16B5B2EE00438C43 /* tasty.jpg */,
+				DD5ACDCF16B5B2EE00438C43 /* tastyThumb.jpg */,
 				DD18173F1673FBFB00FB996B /* temple.jpg */,
 				DD1817401673FBFB00FB996B /* templeThumb.jpg */,
 				DD1817431673FDB700FB996B /* tenTables.jpg */,
@@ -881,7 +899,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Jeremy Sabath";
 			};
-			buildConfigurationList = DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo" */;
+			buildConfigurationList = DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo1" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1089,6 +1107,12 @@
 				DDBD708316AF3F4C00C846C8 /* button.png in Resources */,
 				DDBD708916AF916C00C846C8 /* closed.png in Resources */,
 				DDBD708B16AF917000C846C8 /* open.png in Resources */,
+				DD60EC5B16B47E7C009881D1 /* headButton.png in Resources */,
+				DD5ACDCA16B4A77100438C43 /* Icon.png in Resources */,
+				DD5ACDCD16B4A77400438C43 /* Icon@2x.png in Resources */,
+				DD5ACDD016B5B2EE00438C43 /* tasty.jpg in Resources */,
+				DD5ACDD116B5B2EE00438C43 /* tastyThumb.jpg in Resources */,
+				DD5ACDD316B5B38500438C43 /* yellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,7 +1243,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo" */ = {
+		DD3898F7166ABA8A00231929 /* Build configuration list for PBXProject "WhereTo1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD389922166ABA8A00231929 /* Debug */,

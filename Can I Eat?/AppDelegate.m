@@ -3285,6 +3285,7 @@ bool isit;
     MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
     NSLog(@"objectAtIndex 0 on navController is: %@", navController);
     masterController.eateries = loadedEateries;
+    [masterController viewDidAppear:YES];
     [masterController.tableView reloadData];
     
 }

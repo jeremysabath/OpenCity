@@ -512,7 +512,7 @@ if(buttonIndex == 1){
         if (self.detailItem.data.isItOpen == YES){
             showAlert = NO;
             self.openNowLabel.text = [self messageMethod];
-            if ((self.detailItem.data.closesAt - time) <= 0.30 && (self.detailItem.data.closesAt - time) > 0) {
+            if ((self.detailItem.data.closesAt - time) <= 0.70 && (self.detailItem.data.closesAt - time) > 0) {
                 self.openNowDot.image = [UIImage imageNamed:@"yellow.png"];
             }
             else {
