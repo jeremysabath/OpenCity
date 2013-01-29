@@ -290,7 +290,6 @@ currentEateryArray = sortedEateries;
 */
 
 - (void)viewDidAppear:(BOOL)animated {
-    currentEateryArray = [[NSMutableArray alloc]initWithArray:self.eateries];
     [self.tableView reloadData];
 }
 
