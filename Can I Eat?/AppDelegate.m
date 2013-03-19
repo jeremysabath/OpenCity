@@ -204,12 +204,12 @@ bool isit;
 #pragma mark - Otto
     
     // if it's before midnight Sun-Thursday
-    if(time <= 24.00 && (weekday == 1 || weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5)) {
+    if((time <= 24.00 && time > 6) && (weekday == 1 || weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5)) {
         closes = 1;
     }
     // if it's after midnight Sun-Thurs
     else if(time <= 6 && (weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5 || weekday == 6)) {
-        closes = 1;
+        closes = 2;
     }
     // any other time
     else {

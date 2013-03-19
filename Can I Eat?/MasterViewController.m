@@ -291,6 +291,14 @@ currentEateryArray = sortedEateries;
 
 - (void)viewDidAppear:(BOOL)animated {
     [self.tableView reloadData];
+    if (sortedByDistance == YES) {
+        NSMutableArray *array = [[NSMutableArray alloc]initWithArray:currentEateryArray];
+        currentEateryArray = [[NSMutableArray alloc]initWithArray:array];
+    }
+    else {
+        NSMutableArray *array = [[NSMutableArray alloc]initWithArray:searchResults];
+        currentEateryArray = [[NSMutableArray alloc]initWithArray:array];
+    }
 }
 
 - (void)viewDidLoad
