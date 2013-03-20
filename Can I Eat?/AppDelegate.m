@@ -1417,7 +1417,7 @@ bool isit;
                             initWithTitle:@"Cardullo's"
                             foodtype:@"gourmet, sandwiches, deli, coffee, tea, chocolate, wine, champagne"
                             rating:4
-                            description:@"Cardullo's, owned by the Cardullo family since 1950, is a Cambridge classic. Stop by for a gourmet deli sandwich prepared with artisan bread or a special bar of chocolate. Check out all of the delicacies this market extraordinaire has to offer!"
+                            description:@"Cardullo's, owned by the Cardullo family since 1950, is a Cambridge classic. Stop by for a gourmet deli sandwich prepared with artisan bread or a special bar of chocolate. Check out all of the delicacies!"
                             opensAt:opens
                             closesAt:closes
                             isItOpen:isit
@@ -1698,7 +1698,7 @@ bool isit;
                          initWithTitle:@"Dunkin' Donuts"
                          foodtype:@"coffee, donuts, cheap"
                          rating:5
-                         description:@"It's Dunkin' Donuts!"
+                         description:@"It's Dunkin' Donuts! Stop by for a quick coffee, donut, or breakfast sandwich!"
                          opensAt:6
                          closesAt:24
                          isItOpen:isit
@@ -1821,7 +1821,7 @@ bool isit;
                        initWithTitle:@"FiRE + iCE"
                        foodtype:@"burgers, bar, dinner"
                        rating:3
-                       description:@"FiRE + iCE, the improvisational grill. Here, you pick your ingredients and your sauce and then watch your creation come to life on the big round grill in the center of the restaurant. Don't forget to check out the well-stocked bar!"
+                       description:@"FiRE + iCE, the improvisational grill. Here, you pick your ingredients and your sauce and then watch your creation come to life on the big round grill in the center of the restaurant. Don't miss the great bar!"
                        opensAt:opens
                        closesAt:closes
                        isItOpen:isit
@@ -1973,7 +1973,7 @@ bool isit;
                            initWithTitle:@"Grendel's Den"
                            foodtype:@"grill, pub, bar, burger, french fries, sandwiches, salads, dinner"
                            rating:4
-                           description:@"Grendel's Den is a Harvard Square classic for great food and great beer. They have an extensive selection of beers as well as great burgers and sandwiches. Stop by on Sunday's between 5 and 7.30 for happy hour!"
+                           description:@"Grendel's Den is a Harvard Square classic for great food and great beer. They have an extensive selection of beers as well as great burgers and sandwiches. Happy hour on Sunday between 5 and 7.30!"
                            opensAt:11.30
                            closesAt:1
                            isItOpen:isit
@@ -3408,7 +3408,7 @@ bool isit;
                              initWithTitle:@"The Regattabar"
                              foodtype:@"beer, wine, bar, jazz"
                              rating:4
-                             description:@"Located in the Charles Hotel, the Regattabar is more than just a bar. It is one of New England's premier jazz clubs. There's music on Tuesday-Saturday nights! Stop by for delicious bar food, cocktails and a foot-tappin' time! Call or go online for tickets!"
+                             description:@"Located in the Charles Hotel, the Regattabar is more than just a bar, it's one of New England's premier jazz clubs! Stop by Tuesday-Saturday for delicious bar food, cocktails and great music!"
                              opensAt:opens
                              closesAt:closes
                              isItOpen:isit
@@ -3565,7 +3565,7 @@ bool isit;
                            initWithTitle:@"UpStairs on the Square"
                            foodtype:@"dinner, wine, bar"
                            rating:4
-                           description:@"At UpStairs on the Square, you can expect to be treated well. Here, customer satisfaction starts the moment you walk in the door and doesn't stop until you're well on your way home! Dinner stops around 10 or 11 but the bar serves till 1 every night!"
+                           description:@"At UpStairs on the Square, you can expect to be treated well. Here, customer satisfaction starts the moment you walk in the door. Dinner until 10 or 11, but the bar stays open until 1!"
                            opensAt:11
                            closesAt:1
                            isItOpen:isit
@@ -3828,7 +3828,7 @@ bool isit;
                         initWithTitle:@"Eliot Grille"
                         foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
                         rating:4
-                        description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Head down to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
+                        description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! Head to 'The Inferno' and try the milkshakes! (Closed Mon-Wed)"
                         opensAt:22
                         closesAt:closes
                         isItOpen:isit
@@ -3872,7 +3872,7 @@ bool isit;
                        initWithTitle:@"Quad Grille"
                        foodtype:@"late, grill, burgers, french fries, milkshakes, harvard"
                        rating:4
-                       description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike out to the Quad and grab a chicken snack wrap!"
+                       description:@"For Harvard students, the grilles provide a great place to get a snack and meet up with friends when just about everything else is closed! So come on, hike to the Quad and grab a chicken snack wrap!"
                        opensAt:22.30
                        closesAt:closes
                        isItOpen:isit
