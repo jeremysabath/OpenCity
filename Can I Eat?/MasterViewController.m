@@ -155,7 +155,12 @@
         NSString *allData = [NSString stringWithFormat:@"%@", open];
         NSRange stringRange = [allData rangeOfString:@"open" options:NSCaseInsensitiveSearch];
         if (stringRange.location != NSNotFound){
-            [currentEateryArray addObject:resultEatery];
+            if (searchTextEntered == YES) {
+                [searchResults addObject:resultEatery];
+            }
+            else{
+                [currentEateryArray addObject:resultEatery];
+            }
         }
     }
 }
@@ -435,11 +440,13 @@ EateryDoc *resultEatery;
     NSMutableArray *array = [[NSMutableArray alloc]init];
     if (searchTextEntered == NO){
         array = [[NSMutableArray alloc]initWithArray:currentEateryArray];
+        [currentEateryArray removeAllObjects];
     }
     else {
         array = [[NSMutableArray alloc]initWithArray:searchResults];
+        [searchResults removeAllObjects];
     }
-    [currentEateryArray removeAllObjects];
+    
     
     // whatsOpen clicked
     if (whatsOpen == YES){
