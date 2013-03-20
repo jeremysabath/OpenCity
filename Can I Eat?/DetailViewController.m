@@ -55,9 +55,9 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == CONTACT_US){
     if(buttonIndex == 1) {
-        NSString *emailTitle = @"Ex. Wrong Time!";
+        NSString *emailTitle = @"Your Subject!";
         // Email Content
-        NSString *messageBody = @"Ex. Felipe's is actually open until __ o'clock on Saturdays!";
+        NSString *messageBody = @"Your Message!";
         // To address
         NSArray *toRecipents = [NSArray arrayWithObject:@"wheretodevteam@gmail.com"];
         

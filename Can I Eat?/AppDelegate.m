@@ -117,7 +117,7 @@ bool isit;
     }
     // Sunday brunch
     else if (time < 14.15 && weekday == 1) {
-        opens = 11.3;
+        opens = 11.15;
         closes = 14;
     }
     // brain break Sun-Thurs
@@ -154,6 +154,642 @@ bool isit;
                             latitude:42.37622030
                             longitude:-71.11505030
                             distance:111111];
+    
+#pragma mark - Adams House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *adams = [[EateryDoc alloc]
+                            initWithTitle:@"Adams House"
+                            foodtype:@"cafeteria, dinner"
+                            rating:3
+                            description:@"Adam's House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Wednesday Dinner."
+                            opensAt:opens
+                            closesAt:closes
+                            isItOpen:isit
+                            address:@"26 Plympton Street, Cambridge, MA 02138"
+                            number:@"NONE"
+                            website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                            thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                            fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                            latitude:42.3718546
+                            longitude:-71.1167839
+                            distance:111111];
+
+#pragma mark - Cabot House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.3;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.30;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.30;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *cabot = [[EateryDoc alloc]
+                        initWithTitle:@"Cabot House"
+                        foodtype:@"cafeteria, dinner"
+                        rating:3
+                        description:@"Cabot House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours!"
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"115 Walker Street, Cambridge, MA 02138"
+                        number:@"NONE"
+                        website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                        latitude:42.3814651
+                        longitude:-71.1233011
+                        distance:111111];
+    
+#pragma mark - Currier House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.3;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.30;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *currier = [[EateryDoc alloc]
+                        initWithTitle:@"Currier House"
+                        foodtype:@"cafeteria, dinner"
+                        rating:3
+                        description:@"Currier House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours!"
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"82 Linnaean Street, Cambridge, MA 02138"
+                        number:@"NONE"
+                        website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                        latitude:42.3823845
+                        longitude:-71.1259066
+                        distance:111111];
+    
+#pragma mark - Dunster House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *dunster = [[EateryDoc alloc]
+                          initWithTitle:@"Dunster House"
+                          foodtype:@"cafeteria, dinner"
+                          rating:3
+                          description:@"Dunster House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours!"
+                          opensAt:opens
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"30 Cowperthwaite Street, Cambridge, MA 02138"
+                          number:@"NONE"
+                          website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                          thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                          latitude:42.3688232
+                          longitude:-71.1154687
+                          distance:111111];
+
+#pragma mark - Eliot House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *eliothouse = [[EateryDoc alloc]
+                          initWithTitle:@"Eliot House"
+                          foodtype:@"cafeteria, dinner"
+                          rating:3
+                          description:@"Eliot House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Thursday dinner."
+                          opensAt:opens
+                          closesAt:closes
+                          isItOpen:isit
+                          address:@"100 Dunster Street, Cambridge, MA 02138"
+                          number:@"NONE"
+                          website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                          thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                          fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                          latitude:42.3716096
+                          longitude:-71.1196882
+                          distance:111111];
+    
+#pragma mark - Kirkland House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *kirkland = [[EateryDoc alloc]
+                             initWithTitle:@"Kirkland House"
+                             foodtype:@"cafeteria, dinner"
+                             rating:3
+                             description:@"Kirkland House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Thursday dinner."
+                             opensAt:opens
+                             closesAt:closes
+                             isItOpen:isit
+                             address:@"95 Dunster Street, Cambridge, MA 02138"
+                             number:@"NONE"
+                             website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                             thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                             fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                             latitude:42.3706676
+                             longitude:-71.1202883
+                             distance:111111];
+    
+#pragma mark - Leverett House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *leverett = [[EateryDoc alloc]
+                           initWithTitle:@"Leverett House"
+                           foodtype:@"cafeteria, dinner"
+                           rating:3
+                           description:@"Leverett House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Thursday dinner."
+                           opensAt:opens
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"4 Mill Street, Cambridge, MA 02138"
+                           number:@"NONE"
+                           website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                           thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                           latitude:42.370022
+                           longitude:-71.1168942
+                           distance:111111];
+    
+#pragma mark - Lowell House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *lowell = [[EateryDoc alloc]
+                           initWithTitle:@"Lowell House"
+                           foodtype:@"cafeteria, dinner"
+                           rating:3
+                           description:@"Lowell House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining during the Lowell Opera."
+                           opensAt:opens
+                           closesAt:closes
+                           isItOpen:isit
+                           address:@"16 Holyoke Place, Cambridge, MA 02138"
+                           number:@"NONE"
+                           website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                           thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                           fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                           latitude:42.371218
+                           longitude:-71.117923
+                           distance:111111];
+    
+#pragma mark - Mather House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *mather = [[EateryDoc alloc]
+                         initWithTitle:@"Mather House"
+                         foodtype:@"cafeteria, dinner"
+                         rating:3
+                         description:@"Mather House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours!"
+                         opensAt:opens
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"12 Cowperthwaite Street, Cambridge, MA 02138"
+                         number:@"NONE"
+                         website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                         thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                         latitude:42.3687309
+                         longitude:-71.1150013
+                         distance:111111];
+    
+#pragma mark - Pforzheimer House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.3;
+    }
+    // dinner
+    else if (time >= 14.3 && time < 19.15){
+        opens = 17;
+        closes = 19.3;
+    }
+    // Sunday brunch
+    else if (time < 14.3 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.3;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.3;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *pfoho = [[EateryDoc alloc]
+                         initWithTitle:@"Pforzheimer House"
+                         foodtype:@"cafeteria, dinner, pfoho"
+                         rating:3
+                         description:@"Pforzheimer House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours!"
+                         opensAt:opens
+                         closesAt:closes
+                         isItOpen:isit
+                         address:@"75 Linnaean Street, Cambridge, MA 02138"
+                         number:@"NONE"
+                         website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                         thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                         fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                         latitude:42.3824794
+                         longitude:-71.1257682
+                         distance:111111];
+    
+#pragma mark - Quincy House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *quincyhouse = [[EateryDoc alloc]
+                        initWithTitle:@"Quincy House"
+                        foodtype:@"cafeteria, dinner"
+                        rating:3
+                        description:@"Quincy House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Thursday dinner."
+                        opensAt:opens
+                        closesAt:closes
+                        isItOpen:isit
+                        address:@"49 Mount Auburn Street, Cambridge, MA 02138"
+                        number:@"NONE"
+                        website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                        thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                        fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                        latitude:42.3713481
+                        longitude:-71.1168173
+                        distance:111111];
+    
+#pragma mark - Winthrop House
+    
+    
+    // weekday breakfast
+    if (time < 10 && weekday != 1){
+        opens = 7.3;
+        closes = 10;
+    }
+    // weekday lunch
+    else if (time >= 10 && time < 14.15 && weekday != 1) {
+        opens = 12;
+        closes = 14.15;
+    }
+    // dinner
+    else if (time >= 14.15 && time < 19.15){
+        opens = 17;
+        closes = 19.15;
+    }
+    // Sunday brunch
+    else if (time < 14.15 && weekday == 1) {
+        opens = 11.3;
+        closes = 14.15;
+    }
+    
+    else {
+        opens = 7.30;
+        closes = 19.15;
+    }
+    
+    if(time >= opens && time <= closes){
+        isit = YES;
+    }
+    else {
+        isit = NO;
+    }
+    
+    EateryDoc *winthrop = [[EateryDoc alloc]
+                              initWithTitle:@"Winthrop House"
+                              foodtype:@"cafeteria, dinner"
+                              rating:3
+                              description:@"Winthrop House dining hall. Only for Harvard College students and their paid guests. Watch out for the obscure hours! No interhouse dining for Wednesday dinner."
+                              opensAt:opens
+                              closesAt:closes
+                              isItOpen:isit
+                              address:@"26 Mill Street, Cambridge, MA 02138"
+                              number:@"NONE"
+                              website:@"http://www.dining.harvard.edu/residential_dining/halls_hours.html"
+                              thumbImage:[UIImage imageNamed:@"annenbergThumb.jpg"]
+                              fullImage:[UIImage imageNamed:@"annenberg.jpg"]
+                              latitude:42.370503
+                              longitude:-71.1187807
+                              distance:111111];
     
 #pragma mark - Felipe's
     // if it's before midnight on th, fr, sat
@@ -3277,7 +3913,7 @@ bool isit;
     
     
     // add to mutable array
-    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, tastyBurger, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, nil];
+    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, tastyBurger, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, adams, cabot, currier, dunster, eliothouse, kirkland, leverett, lowell, mather, pfoho, quincyhouse, winthrop, nil];
     
     // set them to master view controller
     
