@@ -74,9 +74,16 @@
 @property (strong) NSMutableArray *eateries;
 @property (nonatomic) Class AppDelegate;
 @property (weak, nonatomic) UIActionSheet *actionSheet;
+@property (strong) NSMutableArray *allItems;
+@property (strong) NSMutableArray *currentEateryArray;
+@property (strong) NSMutableArray *tempArray;
+@property bool whatsOpen;
+
 
 - (void)locationUpdate:(CLLocation *)location;
 - (void)locationError:(NSError *)error;
+
+- (NSMutableArray *)sortByFirstLetter: (NSMutableArray *)array;
 
 // Open Now button
 - (IBAction)openNowClicked:(id)sender;

@@ -13,9 +13,10 @@
 // Stackmob
 @class SMClient;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property UIView *imageView;
 
 // Stackmob
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;

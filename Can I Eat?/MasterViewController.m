@@ -21,15 +21,11 @@
     NSMutableArray *_objects;
     
     // create array of all eateries, just search results and bool for if search text was entered
-    NSMutableArray *allItems;
-    NSMutableArray *currentEateryArray;
-    NSMutableArray *tempArray;
     NSMutableArray *preWhatsOpen;
     NSMutableArray *preSearch;
     bool sortedByDistance;
     bool sortedFirst;
     bool sortedIsCorrect;
-    bool whatsOpen;
     bool ready;
     int cellCounter;
     int counter;
@@ -49,6 +45,10 @@
 @synthesize AppDelegate;
 @synthesize tableView;
 @synthesize actionSheet = _actionSheet;
+@synthesize allItems = _allItems;
+@synthesize tempArray = _tempArray;
+@synthesize currentEateryArray = _currentEateryArray;
+@synthesize whatsOpen;
 
 // Stackmob
 - (AppDelegate *)appDelegate {
@@ -68,7 +68,7 @@
                           cancelButtonTitle:@"Done"
                           otherButtonTitles: nil];
     [alert show];
-    currentEateryArray = [[NSMutableArray alloc]initWithArray:tempArray];
+    _currentEateryArray = [[NSMutableArray alloc]initWithArray:_tempArray];
 }
 
 - (NSMutableArray *)sortByDistance: (NSMutableArray *)array {
@@ -108,7 +108,7 @@
         EateryDoc *sortedEatery = array[key];
         [sorted addObject:sortedEatery];
     }
-    NSLog(@"Total Eateries = %u", [currentEateryArray count]);
+    NSLog(@"Total Eateries = %u", [_currentEateryArray count]);
     return sorted;
 }
 
@@ -275,10 +275,10 @@ currentEateryArray = sortedEateries;
 {
     sleep(1.5);
     [super viewDidLoad];
-    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
-    [self sortByFirstLetter:allItems];
-    currentEateryArray = [[NSMutableArray alloc]initWithArray:[self sortByFirstLetter:allItems]];
-    tempArray = [[NSMutableArray alloc]init];
+    _allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
+    [self sortByFirstLetter:_allItems];
+    _currentEateryArray = [[NSMutableArray alloc]initWithArray:[self sortByFirstLetter:_allItems]];
+    _tempArray = [[NSMutableArray alloc]init];
     
     whatsOpen = YES;
 
@@ -335,11 +335,11 @@ currentEateryArray = sortedEateries;
 // Search Bar implementation
 EateryDoc *resultEatery;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    preSearch = [[NSMutableArray alloc]initWithArray:currentEateryArray];
-    [currentEateryArray removeAllObjects];
+    preSearch = [[NSMutableArray alloc]initWithArray:_currentEateryArray];
+    [_currentEateryArray removeAllObjects];
     
     if (searchText.length == 0) {
-        currentEateryArray = [[NSMutableArray alloc]initWithArray:allItems];
+        _currentEateryArray = [[NSMutableArray alloc]initWithArray:[self sortByFirstLetter:_allItems]];
         self.navigationItem.leftBarButtonItem.title = @"WhatsOpen";
         whatsOpen = YES;
         [self.tableView reloadData];
@@ -364,7 +364,7 @@ EateryDoc *resultEatery;
             NSString *allData = [NSString stringWithFormat:@"%@ %@ %@ %@", title, foodtype, description, open];
             NSRange stringRange = [allData rangeOfString:searchText options:NSCaseInsensitiveSearch];
             if (stringRange.location != NSNotFound){
-                [currentEateryArray addObject:resultEatery];
+                [_currentEateryArray addObject:resultEatery];
             }
         }
     }
@@ -397,9 +397,9 @@ EateryDoc *resultEatery;
 - (IBAction)openNowClicked:(id)sender{    
     // whatsOpen clicked
     if (whatsOpen == YES){
-        currentEateryArray = [self sortWhatsOpen:currentEateryArray];
+        _currentEateryArray = [self sortWhatsOpen:_currentEateryArray];
         // if nothing is open
-        if ([currentEateryArray count] == 0){
+        if ([_currentEateryArray count] == 0){
             [self nothingOpenApology]; // sets currenteateryarray to temp
             whatsOpen = YES;
         }
@@ -411,7 +411,7 @@ EateryDoc *resultEatery;
     
     // showAll clicked
     else {
-        currentEateryArray = [[NSMutableArray alloc]initWithArray:preWhatsOpen];
+        _currentEateryArray = [[NSMutableArray alloc]initWithArray:preWhatsOpen];
         whatsOpen = YES;
         [self showAllAlert];
     }
@@ -596,12 +596,12 @@ EateryDoc *resultEatery;
     // SortBy FirstLetter Clicked
     if (buttonIndex == 0)
     {
-        currentEateryArray = [self sortByFirstLetter:currentEateryArray];
+        _currentEateryArray = [self sortByFirstLetter:_currentEateryArray];
         [self.tableView reloadData];
     }
     // SortBy Distance Clicked
     else if (buttonIndex == 1){
-        currentEateryArray = [self sortByDistance:currentEateryArray];
+        _currentEateryArray = [self sortByDistance:_currentEateryArray];
         // myTimer = [NSTimer scheduledTimerWithTimeInterval: 2.0 target: self selector: @selector(callAfterTwoSeconds:) userInfo: nil repeats: YES];
         [self.tableView reloadData];
     }
@@ -617,7 +617,7 @@ EateryDoc *resultEatery;
 // table has number of rows equal to number of eateries...
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [currentEateryArray count];
+    return [_currentEateryArray count];
 
     
     /*
@@ -688,7 +688,7 @@ EateryDoc *resultEatery;
  // builds cells one by one with correct information
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cellCounter = [currentEateryArray count];
+    cellCounter = [_currentEateryArray count];
     // Get current time
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"HH.mm.ss"];
@@ -711,7 +711,7 @@ EateryDoc *resultEatery;
     // Get Eatery data
     CLLocation *eateryLocation;
     EateryDoc *eatery = [[EateryDoc alloc]init];
-    eatery = [currentEateryArray objectAtIndex:indexPath.row];
+    eatery = [_currentEateryArray objectAtIndex:indexPath.row];
     if([eatery.data.title length] > 14){
         NSString *titleText = [NSString stringWithFormat:@"%@...", [eatery.data.title substringToIndex:14]];
         cell.textLabel.text = titleText;
@@ -1059,9 +1059,9 @@ EateryDoc *resultEatery;
 // Stackmob
 - (IBAction)createNewObject:(id)sender {
     
-    int eateryCount = [allItems count];
+    int eateryCount = [_allItems count];
     for (int i = 0; i < eateryCount; i++) {
-        EateryDoc *eatery = allItems[i];
+        EateryDoc *eatery = _allItems[i];
         NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:@"Eatery" inManagedObjectContext:self.managedObjectContext];
     
         [newManagedObject setValue:eatery.data.title forKey:@"title"];
@@ -1090,7 +1090,7 @@ EateryDoc *resultEatery;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSMutableArray *array = [[NSMutableArray alloc]init];
-    array = [[NSMutableArray alloc]initWithArray:currentEateryArray];
+    array = [[NSMutableArray alloc]initWithArray:_currentEateryArray];
     NSMutableArray *alreadyPicked = [[NSMutableArray alloc]init];
     // if pickforme (tag 1000) is clicked, picks a random eatery, checks if it's open and displays the detail view
     if([sender tag] == 1000) {

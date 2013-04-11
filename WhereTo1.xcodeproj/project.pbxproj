@@ -204,6 +204,7 @@
 		DDA146F31694C9B9007E01F6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA146F21694C9B9007E01F6 /* MobileCoreServices.framework */; };
 		DDA146F61694CAC5007E01F6 /* mydatamodel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDA146F41694CAC5007E01F6 /* mydatamodel.xcdatamodeld */; };
 		DDA450A71670916F00A53F25 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA450A61670916F00A53F25 /* MessageUI.framework */; };
+		DDA5B490170DF00D00A22F93 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA5B48F170DF00D00A22F93 /* Background.png */; };
 		DDA7A060167B97CB00EA3966 /* EateryData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDA7A05E167B97CB00EA3966 /* EateryData.xcdatamodeld */; };
 		DDA7A063167B9A8A00EA3966 /* EateryData.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDA7A062167B9A8A00EA3966 /* EateryData.storyboard */; };
 		DDA7A065167B9B9400EA3966 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA7A064167B9B9400EA3966 /* libsqlite3.0.dylib */; };
@@ -213,6 +214,7 @@
 		DDA9ACBF16734F5F00D7A485 /* WhereToLogoBG.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACBE16734F5F00D7A485 /* WhereToLogoBG.png */; };
 		DDA9ACC116734F6200D7A485 /* WhereToLogoBGRetina.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */; };
 		DDA9ACC31673507900D7A485 /* W fo realBG.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA9ACC21673507900D7A485 /* W fo realBG.png */; };
+		DDB9D11717126C15009107C0 /* instructions.png in Resources */ = {isa = PBXBuildFile; fileRef = DDB9D11617126C15009107C0 /* instructions.png */; };
 		DDBD706A16AB5C8F00C846C8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */; };
 		DDBD707716AC947800C846C8 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD707616AC947800C846C8 /* MyCLController.m */; };
 		DDBD707D16AF03D100C846C8 /* CellView.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDBD707C16AF03D100C846C8 /* CellView.jpg */; };
@@ -469,6 +471,7 @@
 		DDA146F21694C9B9007E01F6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		DDA146F51694CAC5007E01F6 /* mydatamodel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = mydatamodel.xcdatamodel; sourceTree = "<group>"; };
 		DDA450A61670916F00A53F25 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		DDA5B48F170DF00D00A22F93 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
 		DDA7A05F167B97CB00EA3966 /* EateryData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EateryData.xcdatamodel; sourceTree = "<group>"; };
 		DDA7A062167B9A8A00EA3966 /* EateryData.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = EateryData.storyboard; sourceTree = "<group>"; };
 		DDA7A064167B9B9400EA3966 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -478,6 +481,7 @@
 		DDA9ACBE16734F5F00D7A485 /* WhereToLogoBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoBG.png; sourceTree = "<group>"; };
 		DDA9ACC016734F6200D7A485 /* WhereToLogoBGRetina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhereToLogoBGRetina.png; sourceTree = "<group>"; };
 		DDA9ACC21673507900D7A485 /* W fo realBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "W fo realBG.png"; sourceTree = "<group>"; };
+		DDB9D11617126C15009107C0 /* instructions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instructions.png; sourceTree = "<group>"; };
 		DDBD706916AB5C8F00C846C8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DDBD707516AC947800C846C8 /* MyCLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCLController.h; sourceTree = "<group>"; };
 		DDBD707616AC947800C846C8 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
@@ -525,11 +529,13 @@
 				DDA146EC1694C99C007E01F6 /* CoreData.framework */,
 				DDA146BB1694C974007E01F6 /* StackMob-v1.1.3 */,
 				DDA7A064167B9B9400EA3966 /* libsqlite3.0.dylib */,
+				DDA5B48F170DF00D00A22F93 /* Background.png */,
 				DD60EC5A16B47E7C009881D1 /* headButton.png */,
 				DDBD708216AF3F4C00C846C8 /* button.png */,
 				DDBD708816AF916C00C846C8 /* closed.png */,
 				DDBD708A16AF917000C846C8 /* open.png */,
 				DD5ACDD216B5B38500438C43 /* yellow.png */,
+				DDB9D11617126C15009107C0 /* instructions.png */,
 				DDA7A062167B9A8A00EA3966 /* EateryData.storyboard */,
 				DDA7A05E167B97CB00EA3966 /* EateryData.xcdatamodeld */,
 				DDA9ACC21673507900D7A485 /* W fo realBG.png */,
@@ -1117,6 +1123,8 @@
 				DD371A9116F8E4BC00C76E6B /* tamarindThumb.jpg in Resources */,
 				DD371A9216F8E4BC00C76E6B /* tanjore.jpg in Resources */,
 				DD371A9316F8E4BC00C76E6B /* tanjoreThumb.jpg in Resources */,
+				DDA5B490170DF00D00A22F93 /* Background.png in Resources */,
+				DDB9D11717126C15009107C0 /* instructions.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

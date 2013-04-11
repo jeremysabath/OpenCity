@@ -21,6 +21,9 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize managedObjectContext = _managedObjectContext;
 
+@synthesize window;
+@synthesize imageView;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Stackmob
@@ -29,9 +32,27 @@
     SMCoreDataStore *coreDataStore = [self.client coreDataStoreWithManagedObjectModel:self.managedObjectModel];
     self.managedObjectContext = [coreDataStore managedObjectContext];
     
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"instructions.png"]];
+    [self.window addSubview:imageView];
+    
+    // Instruction overlay sample code
+    /* 
+    UITapGestureRecognizer * recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    recognizer.delegate = self;
+    [imageView addGestureRecognizer:recognizer];
+    imageView.userInteractionEnabled =  YES;
+    self.imageView = imageView;
+    */
+    
     [self loadData];
     
     return YES;
+}
+
+// Instruction overlay-related code
+- (void) handleTap:(UITapGestureRecognizer *)recognize
+{
+    [self.imageView removeFromSuperview];
 }
 
 // Stackmob
@@ -73,7 +94,7 @@ bool isit;
     }
     // weekday 1 = Sunday for Gregorian calendar
     // use EateryDoc initializer to create 3 sample eateries, passing in title, rating, foodtype
-    if(time >= 11 && time <= closes) {
+    if(time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -131,7 +152,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -184,7 +205,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -237,7 +258,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -290,7 +311,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -343,7 +364,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -396,7 +417,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -449,7 +470,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -502,7 +523,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -555,7 +576,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -608,7 +629,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -661,7 +682,7 @@ bool isit;
         closes = 19.3;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -714,7 +735,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -767,7 +788,7 @@ bool isit;
         closes = 19.15;
     }
     
-    if(time >= opens && time <= closes){
+    if(time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -805,7 +826,7 @@ bool isit;
     }
     
     if (closes == 2) {
-        if (time >= 11 || time <= closes){
+        if (time >= 11 || time < closes){
             isit = YES;
         }
         else {
@@ -813,7 +834,7 @@ bool isit;
         }
     }
     else {
-        if (time >= 11 && time <= closes){
+        if (time >= 11 && time < closes){
             isit = YES;
         }
         else {
@@ -830,7 +851,7 @@ bool isit;
                           isItOpen:isit
                           address:@"83 Mount Auburn Street, Cambridge, MA 02138"
                           number:@"tel:6173549944"
-                          website:@"http://www.felipestaqueria.com/"
+                          website:@"http://felipestaqueria.com/harvardsq/"
                           thumbImage:[UIImage imageNamed:@"felipesThumb.jpg"]
                           fullImage:[UIImage imageNamed:@"felipes.jpg"]
                           latitude:42.37251330
@@ -841,23 +862,33 @@ bool isit;
     
     // if it's before midnight Sun-Thursday
     if((time <= 24.00 && time > 6) && (weekday == 1 || weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5)) {
-        closes = 1;
+        closes = 24;
     }
     // if it's after midnight Sun-Thurs
     else if(time <= 6 && (weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5 || weekday == 6)) {
-        closes = 2;
+        closes = 24;
     }
     // any other time
     else {
         closes = 2;
     }
-    
-    if (time >= 10.3 || time <= closes) {
-        isit = YES;
+    if (closes == 24) {
+        if (time >= 10.3 && time < 24) {
+            isit = YES;
+        }
+        else {
+            isit = NO;
+        }
     }
     else {
-        isit = NO;
+        if (time >= 10.3 || time < closes) {
+            isit = YES;
+        }
+        else {
+            isit = NO;
+        }
     }
+    
     EateryDoc *otto = [[EateryDoc alloc]
                        initWithTitle:@"Otto"
                        foodtype:@"Pizza, dinner"
@@ -868,7 +899,7 @@ bool isit;
                        isItOpen:isit
                        address:@"1432 Massachusetts Avenue, Cambridge, MA 02138"
                        number:@"tel:6174993352"
-                       website:@"http://ottocambridge.com/"
+                       website:@"http://www.ottoportland.com/cambridge.html"
                        thumbImage:[UIImage imageNamed:@"ottoThumb.jpg"]
                        fullImage:[UIImage imageNamed:@"otto.jpg"]
                        latitude:42.37413430
@@ -883,7 +914,7 @@ bool isit;
         closes = 24.00;
     }
     // if before midnight on Mon-Thurs
-    else if(time <= 24.00 && (weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5)){
+    else if((time <= 24.00 && time > 6) && (weekday == 2 || weekday == 3 || weekday == 4 || weekday == 5)){
         opens = 11;
         closes = 1;
     }
@@ -899,7 +930,7 @@ bool isit;
     }
     
     if (closes <= 2.3) {
-        if (time >= opens || time <= closes){
+        if (time >= opens || time < closes){
             isit = YES;
         }
         else {
@@ -907,7 +938,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes){
+        if (time >= opens && time < closes){
             isit = YES;
         }
         else {
@@ -944,7 +975,7 @@ bool isit;
     if (weekday == 1){
         isit = NO;
     }
-    else if (time >= 11 && time <= closes) {
+    else if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -1002,7 +1033,7 @@ bool isit;
     
     
     if (closes == 1) {
-        if (time >= opens || time <= closes){
+        if (time >= opens || time < closes){
             isit = YES;
         }
         else {
@@ -1010,7 +1041,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes){
+        if (time >= opens && time < closes){
             isit = YES;
         }
         else {
@@ -1045,7 +1076,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 11 && time <= closes) {
+    if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -1102,7 +1133,7 @@ bool isit;
         closes = 23;
     }
     
-    if (time >= 12 && time <= closes) {
+    if (time >= 12 && time < closes) {
         isit = YES;
     }
     else {
@@ -1134,7 +1165,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 11 && time <= closes) {
+    if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -1239,7 +1270,7 @@ bool isit;
     }
     
     if (closes <= 2) {
-        if (time >= opens || time <= closes){
+        if (time >= opens || time < closes){
             isit = YES;
         }
         else {
@@ -1247,7 +1278,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes){
+        if (time >= opens && time < closes){
             isit = YES;
         }
         else {
@@ -1281,7 +1312,7 @@ bool isit;
         closes = 21;
     }
     
-    if (time >= 8 && time <= closes) {
+    if (time >= 8 && time < closes) {
         isit = YES;
     }
     else {
@@ -1348,7 +1379,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -1407,7 +1438,7 @@ bool isit;
         closes = 21;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -1449,7 +1480,7 @@ bool isit;
         closes = 1;
     }
     
-    if (time >= 11 || time <= closes) {
+    if (time >= 11 || time < closes) {
         isit = YES;
     }
     else {
@@ -1558,7 +1589,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -1631,7 +1662,7 @@ bool isit;
         closes = 20;
     }
     
-    if (time >= opens && time <= closes){
+    if (time >= opens && time < closes){
         isit = YES;
     }
     else {
@@ -1722,7 +1753,7 @@ bool isit;
     }
     
     if (weekday == 1) {
-        if (time >= 11 && time <= closes) {
+        if (time >= 11 && time < closes) {
             isit = YES;
         }
         else {
@@ -1730,7 +1761,7 @@ bool isit;
         }
     }
     else {
-        if (time >= 11 || time <= closes) {
+        if (time >= 11 || time < closes) {
             isit = YES;
         }
         else {
@@ -1769,7 +1800,7 @@ bool isit;
         closes = 24;
     }
     
-    if (time >= 11 && time <= closes) {
+    if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -1810,7 +1841,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -1853,7 +1884,7 @@ bool isit;
     }
     
     if (closes == 1) {
-        if (time >= opens || time <= closes){
+        if (time >= opens || time < closes){
             isit = YES;
         }
         else {
@@ -1861,7 +1892,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes){
+        if (time >= opens && time < closes){
             isit = YES;
         }
         else {
@@ -1896,7 +1927,7 @@ bool isit;
         closes = 23;
     }
     
-    if (time >= 11.30 && time <= closes) {
+    if (time >= 11.30 && time < closes) {
         isit = YES;
     }
     else {
@@ -1923,20 +1954,20 @@ bool isit;
 #pragma mark - Grafton Street Pub & Grill
     
     // Thursday-Saturday before midnight
-    if (time <= 24 && (weekday >= 5 && weekday <= 7)){
+    if ((time <= 24 && time > 5) && (weekday >= 5 && weekday <= 7)){
         closes = 2;
     }
     else if (time <= 5 && (weekday == 6 || weekday == 7 || weekday == 1)) {
         closes = 2;
     }
-    else if (time <= 24 && (weekday >= 1 && weekday <= 4)) {
+    else if ((time <= 24 && time > 5) &&y67 (weekday >= 1 && weekday <= 4)) {
         closes = 1;
     }
     else {
         closes = 1;
     }
     
-    if (time >= 11 || time <= closes) {
+    if (time >= 11 || time < closes) {
         isit = YES;
     }
     else {
@@ -2014,7 +2045,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2041,7 +2072,7 @@ bool isit;
 #pragma mark - Hong Kong Restaurant
     
     // Thurs before midnight
-    if (time <= 24 && weekday == 5) {
+    if ((time <= 24 && time > 5) && weekday == 5) {
         closes = 2.30;
     }
     
@@ -2051,7 +2082,7 @@ bool isit;
     }
     
     // Fri-Sat before midnight
-    else if (time <= 24 && (weekday == 6 || weekday == 7)) {
+    else if ((time <= 24 && time > 5) && (weekday == 6 || weekday == 7)) {
         closes = 3;
     }
     
@@ -2061,14 +2092,14 @@ bool isit;
     }
     
     // Sun-Wed before midnight
-    else if (time <= 24 && (weekday >= 1 && weekday <= 4)) {
+    else if ((time <= 24 && time > 5) && (weekday >= 1 && weekday <= 4)) {
         closes = 2;
     }
     else if (time <= 5 && (weekday >= 2 && weekday <= 5)) {
         closes = 2;
     }
     
-    if (time >= 11.30 || time <= closes) {
+    if (time >= 11.30 || time < closes) {
         isit = YES;
     }
     else {
@@ -2187,7 +2218,7 @@ bool isit;
         closes = 23;
     }
     
-    if (time >= 11 && time <= closes) {
+    if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -2220,7 +2251,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 12 && time <= closes) {
+    if (time >= 12 && time < closes) {
         isit = YES;
     }
     else {
@@ -2335,7 +2366,7 @@ bool isit;
     }
     
     if (closes <= 3) {
-        if (time >= opens || time <= closes) {
+        if (time >= opens || time < closes) {
             isit = YES;
         }
         else {
@@ -2343,7 +2374,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes) {
+        if (time >= opens && time < closes) {
             isit = YES;
         }
         else {
@@ -2383,7 +2414,7 @@ bool isit;
         closes = 19;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2445,7 +2476,7 @@ bool isit;
         closes = 19;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2482,7 +2513,7 @@ bool isit;
         closes = 23;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2491,7 +2522,7 @@ bool isit;
     
     EateryDoc *panera = [[EateryDoc alloc]
                          initWithTitle:@"Panera"
-                         foodtype:@"dinner, sandwiches, salads, coffee, tea, cheap"
+                         foodtype:@"dinner, sandwiches, salads, soup, coffee, tea, cheap"
                          rating:2
                          description:@"Panera Bread makes the bread fresh from the oven every day to prepare sandwiches and other oven-baked goods. Come by for a meal or a quick snack!"
                          opensAt:opens
@@ -2526,7 +2557,7 @@ bool isit;
     }
     
     if (closes == 1) {
-        if (time >= opens || time <= closes) {
+        if (time >= opens || time < closes) {
             isit = YES;
         }
         else {
@@ -2534,7 +2565,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes) {
+        if (time >= opens && time < closes) {
             isit = YES;
         }
         else {
@@ -2574,7 +2605,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2607,7 +2638,7 @@ bool isit;
         closes = 24;
     }
     
-    if (time >= 9 && time <= closes) {
+    if (time >= 9 && time < closes) {
         isit = YES;
     }
     else {
@@ -2666,7 +2697,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 17 && time <= closes) {
+    if (time >= 17 && time < closes) {
         isit = YES;
     }
     else {
@@ -2709,7 +2740,7 @@ bool isit;
         closes = 2;
     }
     
-    if (time >= 11 || time <= closes) {
+    if (time >= 11 || time < closes) {
         isit = YES;
     }
     else {
@@ -2777,7 +2808,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2820,7 +2851,7 @@ bool isit;
         closes = 24.30;
     }
     
-    if (time >= 11.3 && time <= closes) {
+    if (time >= 11.3 && time < closes) {
         isit = YES;
     }
     else {
@@ -2896,7 +2927,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2930,7 +2961,7 @@ bool isit;
         opens = 6.3;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -2965,7 +2996,7 @@ bool isit;
         opens = 7.3;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3051,7 +3082,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 11 && time <= closes) {
+    if (time >= 11 && time < closes) {
         isit = YES;
     }
     else {
@@ -3094,7 +3125,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3137,7 +3168,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= 12 && time <= closes) {
+    if (time >= 12 && time < closes) {
         isit = YES;
     }
     else {
@@ -3184,7 +3215,7 @@ bool isit;
         closes = 22.3;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3257,7 +3288,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3300,7 +3331,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3343,7 +3374,7 @@ bool isit;
     }
     
     if (closes == 1) {
-        if (time >= opens || time <= closes) {
+        if (time >= opens || time < closes) {
             isit = YES;
         }
         else {
@@ -3351,7 +3382,7 @@ bool isit;
         }
     }
     else {
-        if (time >= opens && time <= closes) {
+        if (time >= opens && time < closes) {
             isit = YES;
         }
         else {
@@ -3397,7 +3428,7 @@ bool isit;
         isit = NO;
         closes = 25;
     }
-    else if (time >= opens && time <= closes) {
+    else if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3519,7 +3550,7 @@ bool isit;
     }
     
     if (closes == 1) {
-        if (time >= 11 || time <= closes) {
+        if (time >= 11 || time < closes) {
             isit = YES;
         }
         else {
@@ -3527,7 +3558,7 @@ bool isit;
         }
     }
     else {
-        if (time >= 11 && time <= closes) {
+        if (time >= 11 && time < closes) {
             isit = YES;
         }
         else {
@@ -3621,7 +3652,7 @@ bool isit;
         closes = 22;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3657,7 +3688,7 @@ bool isit;
         closes = 21;
     }
     
-    if (time >= 8 && time <= closes) {
+    if (time >= 8 && time < closes) {
         isit = YES;
     }
     else {
@@ -3696,7 +3727,7 @@ bool isit;
         closes = 21;
     }
     
-    if (time >= opens && time <= closes) {
+    if (time >= opens && time < closes) {
         isit = YES;
     }
     else {
@@ -3773,7 +3804,7 @@ bool isit;
         closes = 4;
     }
     
-    if (time >= 22 || time <= closes) {
+    if (time >= 22 || time < closes) {
         isit = YES;
     }
     else {
@@ -3813,7 +3844,7 @@ bool isit;
     }
     
     if (closes == 2) {
-        if (time >= 22 || time <= closes) {
+        if (time >= 22 || time < closes) {
             isit = YES;
         }
         else {
@@ -3860,7 +3891,7 @@ bool isit;
         closes = 2.3;
     }
     
-    if (time >= 22.3 || time <= closes) {
+    if (time >= 22.3 || time < closes) {
         isit = YES;
     }
     else {
@@ -3913,7 +3944,7 @@ bool isit;
     
     
     // add to mutable array
-    NSMutableArray *loadedEateries = [NSMutableArray arrayWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, tastyBurger, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, adams, cabot, currier, dunster, eliothouse, kirkland, leverett, lowell, mather, pfoho, quincyhouse, winthrop, nil];
+    NSMutableArray *loadedEateries = [[NSMutableArray alloc] initWithObjects: als, annenberg, auBonPain, bGood, benAndJerrys, berryLine, bertuccis, boloco, bonChon, borderCafe, burdicks, cambridge, cardullos, charlies, chipotle, chutneys, clover, crazyDoughs, crema, dado, darwins, dunkin, eliot, falafel, felipes, finale, fire, firstPrinter, flatPatties, grafton, grendels, harvest, hongKong, ihop, insomnia, jpLicks, johnHarvards, lamole, legal, lizzys, maharaja, midwest, mrBartleys, noir, nubar, oggi, orinoco, otto, panera, pamplona, park, peets, pinkberry, pinocchios, qdoba, quad, quincy, redHouse, regattabar, rialto, russellHouse, sabra, sandrines, shabuya, shays, spice, starbucksChurch, starbucksGarage, starbucksSquare, subway, sushi, sweet, takemura, tamarind, tanjore, tastyBurger, temple, tenTables, tory, trattoria, unos, upstairs, veggie, wagamama, zinnekens, zoes, adams, cabot, currier, dunster, eliothouse, kirkland, leverett, lowell, mather, pfoho, quincyhouse, winthrop, nil];
     
     // set them to master view controller
     
@@ -3930,17 +3961,30 @@ bool isit;
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
+    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    [masterController.eateries removeAllObjects];
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
+    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    [masterController.eateries removeAllObjects];
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    UINavigationController *navController = (UINavigationController *) self.window.rootViewController;
+    MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
+    [masterController.eateries removeAllObjects];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -3950,7 +3994,26 @@ bool isit;
     MasterViewController *masterController = [navController.viewControllers objectAtIndex:0];
     NSLog(@"objectAtIndex 0 on navController is: %@", navController);
     [self loadData];
+
+    masterController.allItems = [[NSMutableArray alloc]initWithArray:masterController.eateries];
+    masterController.currentEateryArray = [[NSMutableArray alloc]initWithArray:[masterController.self sortByFirstLetter:masterController.allItems]];
+    masterController.tempArray = [[NSMutableArray alloc]init];
+    masterController.navigationItem.leftBarButtonItem.title = @"WhatsOpen";
+    masterController.whatsOpen = YES;
+    
+    // Things to add
+    /*
+    allItems = [[NSMutableArray alloc]initWithArray:self.eateries];
+    [self sortByFirstLetter:allItems];
+    currentEateryArray = [[NSMutableArray alloc]initWithArray:[self sortByFirstLetter:allItems]];
+    tempArray = [[NSMutableArray alloc]init];
+    
+    whatsOpen = YES;    
+    locationController = [[MyCLController alloc] init];
+	locationController.delegate = self;
+	[locationController.locationManager startUpdatingLocation];
     [masterController.tableView reloadData];
+     */
     
 }
 
